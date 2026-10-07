@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>ScholarCrew · Settings</title>
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="styles-extra.css">
+</head>
+<body data-active="settings">
+<div class="frame">
+  <aside class="sidebar"></aside>
+  <main class="main">
+    <header class="topbar"></header>
+    <section class="content">
+      <div class="page-head">
+        <div>
+          <h1>Settings</h1>
+          <p class="sub">Your account, reminders, plan, and data · changes save right away</p>
+        </div>
+        <div class="row"><a class="btn btn-line">Privacy policy</a><a class="btn btn-line">AI use policy</a></div>
+      </div>
+
+      <div class="grid-set">
+        <div class="col" style="gap:16px">
+          <div class="card">
+            <div class="card-head"><h3>Account</h3><i data-icon="user"></i></div>
+            <div class="kv"><span>Name</span><b>Jordan R.</b></div>
+            <div class="kv"><span>Email</span><b>jordan.r@example.com<a>Change</a></b></div>
+            <div class="kv"><span>Sign-in</span><b>Email link · no password</b></div>
+            <div class="kv"><span>Account</span><b>Student · Maple High School</b></div>
+            <div class="kv"><span>Signed in</span><b>This laptop, Jordan's phone</b></div>
+            <a class="btn btn-line sm" style="margin-top:8px">Sign out everywhere</a>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><h3>Notifications</h3><i data-icon="bell"></i></div>
+            <div class="set-l">Weekly digest day</div>
+            <div class="days"><span class="on">Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span></div>
+            <div class="trow" style="margin-top:12px"><span class="tl">Weekly digest email<span class="sub2">Skipped when there's nothing new</span></span><span class="tog on"></span></div>
+            <div class="trow"><span class="tl">Deadline reminders<span class="sub2">7, 3, and 1 day before</span></span><span class="tog on"></span></div>
+            <div class="trow"><span class="tl">Text me 1-day reminders<span class="sub2">Add a phone number first</span></span><span class="tog"></span></div>
+            <div class="set-l" style="margin-top:10px">Quiet hours</div>
+            <div class="times"><span class="input">9:00 p.m.</span>to<span class="input">7:00 a.m.</span><span class="small">Central</span></div>
+            <p class="small muted" style="margin-top:10px">Emails and texts never include sensitive facts or essays.</p>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-head"><h3>Plan and usage</h3><span class="badge neutral">Paid by Dana</span></div>
+          <h2 style="font-size:20px">Family plan</h2>
+          <p class="small muted" style="margin-top:2px">$12 a month (test price) · renews Nov 2</p>
+          <div class="divider"></div>
+          <div class="row" style="justify-content:space-between;align-items:flex-end"><div><div class="set-l">Crew requests this month</div><div class="usage-num" style="margin-top:6px">112 <small>of 300</small></div></div><span class="small muted">Resets Nov 1</span></div>
+          <div class="meter" style="margin:12px 0 8px"><span class="used" style="width:37.3%"></span><span class="rest"></span></div>
+          <div class="legend"><span><i class="sw used"></i>Used <b>112</b> · you 86, Dana 26</span><span><i class="sw rest"></i>Left <b>188</b></span></div>
+          <p class="small muted" style="margin-top:8px">At 300, crew chat pauses until Nov 1. Your board, essays, calendar, and Memory keep working.</p>
+          <div class="divider"></div>
+          <ul class="plans">
+            <li><b>Free</b><span class="pp">$0</span><span class="pd">20 crew requests a month · matches, board, Story Bank</span></li>
+            <li class="cur"><b>Family plan <span class="badge navy" style="margin-left:4px">Current</span></b><span class="pp">$12/mo</span><span class="pd">300 a month · 1 student and up to 2 parents</span></li>
+            <li><b>Season pass</b><span class="pp">$79 once</span><span class="pd">August to May · same limits as the Family plan</span></li>
+          </ul>
+          <p class="small muted" style="margin-top:4px">Test prices, not final.</p>
+          <div class="row" style="margin-top:12px;gap:8px"><a class="btn off"><i data-icon="lock"></i>Manage billing</a><a class="btn off"><i data-icon="lock"></i>Switch plan</a></div>
+          <div class="lockline"><i data-icon="info"></i><span>Dana pays, so billing opens in Dana's account. Paying doesn't unlock your essays, chats, or sensitive facts.</span></div>
+        </div>
+
+        <div class="col" style="gap:16px">
+          <div class="card">
+            <div class="card-head"><h3>Browser extension</h3><span class="badge good"><i data-icon="check"></i>Connected</span></div>
+            <div class="kv"><span>Browser</span><b>Chrome · Jordan's laptop</b></div>
+            <div class="kv"><span>Connected</span><b>Oct 1 · last used Oct 4</b></div>
+            <div class="kv"><span>Token</span><b><span class="token">sc_ext_••••4f2a</span></b></div>
+            <p class="small muted" style="margin-top:8px">Suggests answers from your profile on scholarship forms. You check each one; it never clicks submit.</p>
+            <div class="row" style="margin-top:10px;gap:8px"><a class="btn btn-line sm"><i data-icon="puzzle"></i>Connect another browser</a><a class="btn btn-crit sm">Disconnect</a></div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><h3>Your data</h3><i data-icon="lock"></i></div>
+            <div class="set-l">Export everything</div>
+            <p class="small" style="margin-top:4px">JSON and Markdown copies of your profile, essays, stories, and records. Ready in about 10 minutes; the link lasts 24 hours.</p>
+            <div class="row" style="margin-top:8px;gap:10px"><a class="btn btn-line sm"><i data-icon="download"></i>Request export</a><span class="small muted">Last: Sep 30 · link expired</span></div>
+            <div class="divider"></div>
+            <div class="set-l">Delete account</div>
+            <p class="small" style="margin-top:4px">Signs you out everywhere and hides your data right away. It's permanently deleted within 7 days. Things you shared in the family room are removed too.</p>
+            <a class="btn btn-crit sm" style="margin-top:8px"><i data-icon="trash"></i>Delete my account…</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+<script src="shell.js"></script>
+</body>
+</html>

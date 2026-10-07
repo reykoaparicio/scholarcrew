@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>ScholarCrew admin · Review queue</title>
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="styles-extra.css">
+</head>
+<body>
+<div class="frame">
+  <aside class="sidebar">
+    <div class="brand"><div class="mark"><svg viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M12 3.5 13.9 10l6.6 2-6.6 2L12 20.5 10.1 14l-6.6-2 6.6-2z"/></svg></div><div class="word">scholarcrew</div></div>
+    <div class="setup-note" style="margin-bottom:12px"><i data-icon="shield"></i><span>Admin console</span></div>
+    <nav class="nav">
+      <a class="on"><i data-icon="inbox"></i><span>Review queue</span><span class="count">12</span></a>
+      <a><i data-icon="award"></i><span>Scholarships</span><span class="count">142</span></a>
+      <a><i data-icon="flag"></i><span>Reports</span><span class="count">3</span></a>
+      <a><i data-icon="columns"></i><span>Colleges</span></a>
+      <a><i data-icon="list"></i><span>Audit log</span></a>
+    </nav>
+    <div class="rail-sec">
+      <h4>Catalog pipeline</h4>
+      <ul class="pipe-stats">
+        <li>Research · Maple County<span>Oct 5</span></li>
+        <li>Nightly re-check<span>2 changed</span></li>
+        <li>Verified, last 30 days<span>131</span></li>
+        <li>Flagged and hidden<span>9</span></li>
+      </ul>
+      <p class="small muted" style="margin-top:8px">The catalog has no student data. Only an admin can publish.</p>
+    </div>
+    <div class="me"><div class="avatar a">S</div><div><div class="n">Sam K.</div><div class="s">Catalog reviewer · admin</div></div></div>
+  </aside>
+  <main class="main">
+    <header class="topbar">
+      <div class="search"><i data-icon="search"></i><span>Search listings, tasks, reports…</span></div>
+      <div class="spacer"></div>
+      <span class="badge neutral"><i data-icon="shield"></i>Admin</span>
+      <span class="concept">Concept · fictional sample data</span>
+    </header>
+    <section class="content" style="padding-top:18px">
+      <div class="page-head" style="margin-bottom:14px">
+        <div>
+          <h1>Review queue</h1>
+          <p class="sub">12 open · research finds candidates, code checks them, a person decides</p>
+        </div>
+        <div class="chips"><span class="chip on">All 12</span><span class="chip">Research 5</span><span class="chip">Student submissions 2</span><span class="chip">Reports 3</span><span class="chip">Stale 2</span></div>
+      </div>
+
+      <div class="grid-admin">
+        <div class="card" style="padding:8px">
+          <a class="qi on"><div class="row"><span class="ttype">Research</span><span class="stat crit"><i data-icon="alert"></i>3 issues</span></div><div class="qn">Pecan Valley Electric Co-op Scholarship</div><div class="qm">Maple County research · Oct 5</div></a>
+          <a class="qi"><div class="row"><span class="ttype">Report</span><span class="stat warn"><i data-icon="clock"></i>Deadline</span></div><div class="qn">Hill Country STEM Award</div><div class="qm">"Site now says Oct 16" · Oct 5</div></a>
+          <a class="qi"><div class="row"><span class="ttype">Stale</span><span class="stat warn"><i data-icon="clock"></i>Page changed</span></div><div class="qn">Gulf Coast Engineering Society</div><div class="qm">Nightly re-check · Oct 4</div></a>
+          <a class="qi"><div class="row"><span class="ttype">Submission</span><span class="stat info"><i data-icon="eye"></i>1 student sees it</span></div><div class="qn">Maple Garden Club Award</div><div class="qm">Added by a student · Oct 3</div></a>
+          <a class="qi"><div class="row"><span class="ttype">Research</span><span class="stat ok"><i data-icon="check"></i>No issues</span></div><div class="qn">Eastside Lions Club Service Award</div><div class="qm">Maple County research · Oct 5</div></a>
+          <a class="qi"><div class="row"><span class="ttype">Report</span><span class="stat warn"><i data-icon="link"></i>Dead link</span></div><div class="qn">Coding for Good Award</div><div class="qm">Student report · Oct 2</div></a>
+          <p class="small muted" style="padding:6px 12px 4px">6 more · oldest first</p>
+        </div>
+
+        <div class="col" style="gap:14px">
+          <div class="card" style="padding:14px 10px 6px">
+            <div class="card-head" style="padding:0 10px;align-items:flex-start;margin-bottom:10px">
+              <div>
+                <div class="row" style="gap:8px"><span class="ttype">Research candidate</span><span class="small muted">Not published · students can't see it</span></div>
+                <h2 style="font-size:20px;margin-top:6px">Pecan Valley Electric Co-op Scholarship</h2>
+                <p class="small muted" style="margin-top:3px">Fetched Oct 5, 11:42 p.m. from <a>pecanvalley.example.coop/scholarships <i data-icon="ext"></i></a> · page loaded normally</p>
+              </div>
+              <a class="btn btn-line sm"><i data-icon="reuse"></i>Fetch again</a>
+            </div>
+            <table class="fields">
+              <thead><tr><th>Field</th><th>Extracted</th><th>Quoted from the page</th><th>Quote check</th></tr></thead>
+              <tbody>
+                <tr><td class="fk">Name</td><td class="fv">Pecan Valley Electric Co-op Scholarship</td><td class="fq">"The Pecan Valley Electric Cooperative Scholarship Program"</td><td class="fc"><span class="stat ok"><i data-icon="check"></i>Found</span></td></tr>
+                <tr><td class="fk">Amount</td><td class="fv">$1,500 · one-time</td><td class="fq">"…awards four $1,500 scholarships each spring…"</td><td class="fc"><span class="stat ok"><i data-icon="check"></i>Found</span></td></tr>
+                <tr class="warnr"><td class="fk">Deadline</td><td class="fv">Mar 1, 2026</td><td class="fq">"Applications are due March 1, 2026."</td><td class="fc"><span class="stat ok"><i data-icon="check"></i>Found</span></td></tr>
+                <tr><td class="fk">Who can apply</td><td class="fv">Co-op member families · 2 counties</td><td class="fq">"…open to graduating seniors whose families are co-op members in Maple or Pecan County."</td><td class="fc"><span class="stat ok"><i data-icon="check"></i>Found</span></td></tr>
+                <tr class="bad"><td class="fk">Essay</td><td class="fv">300-word essay</td><td class="fq">"…a 300-word essay on energy in your community."</td><td class="fc"><span class="stat crit"><i data-icon="x"></i>Not on page</span></td></tr>
+                <tr><td class="fk">Fee</td><td class="fv">None</td><td class="fq">"There is no cost to apply."</td><td class="fc"><span class="stat ok"><i data-icon="check"></i>Found</span></td></tr>
+                <tr><td class="fk">Renewable</td><td class="fv">No</td><td class="fq none">Not stated on the page</td><td class="fc"><span class="stat info"><i data-icon="info"></i>Default</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="two" style="grid-template-columns:1.15fr 1fr;gap:14px">
+            <div class="card tight">
+              <div class="card-head" style="margin-bottom:10px"><h3>Checks run by code</h3><span class="muted small">Before a person looks</span></div>
+              <div class="chk"><span class="ic-crit"><i data-icon="x"></i></span><div><b>Quote not found.</b> The essay prompt isn't on the fetched page.<div class="cm">It may come from a linked PDF. Open it before trusting this field.</div></div></div>
+              <div class="chk"><span class="ic-warn"><i data-icon="alert"></i></span><div><b>Deadline is in the past.</b> Mar 1, 2026 was 7 months ago.<div class="cm">Likely last year's cycle. The 2027 date isn't posted.</div></div></div>
+              <div class="chk"><span class="ic-warn"><i data-icon="alert"></i></span><div><b>Scam rules: 1 paid outside link.</b> A linked "search service" charges $19.99.<div class="cm">The co-op itself asks for no fee, bank, or card details.</div></div></div>
+              <div class="chk"><span class="ic-ok"><i data-icon="check"></i></span><div>Required fields present · amount in a normal range</div></div>
+            </div>
+            <div class="card tight">
+              <div class="card-head" style="margin-bottom:6px"><h3>Decision</h3></div>
+              <div class="opt"><span class="radio on"></span><span><b>Publish as unverified</b><br><span class="small muted">"2027 deadline not posted yet"</span></span></div>
+              <div class="opt"><span class="radio"></span><span><b>Publish as verified</b></span></div>
+              <div class="opt"><span class="radio"></span><span><b>Reject</b> <span class="small muted">· with a reason</span></span></div>
+              <div class="textarea">Last year's cycle. Hold the essay field until the PDF is checked. Re-check Jan 15.</div>
+              <div class="row" style="margin-top:10px;gap:8px"><a class="btn btn-primary sm">Publish</a><a class="btn btn-crit sm">Reject</a></div>
+              <p class="small muted" style="margin-top:8px">Publishing records Sam K. and Oct 6, 2026.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+<script src="shell.js"></script>
+</body>
+</html>

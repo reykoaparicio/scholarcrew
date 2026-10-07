@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>ScholarCrew · System sketch</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+html,body{width:1600px;height:1000px}
+.canvas{position:relative;width:1600px;height:1000px}
+.t1{position:absolute;left:48px;top:32px;font-size:30px;font-weight:700;letter-spacing:-.015em}
+.t1 span{color:var(--navy)}
+.t2{position:absolute;left:48px;top:78px;color:var(--muted);font-size:15px}
+.blk{position:absolute;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px}
+.blk h3{font-size:15px}
+.cap{font-size:12.5px;color:var(--muted);margin:2px 0 4px}
+.item{padding:9px 11px;border:1px solid var(--line-2);border-radius:10px;background:var(--wash);margin-top:8px}
+.item b{display:block;font-size:13px}
+.item span{display:block;font-size:12px;color:var(--muted);line-height:1.35;margin-top:2px}
+.item.key{background:var(--navy-soft);border-color:var(--navy-line)}
+.quad{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:12px;height:398px;margin-top:10px}
+.panel{border:1px solid var(--line-2);border-radius:12px;padding:12px 13px;background:var(--wash)}
+.panel h4{font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-2);margin-bottom:9px;font-weight:700}
+.panel .chip{height:26px;font-size:12px;padding:0 9px}
+.lead{margin-bottom:8px}
+.lead .chip{border-color:var(--navy-line);background:var(--navy-soft);color:var(--navy);font-weight:700}
+.chipset{display:flex;flex-wrap:wrap;gap:6px}
+.pc{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.4}
+.lst{font-size:12.5px;color:var(--ink-2)}
+.lst li{padding:3px 0 3px 12px;position:relative;line-height:1.35}
+.lst li::before{content:"";position:absolute;left:0;top:10px;width:4px;height:4px;border-radius:50%;background:var(--faint)}
+.lst .who{font-weight:650}
+.drow{display:grid;grid-template-columns:112px 1fr;gap:10px;padding:8px 0;border-top:1px solid var(--line-2);font-size:13px;align-items:baseline}
+.drow span{font-size:12px;color:var(--muted);line-height:1.35}
+.drow.first{border-top:0}
+.drow.shared{background:var(--navy-soft);margin:0 -8px;padding:8px;border-radius:8px;border-top-color:transparent}
+.flow{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
+.fs{border:1px solid var(--line-2);background:var(--wash);border-radius:10px;padding:10px 12px;min-height:78px}
+.fs .n{display:inline-grid;place-items:center;width:20px;height:20px;border-radius:50%;background:var(--navy);color:#fff;font-size:11px;font-weight:700;margin-right:6px;vertical-align:1px}
+.fs b{font-size:13.5px}
+.fs .d{display:block;font-size:12px;color:var(--muted);margin-top:4px;line-height:1.35}
+.pipe{display:flex;align-items:center;gap:6px;margin-top:12px;color:var(--faint);font-size:13px}
+.pipe .chip{height:28px;font-size:12px;padding:0 10px}
+svg.wires{position:absolute;left:0;top:0;width:1600px;height:1000px;pointer-events:none;overflow:visible}
+.wl{position:absolute;font-size:11px;color:var(--muted);font-weight:650;white-space:nowrap}
+.foot{position:absolute;left:48px;bottom:18px;font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--faint);font-weight:600}
+</style>
+</head>
+<body>
+<div class="canvas">
+  <div class="t1"><span>ScholarCrew</span> / System sketch</div>
+  <div class="t2">Rough architecture · React + TypeScript website · one coordinator, scoped specialists · memory lives in Postgres, not in the model</div>
+
+  <!-- A: browser -->
+  <div class="blk" style="left:48px;top:160px;width:220px;height:500px">
+    <h3>In the browser</h3>
+    <div class="cap">React + TypeScript · works on phones too</div>
+    <div class="item"><b>Student app</b><span>This week, Crew, pipeline, money, memory</span></div>
+    <div class="item"><b>Crew panel</b><span>On every page; knows what you're looking at</span></div>
+    <div class="item"><b>Parent view</b><span>Only what the student shares</span></div>
+    <div class="item"><b>Helper links</b><span>Counselor, recommender · read-only</span></div>
+    <div class="item"><b>Public pages</b><span>Scholarship directory, offer tool · no login</span></div>
+  </div>
+
+  <!-- B: server -->
+  <div class="blk" style="left:330px;top:160px;width:250px;height:500px">
+    <h3>Next.js server</h3>
+    <div class="cap">The only door to the data</div>
+    <div class="item"><b>Sign-in &amp; identities</b><span>One account per person · family links</span></div>
+    <div class="item key"><b>Permission layer</b><span>Owner · visibility · room. A prompt can never grant access.</span></div>
+    <div class="item"><b>API routes (/api/v1)</b><span>Saves happen only on a person's click</span></div>
+    <div class="item"><b>Live updates</b><span>Crew replies and job status, streamed to the page</span></div>
+    <div class="item"><b>Job queue</b><span>Durable, with retries. Work keeps going after the tab closes.</span></div>
+  </div>
+
+  <!-- C: agent worker -->
+  <div class="blk" style="left:632px;top:160px;width:500px;height:500px">
+    <h3>Agent worker</h3>
+    <div class="cap">TypeScript · four kinds of agents</div>
+    <div class="quad">
+      <div class="panel">
+        <h4>Crew · talks to you</h4>
+        <div class="lead"><span class="chip"><i class="dot" style="--c:var(--c-compass)"></i>Compass · coordinator</span></div>
+        <div class="chipset">
+          <span class="chip"><i class="dot" style="--c:var(--c-scout)"></i>Scout</span>
+          <span class="chip"><i class="dot" style="--c:var(--c-atlas)"></i>Atlas</span>
+          <span class="chip"><i class="dot" style="--c:var(--c-quill)"></i>Quill</span>
+          <span class="chip"><i class="dot" style="--c:var(--c-aid)"></i>Aid</span>
+          <span class="chip"><i class="dot" style="--c:var(--c-prep)"></i>Prep</span>
+          <span class="chip"><i class="dot" style="--c:var(--c-impact)"></i>Impact</span>
+        </div>
+        <p class="pc">One bounded loop: Compass calls only the specialists it needs and returns one answer.</p>
+      </div>
+      <div class="panel">
+        <h4>Calculators · code, not AI</h4>
+        <ul class="lst">
+          <li><span class="who"><i class="dot" style="--c:var(--c-ledger)"></i>Ledger</span> · money math</li>
+          <li>Eligibility matcher</li>
+          <li>Deadline engine</li>
+          <li>Word and character limits</li>
+          <li>Merit-tier lookups</li>
+        </ul>
+      </div>
+      <div class="panel">
+        <h4>Guards · check every reply</h4>
+        <ul class="lst">
+          <li>Every fact has a source</li>
+          <li>Essay integrity: no ghostwriting</li>
+          <li>Privacy in shared rooms</li>
+          <li>Scam rules</li>
+          <li>Ignore instructions inside PDFs</li>
+        </ul>
+      </div>
+      <div class="panel">
+        <h4>Background workers</h4>
+        <ul class="lst">
+          <li>Weekly scholarship sweep</li>
+          <li>Deadline watcher</li>
+          <li>Document reader (award letters)</li>
+          <li>Weekly digest and reminders by email</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- D: data -->
+  <div class="blk" style="left:1184px;top:160px;width:368px;height:500px">
+    <h3>Postgres 16</h3>
+    <div class="cap">Data, job queue, and encrypted files. Memory lives here, not in the model</div>
+    <div class="drow first"><b>People &amp; family</b><span>separate identities, links between them</span></div>
+    <div class="drow"><b>Profile facts</b><span>source · visibility · last confirmed</span></div>
+    <div class="drow"><b>Sensitive facts</b><span>encrypted · matching only · never in prompts</span></div>
+    <div class="drow"><b>Story Bank</b><span>stories, themes, where each was used</span></div>
+    <div class="drow"><b>Records</b><span>colleges, applications, scholarships, essays, hours, offers</span></div>
+    <div class="drow"><b>Memory</b><span>decisions, unconfirmed guesses, summaries</span></div>
+    <div class="drow shared"><b>Catalog · shared</b><span>scholarships, college rules, aid rules, each with a verified date</span></div>
+    <div class="drow"><b>Audit log</b><span>who read or changed what</span></div>
+    <div class="drow"><b>Files (blobs)</b><span>letters, transcripts · encrypted</span></div>
+  </div>
+
+  <!-- F: request flow -->
+  <div class="blk" style="left:48px;top:712px;width:532px;height:240px">
+    <h3>One crew request, start to finish</h3>
+    <div class="flow">
+      <div class="fs"><span class="n">1</span><b>Ask</b><span class="d">From the crew panel on any page</span></div>
+      <div class="fs"><span class="n">2</span><b>Check</b><span class="d">Who is asking, in which room</span></div>
+      <div class="fs"><span class="n">3</span><b>Plan</b><span class="d">Compass picks the specialists</span></div>
+      <div class="fs"><span class="n">4</span><b>Work</b><span class="d">Calculators and permitted reads only</span></div>
+      <div class="fs"><span class="n">5</span><b>Guard</b><span class="d">Sources, integrity, privacy</span></div>
+      <div class="fs"><span class="n">6</span><b>Reply</b><span class="d">Action cards; saved only on a click</span></div>
+    </div>
+  </div>
+
+  <!-- K: model provider -->
+  <div class="blk" style="left:632px;top:712px;width:150px;height:240px">
+    <h3>Claude API</h3>
+    <div class="cap">Swappable provider</div>
+    <ul class="lst" style="margin-top:8px">
+      <li>Crew reasoning</li>
+      <li>Reading letters and PDFs</li>
+      <li>Cached prompts</li>
+      <li>Batch re-checks</li>
+    </ul>
+  </div>
+
+  <!-- P: catalog pipeline -->
+  <div class="blk" style="left:802px;top:712px;width:330px;height:240px">
+    <h3>Catalog pipeline</h3>
+    <div class="cap">No personal data · one catalog serves every student</div>
+    <div class="pipe"><span class="chip">Research</span>→<span class="chip">Extract</span>→<span class="chip">Verify</span>→<span class="chip">Publish</span></div>
+    <p class="pc" style="font-size:12.5px">Re-checked nightly. Anything stale is labeled, never shown as current. Students and counselors can report a wrong deadline.</p>
+  </div>
+
+  <!-- E: outside services -->
+  <div class="blk" style="left:1224px;top:712px;width:328px;height:240px">
+    <h3>Outside data &amp; services</h3>
+    <ul class="lst" style="margin-top:10px">
+      <li>College Scorecard, IPEDS: cost, net price, outcomes</li>
+      <li>Common Data Sets: admissions and aid</li>
+      <li>Scholarship and foundation websites</li>
+      <li>Resend email (SMS reminders in R3)</li>
+      <li>Stripe: billing</li>
+    </ul>
+  </div>
+
+  <svg class="wires" viewBox="0 0 1600 1000" aria-hidden="true">
+    <defs>
+      <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <path d="M0,0 L10,5 L0,10 z" fill="#7D8794"/>
+      </marker>
+    </defs>
+    <g stroke="#7D8794" stroke-width="1.6" fill="none">
+      <path d="M270 318 H327" marker-end="url(#ah)"/>
+      <path d="M328 362 H271" marker-end="url(#ah)"/>
+      <path d="M582 300 H629" marker-end="url(#ah)"/>
+      <path d="M630 344 H583" marker-end="url(#ah)"/>
+      <path d="M1134 320 H1181" marker-start="url(#ah)" marker-end="url(#ah)"/>
+      <path d="M455 158 V134 H1368 V157" marker-start="url(#ah)" marker-end="url(#ah)"/>
+      <path d="M707 662 V709" marker-start="url(#ah)" marker-end="url(#ah)"/>
+      <path d="M1134 760 H1204 V663" marker-end="url(#ah)"/>
+      <path d="M1222 860 H1135" marker-end="url(#ah)"/>
+    </g>
+  </svg>
+  <span class="wl" style="left:272px;top:300px">requests</span>
+  <span class="wl" style="left:276px;top:367px">updates</span>
+  <span class="wl" style="left:594px;top:282px">jobs</span>
+  <span class="wl" style="left:588px;top:349px">results</span>
+  <span class="wl" style="left:1144px;top:302px">tools</span>
+  <span class="wl" style="left:745px;top:117px">app reads and writes, always through the permission layer</span>
+  <span class="wl" style="left:716px;top:678px">model calls</span>
+  <span class="wl" style="left:1212px;top:698px">publish</span>
+  <span class="wl" style="left:1148px;top:842px">sources</span>
+
+  <div class="foot">Concept · rough sketch · October 2026</div>
+</div>
+<script src="shell.js"></script>
+</body>
+</html>

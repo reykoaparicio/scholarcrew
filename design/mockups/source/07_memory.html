@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>ScholarCrew · Memory</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body data-active="memory">
+<div class="frame">
+  <aside class="sidebar"></aside>
+  <main class="main">
+    <header class="topbar"></header>
+    <section class="content">
+      <div class="page-head">
+        <div>
+          <h1>What your crew remembers</h1>
+          <p class="sub">Private to you · edit or forget anything · sensitive facts are never guessed from your chats</p>
+        </div>
+        <div class="row"><a class="btn btn-line">Temporary chat</a><a class="btn btn-line">Export everything</a></div>
+      </div>
+
+      <div class="grid-mem">
+        <div class="col">
+          <div class="card">
+            <div class="card-head"><h3>Profile facts</h3><span class="muted small">Every fact shows where it came from</span></div>
+            <div class="f fh"><span>Fact</span><span>Source</span><span>Used by</span><span></span></div>
+            <div class="f"><span><b>Class of 2027</b> · Maple High School</span><span class="f-src">You · Oct 1</span><span class="vis">Crew</span><span class="acts"><a>Edit</a><a>Forget</a></span></div>
+            <div class="f"><span><b>GPA 3.72</b> unweighted</span><span class="f-src">Transcript upload · Sep 12</span><span class="vis">Crew</span><span class="acts"><a>Edit</a><a>Forget</a></span></div>
+            <div class="f"><span><b>ACT 27</b> · official, September</span><span class="f-src">Score report · Sep 30</span><span class="vis">Crew + family</span><span class="acts"><a>Edit</a><a>Forget</a></span></div>
+            <div class="f"><span><b>Intended major:</b> mechanical engineering</span><span class="f-src">Your message · Oct 2</span><span class="vis">Crew</span><span class="acts"><a>Edit</a><a>Forget</a></span></div>
+            <div class="f"><span><b>Lives in</b> Maple County</span><span class="f-src">You · Oct 1</span><span class="vis">Scout only</span><span class="acts"><a>Edit</a><a>Forget</a></span></div>
+            <div class="f"><span><b>Dana works for</b> Maple County Schools</span><span class="f-src">Shared by Dana · Oct 3</span><span class="vis">Scout only</span><span class="acts"><a>Edit</a><a>Forget</a></span></div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><h3>Waiting for your OK</h3><span class="muted small">Unconfirmed guesses expire in 30 days</span></div>
+            <div class="cand"><i data-icon="spark"></i><div class="tl">You've mentioned nursing twice. Add it as a possible major?</div><a class="btn btn-soft">Add</a><a class="btn btn-line">No</a></div>
+            <div class="cand"><i data-icon="spark"></i><div class="tl">You seem to prefer schools within 3 hours of home. Remember that?</div><a class="btn btn-soft">Remember</a><a class="btn btn-line">No</a></div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><h3>Decisions we made</h3><span class="muted small">So the crew doesn't re-argue them</span></div>
+            <div class="dec"><span class="date">Oct 3</span><span>Skip Early Decision at Northgate: compare aid offers first.</span></div>
+            <div class="dec"><span class="date">Sep 29</span><span>Keep the list at 6 schools: 2 likely, 2 target, 2 reach.</span></div>
+          </div>
+        </div>
+
+        <div class="col">
+          <div class="card">
+            <div class="card-head"><h3>Only used to find scholarships</h3><i data-icon="lock"></i></div>
+            <p class="small muted">Off unless you turn it on. Used only by the matcher: never in AI prompts, never shown to family or schools, never guessed.</p>
+            <div class="trow" style="margin-top:8px"><span class="tl">First in my family to go to college</span><span class="tog on"></span></div>
+            <div class="trow"><span class="tl">Household income range</span><span class="tv">$60k–75k · shared by Dana</span><span class="tog on"></span></div>
+            <div class="trow"><span class="tl">Heritage or ethnicity</span><span class="tog"></span></div>
+            <div class="trow"><span class="tl">Disability</span><span class="tog"></span></div>
+            <div class="trow"><span class="tl">Religion</span><span class="tog"></span></div>
+            <div class="trow"><span class="tl">Only show scholarships open to non-citizens</span><span class="tog"></span></div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><h3>Story Bank</h3><span class="muted small">4 stories · used in 6 essays</span></div>
+            <div class="srow"><b>Robotics → library STEM nights</b><span>used 3 times</span></div>
+            <div class="srow"><b>Night shift at the bakery</b><span>used once</span></div>
+            <div class="srow"><b>Translating at the clinic</b><span>not used yet</span></div>
+            <div class="srow"><b>Losing the regional final</b><span>not used yet</span></div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><h3>Start fresh</h3></div>
+            <div class="row"><a class="btn btn-line">New chat</a><a class="btn btn-line">New season</a><a class="btn btn-line">Delete account</a></div>
+            <p class="small muted" style="margin-top:8px">New season archives senior-year admissions and keeps your stories and records.</p>
+          </div>
+        </div>
+      </div>
+      <div class="footnote">Concept · fictional sample data · October 2026</div>
+    </section>
+  </main>
+</div>
+<script src="shell.js"></script>
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>ScholarCrew · Compare offers</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body data-active="money">
+<div class="frame">
+  <aside class="sidebar"></aside>
+  <main class="main">
+    <header class="topbar"></header>
+    <section class="content">
+      <div class="page-head">
+        <div>
+          <h1>Compare offers</h1>
+          <p class="sub">3 award letters · Aid labeled every line · Ledger did the math</p>
+        </div>
+        <div class="row"><span class="badge navy">Spring sample · March 2027</span><a class="btn btn-line"><i data-icon="clip"></i>Add a letter</a></div>
+      </div>
+
+      <div class="summary">
+        <span class="who"><i class="dot" style="--c:var(--c-compass)"></i>Compass</span>
+        <p>Over four years, <b>State U costs least: $36,800.</b> Riverside looks cheapest this year ($6,800), but $6,000 of its grant only applies to the first year.</p>
+        <div class="row"><a class="btn btn-primary">Draft an appeal with Aid</a><a class="btn btn-line">Share with Dana</a></div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px">
+        <div class="card-head">
+          <h3>Year 1: free money vs. what really costs you</h3>
+          <div class="legend"><span><i class="sw free"></i>Free money (grants + scholarships)</span><span><i class="sw gap"></i>Really costs you (pay, earn, or borrow)</span></div>
+        </div>
+        <div class="plot">
+          <span class="gl base" style="left:184px"></span><span class="gl" style="left:364px"></span><span class="gl" style="left:544px"></span><span class="gl" style="left:724px"></span><span class="gl" style="left:904px"></span>
+          <div class="hbar"><div class="lab">State U<span>$27,800 to attend</span></div><div class="track"><span class="s free" style="width:167px"></span><span class="s gap" style="width:83px"></span><span class="end"><b>$9,200</b> really costs you</span></div></div>
+          <div class="hbar"><div class="lab">Riverside College<span>$31,200 to attend</span></div><div class="track"><span class="s free" style="width:220px"></span><span class="s gap" style="width:61px"></span><span class="end"><b>$6,800</b> this year, then $12,800 a year after</span></div></div>
+          <div class="hbar"><div class="lab">Northgate University<span>$68,400 to attend</span></div><div class="track"><span class="s free" style="width:500px"></span><span class="s gap" style="width:115px"></span><span class="end"><b>$12,800</b></span></div></div>
+          <div class="axis"><span style="left:0">$0</span><span style="left:180px">$20k</span><span style="left:360px">$40k</span><span style="left:540px">$60k</span><span style="left:720px">$80k</span></div>
+        </div>
+      </div>
+
+      <div class="card" style="padding:14px 8px 10px">
+        <table class="cmp">
+          <thead><tr><th></th><th>State U</th><th>Riverside College</th><th>Northgate University</th></tr></thead>
+          <tbody>
+            <tr><td>Cost to attend</td><td class="r">$27,800</td><td class="r">$31,200</td><td class="r">$68,400</td></tr>
+            <tr><td><i class="sw free"></i>Free money (grants + scholarships)</td><td class="r">$18,600<span class="cite">p.1</span></td><td class="r">$24,400<span class="cite">p.1</span></td><td class="r">$55,600<span class="cite">p.2</span></td></tr>
+            <tr><td>Work-study (you earn it)</td><td class="r">$2,000<span class="cite">p.2</span></td><td class="r">$0</td><td class="r">$3,000<span class="cite">p.2</span></td></tr>
+            <tr><td>Loans (you repay them)</td><td class="r">$5,500<span class="cite">p.2</span></td><td class="r">$3,500<span class="cite">p.1</span></td><td class="r">$5,500<span class="cite">p.3</span></td></tr>
+            <tr><td class="muted">What the letter says you owe</td><td class="r muted">$1,700</td><td class="r muted">$3,300</td><td class="r muted">$4,300</td></tr>
+            <tr class="key"><td><i class="sw gap"></i>Really costs you, year 1</td><td class="r">$9,200</td><td class="r">$6,800</td><td class="r">$12,800</td></tr>
+            <tr><td><b>Over 4 years</b></td><td class="r"><span class="badge good"><i data-icon="check"></i>Lowest</span> <b>$36,800</b></td><td class="r">$45,200</td><td class="r">$51,200</td></tr>
+            <tr><td>Watch for</td><td class="r small">Merit $3,000 renews at 3.0 GPA</td><td class="r small"><span class="pol warn"><i data-icon="alert"></i>$6,000 grant is year 1 only</span></td><td class="r small">Reapply each year (FAFSA + CSS)</td></tr>
+          </tbody>
+        </table>
+        <p class="small muted" style="margin:8px 12px 0">Assumes costs stay flat and renewable awards are kept. Click any number to see the line in your letter it came from.</p>
+      </div>
+      <div class="footnote">Concept · fictional sample data · spring view</div>
+    </section>
+  </main>
+</div>
+<script src="shell.js"></script>
+</body>
+</html>
