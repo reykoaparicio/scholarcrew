@@ -1,0 +1,52 @@
+{
+  "name": "@scholarcrew/core",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./shared": "./src/shared/index.ts",
+    "./access": "./src/access/index.ts",
+    "./crypto": "./src/crypto/index.ts",
+    "./audit": "./src/audit/index.ts",
+    "./ratelimit": "./src/ratelimit/index.ts",
+    "./auth": "./src/auth/index.ts",
+    "./profile": "./src/profile/index.ts",
+    "./memory": "./src/memory/index.ts",
+    "./family": "./src/family/index.ts",
+    "./helpers": "./src/helpers/index.ts",
+    "./notifications": "./src/notifications/index.ts",
+    "./billing": "./src/billing/index.ts",
+    "./documents": "./src/documents/index.ts",
+    "./account": "./src/account/index.ts",
+    "./apitokens": "./src/apitokens/index.ts",
+    "./scholarships": "./src/scholarships/index.ts",
+    "./colleges": "./src/colleges/index.ts",
+    "./essays": "./src/essays/index.ts",
+    "./prep": "./src/prep/index.ts",
+    "./impact": "./src/impact/index.ts",
+    "./helperview": "./src/helperview/index.ts",
+    "./money": "./src/money/index.ts",
+    "./aid": "./src/aid/index.ts",
+    "./plan": "./src/plan/index.ts",
+    "./crew": "./src/crew/index.ts",
+    "./admin": "./src/admin/index.ts"
+  },
+  "scripts": {
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@scholarcrew/db": "workspace:*",
+    "@scholarcrew/domain": "workspace:*",
+    "@scholarcrew/engines": "workspace:*",
+    "@scholarcrew/jobs": "workspace:*",
+    "drizzle-orm": "^0.44.0",
+    "stripe": "^18.0.0",
+    "zod": "^4.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.0",
+    "typescript": "^5.8.3",
+    "vitest": "^3.2.4"
+  }
+}

@@ -1,0 +1,1 @@
+export { getHelperView } from "./view";
