@@ -1,0 +1,32 @@
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+}
+
+.md {
+  padding: 18px 20px;
+}
+
+.lg {
+  padding: 22px 26px;
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.head > svg {
+  color: var(--muted);
+}
+
+.title {
+  font-size: 15px;
+  line-height: 1.45;
+  letter-spacing: 0;
+  font-weight: 650;
+}

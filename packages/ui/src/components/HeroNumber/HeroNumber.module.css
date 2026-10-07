@@ -1,0 +1,13 @@
+.num {
+  margin-top: 2px;
+  font-size: 52px;
+  line-height: 1;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.cap {
+  margin-top: 8px;
+  font-size: 13px;
+  color: var(--muted);
+}

@@ -1,0 +1,121 @@
+import {
+  AidProgram,
+  AppPlan,
+  AppStatus,
+  ApplicationItemKind,
+  ApplicationStage,
+  AssigneeKind,
+  CatalogStatus,
+  CatalogTaskKind,
+  CatalogTaskStatus,
+  CollegeControl,
+  CommentAuthor,
+  CommentKind,
+  CostSource,
+  DocumentKind,
+  EssayStatus,
+  EssayTarget,
+  ExportStatus,
+  FactSource,
+  FactStatus,
+  FactVisibility,
+  FamilyMemberRole,
+  FamilyTaskKind,
+  Fit,
+  HelperRole,
+  ItemStatus,
+  JobKind,
+  JobStatus,
+  ListingVisibility,
+  MessageAuthor,
+  NotificationKind,
+  OfferLineCategory,
+  OfferStatus,
+  OutsidePolicy,
+  ParseStatus,
+  PlanId,
+  PlanItemKind,
+  RecStatus,
+  ReportReason,
+  ReportStatus,
+  Role,
+  RoomKind,
+  SensitiveKind,
+  ShareCategory,
+  SubscriptionStatus,
+  TaskStatus,
+  TestKind,
+  TestPolicy,
+  UserStatus,
+  VerificationStatus,
+} from "@scholarcrew/domain";
+import { describe, expect, it } from "vitest";
+import * as enums from "./enums";
+
+type DbEnum = { enumName: string; enumValues: readonly string[] };
+type DomainEnum = { options: readonly string[] };
+
+const PAIRS: Array<[string, DbEnum, DomainEnum]> = [
+  ["role", enums.roleEnum, Role],
+  ["user_status", enums.userStatusEnum, UserStatus],
+  ["fact_source", enums.factSourceEnum, FactSource],
+  ["fact_visibility", enums.factVisibilityEnum, FactVisibility],
+  ["fact_status", enums.factStatusEnum, FactStatus],
+  ["sensitive_kind", enums.sensitiveKindEnum, SensitiveKind],
+  ["family_member_role", enums.familyMemberRoleEnum, FamilyMemberRole],
+  ["share_category", enums.shareCategoryEnum, ShareCategory],
+  ["family_task_kind", enums.familyTaskKindEnum, FamilyTaskKind],
+  ["task_status", enums.taskStatusEnum, TaskStatus],
+  ["helper_role", enums.helperRoleEnum, HelperRole],
+  ["catalog_status", enums.catalogStatusEnum, CatalogStatus],
+  ["listing_visibility", enums.listingVisibilityEnum, ListingVisibility],
+  ["college_control", enums.collegeControlEnum, CollegeControl],
+  ["test_policy", enums.testPolicyEnum, TestPolicy],
+  ["outside_policy", enums.outsidePolicyEnum, OutsidePolicy],
+  ["catalog_task_kind", enums.catalogTaskKindEnum, CatalogTaskKind],
+  ["catalog_task_status", enums.catalogTaskStatusEnum, CatalogTaskStatus],
+  ["report_reason", enums.reportReasonEnum, ReportReason],
+  ["report_status", enums.reportStatusEnum, ReportStatus],
+  ["fit", enums.fitEnum, Fit],
+  ["app_plan", enums.appPlanEnum, AppPlan],
+  ["app_status", enums.appStatusEnum, AppStatus],
+  ["app_item_kind", enums.appItemKindEnum, ApplicationItemKind],
+  ["item_status", enums.itemStatusEnum, ItemStatus],
+  ["rec_status", enums.recStatusEnum, RecStatus],
+  ["app_stage", enums.appStageEnum, ApplicationStage],
+  ["essay_target", enums.essayTargetEnum, EssayTarget],
+  ["essay_status", enums.essayStatusEnum, EssayStatus],
+  ["comment_author", enums.commentAuthorEnum, CommentAuthor],
+  ["comment_kind", enums.commentKindEnum, CommentKind],
+  ["test_kind", enums.testKindEnum, TestKind],
+  ["verification_status", enums.verificationStatusEnum, VerificationStatus],
+  ["cost_source", enums.costSourceEnum, CostSource],
+  ["document_kind", enums.documentKindEnum, DocumentKind],
+  ["parse_status", enums.parseStatusEnum, ParseStatus],
+  ["offer_status", enums.offerStatusEnum, OfferStatus],
+  ["offer_line_category", enums.offerLineCategoryEnum, OfferLineCategory],
+  ["aid_program", enums.aidProgramEnum, AidProgram],
+  ["assignee_kind", enums.assigneeKindEnum, AssigneeKind],
+  ["room_kind", enums.roomKindEnum, RoomKind],
+  ["message_author", enums.messageAuthorEnum, MessageAuthor],
+  ["job_kind", enums.jobKindEnum, JobKind],
+  ["job_status", enums.jobStatusEnum, JobStatus],
+  ["plan_item_kind", enums.planItemKindEnum, PlanItemKind],
+  ["notification_kind", enums.notificationKindEnum, NotificationKind],
+  ["plan_id", enums.planIdEnum, PlanId],
+  ["subscription_status", enums.subscriptionStatusEnum, SubscriptionStatus],
+  ["export_status", enums.exportStatusEnum, ExportStatus],
+];
+
+describe("pg enums", () => {
+  it.each(PAIRS)("%s_enum matches the domain enum", (name, dbEnum, domainEnum) => {
+    expect(dbEnum.enumName).toBe(`${name}_enum`);
+    expect([...dbEnum.enumValues]).toEqual([...domainEnum.options]);
+  });
+
+  it("covers all 49 section 8 enums and nothing else", () => {
+    expect(PAIRS).toHaveLength(49);
+    expect(new Set(PAIRS.map(([name]) => name)).size).toBe(49);
+    expect(Object.keys(enums)).toHaveLength(49);
+  });
+});

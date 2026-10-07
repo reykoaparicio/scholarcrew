@@ -1,0 +1,116 @@
+/* ScholarCrew design tokens, ported from design/mockups/source/styles.css.
+   Crew and money colors are the validated categorical palette, in fixed order.
+   System fonts only: no font files and no remote assets (SE-05). */
+:root {
+  --page: #f4f2ec;
+  --rail: #faf8f4;
+  --card: #ffffff;
+  --wash: #f7f6f2;
+  --ink: #14202f;
+  --ink-2: #3b4555;
+  --muted: #636b78;
+  --faint: #8c929c;
+  --line: #e5e1d7;
+  --line-2: #efece6;
+  --navy: #1e3a5f;
+  --navy-soft: #e9eef5;
+  --navy-line: #cbd6e6;
+  /* crew identity: categorical slots 1-8, in order */
+  --c-compass: #2a78d6;
+  --c-scout: #eb6834;
+  --c-atlas: #1baf7a;
+  --c-quill: #eda100;
+  --c-aid: #e87ba4;
+  --c-ledger: #008300;
+  --c-prep: #4a3aa7;
+  --c-impact: #e34948;
+  /* money series */
+  --free: #2a78d6;
+  --gap: #eb6834;
+  /* status: always paired with an icon and a label */
+  --good: #0ca30c;
+  --good-text: #006300;
+  --good-soft: #eaf5ea;
+  --warn-text: #7a5200;
+  --warn-icon: #b07800;
+  --warn-soft: #fdf4e1;
+  --crit: #d03b3b;
+  --crit-text: #9e2424;
+  --crit-soft: #fceded;
+  --r: 14px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  min-height: 100%;
+  background: var(--page);
+}
+
+body {
+  font: 14px / 1.45 system-ui, -apple-system, "Segoe UI", sans-serif;
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: var(--navy);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+b,
+strong {
+  font-weight: 650;
+}
+
+ul {
+  list-style: none;
+}
+
+h1 {
+  font-size: 28px;
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+  font-weight: 700;
+}
+
+h2 {
+  font-size: 22px;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  font-weight: 700;
+}
+
+h3 {
+  font-size: 15px;
+  font-weight: 650;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid var(--navy);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

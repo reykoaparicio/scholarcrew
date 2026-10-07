@@ -1,0 +1,26 @@
+.textarea {
+  width: 100%;
+  min-height: 96px;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--card);
+  font: inherit;
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--ink);
+  resize: vertical;
+}
+
+.textarea::placeholder {
+  color: var(--faint);
+}
+
+.textarea:focus-visible {
+  outline: 2px solid var(--navy);
+  outline-offset: 1px;
+}
+
+.invalid {
+  border-color: var(--crit);
+}

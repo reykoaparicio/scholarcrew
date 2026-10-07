@@ -1,0 +1,11 @@
+.who {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-weight: 650;
+  color: var(--ink-2);
+}
+
+.sm {
+  font-size: 12px;
+}

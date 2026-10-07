@@ -1,0 +1,22 @@
+name: scholarcrew
+
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: scholarcrew
+      POSTGRES_PASSWORD: scholarcrew
+      POSTGRES_DB: scholarcrew
+    ports:
+      - "54320:5432"
+    volumes:
+      - scholarcrew-pgdata:/var/lib/postgresql/data
+      - ./scripts/create-test-db.sql:/docker-entrypoint-initdb.d/01-create-test-db.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -h 127.0.0.1 -U scholarcrew -d scholarcrew"]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+
+volumes:
+  scholarcrew-pgdata:

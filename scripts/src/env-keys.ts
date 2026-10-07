@@ -1,0 +1,21 @@
+/** Every key in .env.example, in the order of plans/00-overview.md section 4. */
+export const ENV_KEYS = [
+  "DATABASE_URL",
+  "TEST_DATABASE_URL",
+  "APP_URL",
+  "ENCRYPTION_KEY",
+  "ENCRYPTION_KEYS",
+  "ANTHROPIC_API_KEY",
+  "SCHOLARCREW_FAKE_MODEL",
+  "RESEND_API_KEY",
+  "EMAIL_FROM",
+  "STRIPE_SECRET_KEY",
+  "STRIPE_WEBHOOK_SECRET",
+  "STRIPE_PRICE_FAMILY",
+  "STRIPE_PRICE_SEASON",
+  "ENABLE_DEV_ROUTES",
+  "CATALOG_ALLOWED_DOMAINS",
+  "TWILIO_ACCOUNT_SID",
+  "TWILIO_AUTH_TOKEN",
+  "TWILIO_FROM",
+] as const;

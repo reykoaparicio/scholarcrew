@@ -1,0 +1,11 @@
+packages:
+  - packages/*
+  - apps/*
+  - scripts
+  - e2e
+  - evals
+
+# pnpm 10 skips dependency install scripts unless they are listed here.
+onlyBuiltDependencies:
+  - "@biomejs/biome"
+  - esbuild
