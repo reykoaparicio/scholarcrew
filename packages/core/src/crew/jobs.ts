@@ -40,6 +40,8 @@ import { type JobRow, toCrewJob } from "./mappers";
 
 type NotifiedKind = Exclude<JobKind, "crew_request">;
 
+import { nextMessageTime } from "./message-order";
+
 /** R2P-9: `link` gets the conversation the reply landed in (null when there was no reply). */
 const READY_NOTICE: Record<
   NotifiedKind,
@@ -302,6 +304,7 @@ export async function completeJob(
             "conversations insert",
           ).id;
       }
+      const messageAt = await nextMessageTime(tx, conversationId, now);
       const message = one(
         await tx
           .insert(messages)
@@ -312,7 +315,7 @@ export async function completeJob(
             body: reply.text,
             reply,
             sharedCategories: i.sharedCategories ?? null,
-            createdAt: now,
+            createdAt: messageAt,
           })
           .returning(),
         "messages insert",

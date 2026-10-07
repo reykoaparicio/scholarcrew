@@ -112,6 +112,21 @@ describe("crew.request", () => {
     expect(await usageOf(s, s.user.id)).toEqual({ crewRequests: 1, costMicros: runs[0]?.costMicros });
   });
 
+  it("keeps requests and replies ordered when the clock is frozen, including a crisis pair", async () => {
+    const s = await setup();
+    const first = await s.send("First question");
+    await handleCrewRequest(s.deps, { jobId: first.job.id });
+    const second = await s.send("Second question");
+    await handleCrewRequest(s.deps, { jobId: second.job.id });
+    await s.send("I want to kill myself");
+    const rows = await getMessages(s.core, s.actor, s.room.id);
+    expect(rows.map((m) => m.authorKind)).toEqual(["user", "crew", "user", "crew", "user", "crew"]);
+    expect(rows[0]?.body).toBe("First question");
+    expect(rows[2]?.body).toBe("Second question");
+    expect(rows.at(-1)?.reply?.text).toContain("988");
+    expect(rows.every((m, n) => n === 0 || m.createdAt > (rows[n - 1]?.createdAt ?? ""))).toBe(true);
+  });
+
   it("answers a crisis message with the crisis reply and no model call (CR-09)", async () => {
     const model = createScriptedModelClient([]);
     const s = await setup(model);

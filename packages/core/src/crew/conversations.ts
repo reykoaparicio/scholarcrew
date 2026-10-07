@@ -56,6 +56,8 @@ function isLive(row: ConversationRow, now: Date): boolean {
   return row.archivedAt === null && (row.expiresAt === null || row.expiresAt.getTime() > now.getTime());
 }
 
+import { nextMessageTime } from "./message-order";
+
 /**
  * The conversation if `actor` may use it: any family member for a family room, otherwise only its owner.
  * Archived rooms and expired temporary chats are gone.
@@ -290,6 +292,7 @@ export async function sendMessage(
   const now = deps.clock.now();
   if (detectCrisis(parsed.data.body)) {
     const result = await deps.db.transaction(async (tx) => {
+      const messageAt = await nextMessageTime(tx, conv.id, now);
       const request = one(
         await tx
           .insert(messages)
@@ -298,7 +301,7 @@ export async function sendMessage(
             authorKind: "user",
             authorUserId: actor.userId,
             body: parsed.data.body,
-            createdAt: now,
+            createdAt: messageAt,
           })
           .returning(),
         "crisis request insert",
@@ -312,7 +315,7 @@ export async function sendMessage(
             authorUserId: null,
             body: CRISIS_REPLY.text,
             reply: CRISIS_REPLY,
-            createdAt: new Date(now.getTime() + 1),
+            createdAt: new Date(messageAt.getTime() + 1),
           })
           .returning(),
         "crisis reply insert",
@@ -343,6 +346,7 @@ export async function sendMessage(
   }
   await consumeRateLimit(deps, { key: `crew-send:${actor.userId}`, ...CREW_SEND_LIMIT });
   const { message, job } = await deps.db.transaction(async (tx) => {
+    const messageAt = await nextMessageTime(tx, conv.id, now);
     await assertCrewAllowance(deps, conv.ownerId, tx);
     const row = one(
       await tx
@@ -352,7 +356,7 @@ export async function sendMessage(
           authorKind: "user",
           authorUserId: actor.userId,
           body: parsed.data.body,
-          createdAt: now,
+          createdAt: messageAt,
         })
         .returning(),
       "messages insert",
