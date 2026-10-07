@@ -1,0 +1,120 @@
+.page {
+  padding: 26px 48px 48px;
+}
+
+.intro {
+  max-width: 720px;
+  margin: 6px 0 18px;
+  font-size: 14.5px;
+  color: var(--ink-2);
+}
+
+.tool {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.offers {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 14px;
+}
+
+.offer {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  background: var(--card);
+}
+
+.offer legend {
+  padding: 0 4px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--navy);
+}
+
+.lines {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.line {
+  display: grid;
+  gap: 8px;
+  padding: 10px;
+  border: 1px solid var(--line-2);
+  border-radius: 10px;
+  background: var(--wash);
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+
+.errors {
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: var(--crit-soft);
+  color: var(--crit-text);
+  font-size: 13px;
+}
+
+.errors ul {
+  padding-left: 18px;
+  list-style: disc;
+}
+
+.results {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 18px 20px;
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  background: var(--card);
+}
+
+.warnings {
+  padding-left: 18px;
+  font-size: 13px;
+  list-style: disc;
+  color: var(--warn-text);
+}
+
+.assume h3 {
+  margin-bottom: 4px;
+  font-size: 13px;
+}
+
+.assume ul {
+  padding-left: 18px;
+  font-size: 12.5px;
+  list-style: disc;
+  color: var(--muted);
+}
+
+.fine {
+  font-size: 12.5px;
+  color: var(--muted);
+}
+
+@media (max-width: 640px) {
+  .page {
+    padding: 18px 16px 32px;
+  }
+}

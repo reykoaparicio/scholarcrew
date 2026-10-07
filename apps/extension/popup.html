@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>ScholarCrew</title>
+    <link rel="stylesheet" href="popup.css">
+  </head>
+  <body>
+    <main class="popup">
+      <h1>ScholarCrew</h1>
+      <p id="status" class="status" role="status">Checking connection…</p>
+      <div class="actions">
+        <button id="autofill" type="button" disabled>Autofill this page</button>
+        <button id="save-page" type="button" disabled>Save to Scout</button>
+      </div>
+      <p id="action-result" class="result" role="status"></p>
+      <section id="preview" class="preview" aria-label="What Save to Scout will send" hidden>
+        <p class="preview-label">Page address</p>
+        <p id="preview-url" class="preview-text"></p>
+        <label for="preview-title">Title</label>
+        <input id="preview-title" type="text" maxlength="200" spellcheck="false">
+        <p class="preview-label">Selected text</p>
+        <p id="preview-selection" class="preview-text"></p>
+        <label class="check"><input id="include-selection" type="checkbox"> Include selected text</label>
+        <div class="row">
+          <button id="send-page" type="button">Send to Scout</button>
+          <button id="cancel-save" type="button" class="secondary">Cancel</button>
+        </div>
+      </section>
+      <p class="hint">Autofill shows every value for you to check first. Nothing is ever submitted for you.</p>
+      <details id="settings">
+        <summary>Connection settings</summary>
+        <form id="token-form">
+          <label for="token">Extension token (from Settings → Browser extension)</label>
+          <input id="token" type="password" autocomplete="off" spellcheck="false" placeholder="sct_…">
+          <div class="row">
+            <button type="submit">Save token</button>
+            <button id="clear-token" type="button" class="secondary">Clear token</button>
+          </div>
+        </form>
+        <form id="url-form">
+          <label for="app-url">App address</label>
+          <input id="app-url" type="url" spellcheck="false">
+          <div class="row">
+            <button type="submit">Save address</button>
+          </div>
+        </form>
+        <p id="settings-message" class="settings-message" role="alert"></p>
+      </details>
+    </main>
+    <script src="popup.js"></script>
+  </body>
+</html>

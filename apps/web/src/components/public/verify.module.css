@@ -1,0 +1,63 @@
+.wrap {
+  display: flex;
+  justify-content: center;
+  padding: 48px 20px 64px;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: 100%;
+  max-width: 520px;
+  padding: 28px 30px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: var(--card);
+}
+
+.card h1 {
+  font-size: 24px;
+}
+
+.sub {
+  font-size: 14px;
+  color: var(--ink-2);
+}
+
+.kv {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: 8px 12px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: var(--wash);
+  font-size: 13.5px;
+}
+
+.kv dt {
+  color: var(--muted);
+}
+
+.kv dd {
+  font-weight: 650;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.alert {
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: var(--crit-soft);
+  color: var(--crit-text);
+  font-size: 13px;
+}
+
+.fine {
+  font-size: 12.5px;
+  color: var(--muted);
+}

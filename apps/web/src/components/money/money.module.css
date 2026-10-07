@@ -1,0 +1,143 @@
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 16px;
+}
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.big {
+  font-size: 26px;
+  font-weight: 700;
+}
+
+.line {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.banner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 18px;
+  border: 1px solid var(--navy-line);
+  border-radius: var(--r);
+  background: var(--navy-soft);
+}
+
+.banner p {
+  flex: 1;
+  min-width: 260px;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13.5px;
+}
+
+.table th,
+.table td {
+  padding: 9px 12px;
+  border-top: 1px solid var(--line-2);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.table th:first-child,
+.table td:first-child {
+  text-align: left;
+}
+
+.table thead th {
+  border-top: 0;
+  font-size: 11px;
+  font-weight: 650;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.really td {
+  background: var(--crit-soft);
+  font-weight: 700;
+}
+
+.chip {
+  margin-left: 6px;
+  padding: 1px 6px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--wash);
+  font-size: 11px;
+  color: var(--ink-2);
+  cursor: help;
+}
+
+.cite {
+  margin-top: 4px;
+  padding: 6px 8px;
+  border-radius: 8px;
+  background: var(--wash);
+  font-size: 12.5px;
+  color: var(--ink-2);
+}
+
+/* Read by screen readers, not shown: the comparison table's page citations (MO-07). */
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.steps {
+  margin: 0;
+  padding-left: 18px;
+  font-size: 13.5px;
+}
+
+.steps li + li {
+  margin-top: 6px;
+}
+
+.lineRow {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) 120px minmax(0, 1.2fr) auto auto;
+  gap: 12px;
+  align-items: end;
+  padding: 12px 0;
+  border-top: 1px solid var(--line-2);
+}
+
+.lineRow:first-child {
+  border-top: 0;
+}
+
+.items li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 8px 0;
+  border-top: 1px solid var(--line-2);
+  font-size: 13.5px;
+}
+
+.items li:first-child {
+  border-top: 0;
+}
+
+@media (max-width: 900px) {
+  .lineRow {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

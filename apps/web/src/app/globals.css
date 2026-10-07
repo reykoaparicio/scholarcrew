@@ -1,0 +1,27 @@
+/* App-wide rules on top of @scholarcrew/ui/tokens.css. No fonts, imports, or remote assets (SE-05). */
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  min-height: 100vh;
+}
+
+button:not(:disabled) {
+  cursor: pointer;
+}
+
+/* The phone layout (mockup 19) lives in AppShell: ShellFrame passes its tab bar as `mobileNav`, and
+   AppShell hides the sidebar under 640px. Nothing here selects AppShell's inner DOM (E-15-4). */
+
+.sc-notfound {
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+  padding: 24px;
+}
+
+.sc-notfound > div {
+  width: 100%;
+  max-width: 440px;
+}

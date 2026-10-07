@@ -1,0 +1,10 @@
+{
+  "manifest_version": 3,
+  "name": "ScholarCrew",
+  "version": "0.1.0",
+  "description": "Fill scholarship forms from your ScholarCrew profile after you review each value, and save pages to Scout.",
+  "minimum_chrome_version": "120",
+  "permissions": ["storage", "activeTab", "scripting"],
+  "background": { "service_worker": "background.js" },
+  "action": { "default_title": "ScholarCrew", "default_popup": "popup.html" }
+}

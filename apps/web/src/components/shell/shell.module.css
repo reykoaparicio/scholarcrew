@@ -1,0 +1,406 @@
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* ---------- bell ---------- */
+.bellWrap {
+  position: relative;
+}
+
+.bell {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--card);
+  color: var(--ink-2);
+}
+
+.bell svg {
+  width: 18px;
+  height: 18px;
+}
+
+.pip {
+  position: absolute;
+  top: 7px;
+  right: 8px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--navy);
+  box-shadow: 0 0 0 2px var(--card);
+}
+
+.panel {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  z-index: 30;
+  width: 340px;
+  max-height: 420px;
+  overflow-y: auto;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  background: var(--card);
+  box-shadow: 0 8px 24px rgba(20, 32, 47, 0.12);
+}
+
+.panelHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.panelTitle {
+  font-size: 15px;
+}
+
+.linkBtn {
+  border: 0;
+  background: none;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--navy);
+}
+
+.panelError {
+  margin-bottom: 8px;
+  font-size: 12.5px;
+  color: var(--crit-text);
+}
+
+.panelEmpty {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.panelList {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.note {
+  display: grid;
+  gap: 2px;
+  width: 100%;
+  padding: 8px 10px;
+  border: 0;
+  border-radius: 9px;
+  background: none;
+  text-align: left;
+}
+
+.note:hover {
+  background: var(--wash);
+}
+
+.unread {
+  background: var(--navy-soft);
+}
+
+.noteTitle {
+  font-size: 13px;
+  font-weight: 650;
+}
+
+.noteBody {
+  font-size: 12.5px;
+  color: var(--ink-2);
+}
+
+.noteTime {
+  font-size: 11.5px;
+  color: var(--muted);
+}
+
+/* ---------- setup frame (mockup 09, data-shell="setup") ---------- */
+.setupFrame {
+  display: grid;
+  grid-template-columns: 240px minmax(0, 1fr);
+  min-height: 100vh;
+}
+
+.setupSide {
+  display: flex;
+  flex-direction: column;
+  padding: 22px 14px 18px;
+  border-right: 1px solid var(--line);
+  background: var(--rail);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 10px 20px;
+}
+
+.mark {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 9px;
+  background: var(--navy);
+}
+
+.mark svg {
+  fill: #fff;
+  stroke: none;
+}
+
+.word {
+  font-size: 21px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--navy);
+}
+
+.setupNote {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 10px;
+  padding: 8px 10px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: var(--wash);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink-2);
+}
+
+.setupNote svg {
+  width: 14px;
+  height: 14px;
+  color: var(--muted);
+}
+
+.dim {
+  opacity: 0.38;
+}
+
+.dimItem {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  height: 38px;
+  padding: 0 10px;
+  font-weight: 500;
+  color: var(--ink-2);
+}
+
+.dimItem svg {
+  width: 18px;
+  height: 18px;
+  color: var(--muted);
+}
+
+.railSec {
+  margin-top: 24px;
+  padding: 0 10px;
+}
+
+.railTitle {
+  margin-bottom: 10px;
+  font-size: 11px;
+  font-weight: 650;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.roster {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 13px;
+}
+
+.roster li {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-weight: 550;
+  color: var(--ink-2);
+}
+
+.me {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: auto;
+  padding: 14px 10px 0;
+  border-top: 1px solid var(--line);
+}
+
+.avatar {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--navy);
+  font-size: 13px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.meName {
+  font-size: 13px;
+  font-weight: 650;
+}
+
+.meSub {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.setupMain {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.setupTop {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 10px;
+  height: 60px;
+  padding: 0 32px;
+  border-bottom: 1px solid var(--line);
+  font-size: 13.5px;
+  color: var(--ink-2);
+}
+
+.setupTop b {
+  color: var(--ink);
+}
+
+.spacer {
+  flex: 1;
+}
+
+.setupContent {
+  flex: 1;
+  padding: 20px 32px 32px;
+}
+
+.gate {
+  padding: 40px 0;
+  color: var(--muted);
+}
+
+@media (max-width: 900px) {
+  .setupFrame {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .setupSide {
+    display: none;
+  }
+
+  .setupTop {
+    padding: 0 16px;
+  }
+
+  .setupContent {
+    padding: 16px;
+  }
+}
+
+/* ---------- phone tab bar (mockup 19) ---------- */
+.tabs {
+  display: none;
+}
+
+.tab,
+.moreToggle {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  font-size: 10.5px;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.tab svg,
+.moreToggle svg {
+  width: 23px;
+  height: 23px;
+}
+
+.tabOn {
+  color: var(--navy);
+}
+
+.more {
+  position: relative;
+}
+
+.moreToggle {
+  list-style: none;
+  cursor: pointer;
+}
+
+.moreToggle::-webkit-details-marker {
+  display: none;
+}
+
+.moreMenu {
+  position: absolute;
+  right: 4px;
+  bottom: calc(100% + 10px);
+  min-width: 190px;
+  padding: 6px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--card);
+  box-shadow: 0 8px 24px rgba(20, 32, 47, 0.12);
+}
+
+.moreMenu a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 10px;
+  border-radius: 8px;
+  color: var(--ink-2);
+}
+
+.moreMenu a[aria-current="page"] {
+  background: var(--navy-soft);
+  color: var(--navy);
+}
+
+@media (max-width: 640px) {
+  .tabs {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 20;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    height: 72px;
+    padding: 8px 4px 0;
+    border-top: 1px solid var(--line);
+    background: rgba(250, 248, 244, 0.97);
+  }
+}

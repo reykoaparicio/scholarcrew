@@ -1,0 +1,9 @@
+.error {
+  display: flex;
+  justify-content: center;
+  padding: 64px 20px;
+}
+
+.error p {
+  margin-bottom: 12px;
+}

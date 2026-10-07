@@ -1,0 +1,21 @@
+{
+  "name": "@scholarcrew/e2e",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "e2e": "playwright test",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.55.0",
+    "@scholarcrew/agents": "workspace:*",
+    "@scholarcrew/db": "workspace:*",
+    "@scholarcrew/jobs": "workspace:*",
+    "@scholarcrew/domain": "workspace:*",
+    "@scholarcrew/engines": "workspace:*",
+    "@types/node": "^22.15.0",
+    "postgres": "^3.4.7",
+    "tsx": "^4.20.0",
+    "typescript": "^5.8.3"
+  }
+}
