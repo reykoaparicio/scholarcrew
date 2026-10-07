@@ -1123,24 +1123,26 @@ const res = await client.beta.messages.create(params);
 
 | Plan | Status |
 |---|---|
-| 01 | reviewed through round 5; ready to implement |
-| 02 | reviewed through round 5; ready to implement |
-| 03 | reviewed through round 5; ready to implement |
-| 04 | reviewed through round 5; ready to implement |
-| 05 | reviewed through round 5; ready to implement |
-| 06 | reviewed through round 5; ready to implement |
-| 07 | reviewed through round 5; ready to implement |
-| 08 | reviewed through round 5; ready to implement |
-| 09 | reviewed through round 5; ready to implement |
-| 10 | reviewed through round 5; ready to implement |
-| 11 | reviewed through round 5; ready to implement |
-| 12 | reviewed through round 5; ready to implement |
-| 13 | reviewed through round 5; ready to implement |
-| 14 | reviewed through round 5; ready to implement |
-| 15 | reviewed through round 5; ready to implement |
-| 16 | reviewed through round 5; ready to implement |
-| 17 | reviewed through round 5; ready to implement |
-| 18 | reviewed through round 5; ready to implement |
-| 19 | reviewed through round 5; ready to implement |
-| 20 | reviewed through round 5; ready to implement |
-| 21 | reviewed through round 5; ready to implement |
+| 01 | done; implemented and locally verified on 2026-10-07 |
+| 02 | done; implemented and locally verified on 2026-10-07 |
+| 03 | done; implemented and locally verified on 2026-10-07 |
+| 04 | done; implemented and locally verified on 2026-10-07 |
+| 05 | done; implemented and locally verified on 2026-10-07 |
+| 06 | done; implemented and locally verified on 2026-10-07 |
+| 07 | done; implemented and locally verified on 2026-10-07 |
+| 08 | done; implemented and locally verified on 2026-10-07 |
+| 09 | done; implemented and locally verified on 2026-10-07 |
+| 10 | done; implemented and locally verified on 2026-10-07 |
+| 11 | done; implemented and locally verified on 2026-10-07 |
+| 12 | done; implemented and locally verified on 2026-10-07 |
+| 13 | done; implemented and locally verified on 2026-10-07 |
+| 14 | done; implemented and locally verified on 2026-10-07 |
+| 15 | done; implemented and locally verified on 2026-10-07 |
+| 16 | done; implemented and locally verified on 2026-10-07 |
+| 17 | done; implemented and locally verified on 2026-10-07 |
+| 18 | done; implemented and locally verified on 2026-10-07 |
+| 19 | done locally; browser flows and evaluation harness verified; live model eval pending credentials |
+| 20 | done; implemented and locally verified on 2026-10-07 |
+| 21 | local verification and adversarial audits complete; release requires live model eval |
+
+See [implementation record](../docs/engineering/implementation.md) for validation, integration corrections, and external release checks.

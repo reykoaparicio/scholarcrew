@@ -14,6 +14,7 @@ if (process.env.NODE_ENV === "development" && !process.env.VITEST && existsSync(
 
 const config: NextConfig = {
   poweredByHeader: false,
+  devIndicators: false,
   transpilePackages: [
     "@scholarcrew/ui",
     "@scholarcrew/domain",
