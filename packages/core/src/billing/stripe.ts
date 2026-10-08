@@ -1,6 +1,8 @@
 import {
   and,
+  auditEvents,
   eq,
+  inArray,
   isNull,
   lt,
   lte,
@@ -121,7 +123,13 @@ async function checkoutCompleted(
   if (user.status !== "active") {
     if (subscriptionId && !deps.stripe) throw new AppError("internal", "Billing isn't set up");
     if (subscriptionId && deps.stripe) await deps.stripe.cancelSubscription(subscriptionId);
-    await recordAudit(deps, { actor: system, action: "subscription_refused", entityType: "user", entityId: userId });
+    await recordAudit(deps, {
+      actor: system,
+      action: "subscription_refused",
+      entityType: "user",
+      entityId: userId,
+      meta: subscriptionId ? { retiredSubscriptionId: subscriptionId } : {},
+    });
     return;
   }
   if (o.payment_status !== "paid" && o.payment_status !== "no_payment_required") return;
@@ -137,7 +145,7 @@ async function checkoutCompleted(
       action: "subscription_replaced",
       entityType: "user",
       entityId: userId,
-      meta: { plan },
+      meta: { plan, retiredSubscriptionId: own.stripeSubscriptionId },
     });
   }
   const set = {
@@ -187,6 +195,28 @@ export async function applyStripeEvent(
           .where(eq(subscriptions.stripeSubscriptionId, providerId))
           .limit(1)
       : [];
+    // Stripe may deliver a newer lifecycle event before the checkout that associates its
+    // subscription with an owner. Roll back the deduplication claim and ask for redelivery;
+    // acknowledging it here would permanently discard a cancellation or failed payment.
+    if (
+      providerId &&
+      !known &&
+      ["customer.subscription.updated", "customer.subscription.deleted", "invoice.payment_failed"].includes(e.type)
+    ) {
+      const [retired] = await tx
+        .select({ id: auditEvents.id })
+        .from(auditEvents)
+        .where(
+          and(
+            inArray(auditEvents.action, ["subscription_replaced", "subscription_refused"]),
+            sql`${auditEvents.meta}->>'retiredSubscriptionId' = ${providerId}`,
+          ),
+        )
+        .limit(1);
+      // These subscriptions were explicitly canceled without becoming the current entitlement.
+      if (retired) return;
+      throw new AppError("internal", "Subscription association is pending. Retry this event.");
+    }
     const ownerKey = referenceOwner ?? known?.ownerId;
     if (ownerKey) await tx.execute(sql`select pg_advisory_xact_lock(hashtext(${`stripe-owner:${ownerKey}`}))`);
     const ordered = or(isNull(subscriptions.stripeEventAt), lte(subscriptions.stripeEventAt, eventAt));

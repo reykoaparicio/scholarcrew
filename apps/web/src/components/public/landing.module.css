@@ -271,3 +271,22 @@
     font-size: 34px;
   }
 }
+
+@media (max-width: 640px) {
+  .hero,
+  .bottom,
+  .rules,
+  .prices,
+  .how {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .rules > div {
+    border-left: 0;
+    border-top: 1px solid var(--navy-line);
+  }
+
+  .rules > div:first-child {
+    border-top: 0;
+  }
+}

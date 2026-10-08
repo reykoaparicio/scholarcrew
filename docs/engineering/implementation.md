@@ -59,3 +59,9 @@ The database suites ran sequentially. Heavy host load caused timeouts in earlier
 ## External release checks
 
 The live Claude evaluation run remains pending because no Anthropic API key was supplied. Evaluation fixture validation and scripted evaluation tests are available locally; they do not replace the real safety evaluation required by plan 21 before release. Stripe checkout/webhooks, Resend delivery, and Twilio SMS adapters require their respective credentials and provider setup. No production deployment was performed.
+
+## Follow-up implementation audit
+
+The subsequent [readiness audit](readiness-audit.md) fixed mobile overflow, SSE recovery, out-of-order Stripe lifecycle processing, SMS retry after key repair, and extension compatibility. The full unit/integration suite passed 2,004 tests across 12 packages; a final extension-only correction then passed all 169 extension tests, including 13 additional regressions. All 14 typecheck tasks and lint across 1,085 files passed. The regular browser suite passed all 23 active flows; its six production-only audit scenarios run separately against the optimized build.
+
+The final optimized production audit passed all seven scenarios and captured 179 screenshots across desktop, tablet and phone layouts. It reported no document overflow, runtime errors, or content security policy violations. A Zod dynamic-code probe found by that audit was disabled using its CSP-compatible mode; all 80 domain tests passed afterward. Web and extension production builds passed. The external release checks above remain pending.

@@ -50,67 +50,70 @@ export function ReportsTable({ reports }: { reports: CatalogReport[] }) {
 
   if (rows.length === 0) return <p className={styles.sub}>No reports here.</p>;
   return (
-    <table className={styles.fields} aria-label="Reports">
-      <thead>
-        <tr>
-          <th scope="col">Listing</th>
-          <th scope="col">Reason</th>
-          <th scope="col">Details</th>
-          <th scope="col">Reported</th>
-          <th scope="col">Status</th>
-        </tr>
-      </thead>
-      <tbody>
-        {rows.map((r) => (
-          <tr key={r.id}>
-            <td>
-              <a href={`/admin/scholarships/${r.scholarshipId}`}>{r.scholarshipName}</a>
-            </td>
-            <td>{REASON_LABELS[r.reason]}</td>
-            <td>{r.details || "No details"}</td>
-            <td>{instantLong(r.createdAt, ADMIN_TZ)}</td>
-            <td>
-              {r.status === "open" ? (
-                <div className={styles.stack}>
-                  <TextInput
-                    label={`Note for report on ${r.scholarshipName}`}
-                    maxLength={1000}
-                    value={notes[r.id] ?? ""}
-                    onChange={(e) => setNotes((n) => ({ ...n, [r.id]: e.target.value }))}
-                  />
-                  {errors[r.id] ? (
-                    <p role="alert" className={styles.alert}>
-                      {errors[r.id]}
-                    </p>
-                  ) : null}
-                  <div className={styles.row}>
-                    <Button
-                      variant="primary"
-                      size="sm"
-                      disabled={busyId === r.id || closed[r.id] === true}
-                      aria-label={`Resolve report on ${r.scholarshipName}`}
-                      onClick={() => close(r, "resolved")}
-                    >
-                      Resolve
-                    </Button>
-                    <Button
-                      variant="line"
-                      size="sm"
-                      disabled={busyId === r.id || closed[r.id] === true}
-                      aria-label={`Reject report on ${r.scholarshipName}`}
-                      onClick={() => close(r, "rejected")}
-                    >
-                      Reject
-                    </Button>
-                  </div>
-                </div>
-              ) : (
-                <Badge tone={r.status === "resolved" ? "good" : "neutral"}>{STATUS_TEXT[r.status]}</Badge>
-              )}
-            </td>
+    // biome-ignore lint/a11y/noNoninteractiveTabindex: Keyboard users must be able to scroll the table.
+    <section className={styles.tableScroll} tabIndex={0} aria-label="Scrollable data table">
+      <table className={styles.fields} aria-label="Reports">
+        <thead>
+          <tr>
+            <th scope="col">Listing</th>
+            <th scope="col">Reason</th>
+            <th scope="col">Details</th>
+            <th scope="col">Reported</th>
+            <th scope="col">Status</th>
           </tr>
-        ))}
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          {rows.map((r) => (
+            <tr key={r.id}>
+              <td>
+                <a href={`/admin/scholarships/${r.scholarshipId}`}>{r.scholarshipName}</a>
+              </td>
+              <td>{REASON_LABELS[r.reason]}</td>
+              <td>{r.details || "No details"}</td>
+              <td>{instantLong(r.createdAt, ADMIN_TZ)}</td>
+              <td>
+                {r.status === "open" ? (
+                  <div className={styles.stack}>
+                    <TextInput
+                      label={`Note for report on ${r.scholarshipName}`}
+                      maxLength={1000}
+                      value={notes[r.id] ?? ""}
+                      onChange={(e) => setNotes((n) => ({ ...n, [r.id]: e.target.value }))}
+                    />
+                    {errors[r.id] ? (
+                      <p role="alert" className={styles.alert}>
+                        {errors[r.id]}
+                      </p>
+                    ) : null}
+                    <div className={styles.row}>
+                      <Button
+                        variant="primary"
+                        size="sm"
+                        disabled={busyId === r.id || closed[r.id] === true}
+                        aria-label={`Resolve report on ${r.scholarshipName}`}
+                        onClick={() => close(r, "resolved")}
+                      >
+                        Resolve
+                      </Button>
+                      <Button
+                        variant="line"
+                        size="sm"
+                        disabled={busyId === r.id || closed[r.id] === true}
+                        aria-label={`Reject report on ${r.scholarshipName}`}
+                        onClick={() => close(r, "rejected")}
+                      >
+                        Reject
+                      </Button>
+                    </div>
+                  </div>
+                ) : (
+                  <Badge tone={r.status === "resolved" ? "good" : "neutral"}>{STATUS_TEXT[r.status]}</Badge>
+                )}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </section>
   );
 }

@@ -155,3 +155,15 @@ These must stay covered. Most live in `packages/core` service tests (SE-01); pla
 | Origin and rate limits | Cookie mutations without a matching `Origin` return 403. Sign-in allows 5 requests per 15 minutes per IP and per email, and the limiter stays atomic under concurrent calls. |
 | Untrusted content | Page text, PDFs, and user text reach the model only inside `wrapUntrusted` data blocks. |
 | Deletion | `deleteAccount` blocks every credential at once. `purgeDeletedAccounts` removes rows and orphan blobs after 7 days. |
+
+## Production browser and extension audit
+
+Run `pnpm audit:production` with local PostgreSQL running and port 3100 available. Stop any development server using `apps/web/.next` first: production builds and `next dev` share that directory.
+
+This builds the web app and extension, resets only the disposable `_e2e` database, and runs seven Chromium scenarios against `next start` with `NODE_ENV=production`. The worker uses the scripted model and local outbox. Seeded sessions are created directly in the disposable database; the web audit has a non-delivering Resend configuration and never calls sign-in or delivery endpoints. Production validation and disabled development routes stay intact.
+
+The suite checks student/detail screens at 1440, 768, 390, and 320px; public/admin screens at desktop and phone sizes; parent views; empty student and onboarding states; helper and verification pages; uncompressed SSE frames; failed-send recovery; and the built extension on React-controlled form inputs. Screenshots and retained failure traces are written to `e2e/test-results/`.
+
+The extension test verifies review before filling, state updates through React, unchanged parent/essay fields, preservation of edits made after review, no form submission, and a review panel that fits 320px. Live portals requiring a school account remain a separate manual compatibility check; iframe and shadow-root application controls and split first/last names are outside the current extension's supported scope.
+
+The regular `pnpm e2e` command builds the extension and runs 23 browser flows; the six optimized screen/recovery audit scenarios are skipped there and run separately by `pnpm audit:production`. CI runs both commands. The production audit also checks content security policy violations.

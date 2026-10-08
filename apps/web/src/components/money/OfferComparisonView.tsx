@@ -90,51 +90,54 @@ export function OfferComparisonView({ comparison, offers }: { comparison: OfferC
         />
       </Card>
       <Card>
-        <table className={styles.table} aria-label="Offer comparison">
-          <thead>
-            <tr>
-              <th scope="col" />
-              {cols.map((c) => (
-                <th key={c.offerId} scope="col">
-                  {c.collegeName}
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {row("Cost to attend", (c) => usd(c.costOfAttendanceUsd))}
-            {row("Free money (grants + scholarships)", (c) => (
-              <>
-                {usd(c.freeMoneyUsd)}
-                <Chip offer={byId.get(c.offerId)} categories={FREE_CATEGORIES} />
-              </>
-            ))}
-            {row("Work-study (you earn it)", (c) => (
-              <>
-                {usd(c.workStudyUsd)}
-                <Chip offer={byId.get(c.offerId)} categories={WORK} />
-              </>
-            ))}
-            {row("Loans (you repay them)", (c) => (
-              <>
-                {usd(c.loansUsd)}
-                <Chip offer={byId.get(c.offerId)} categories={LOANS} />
-              </>
-            ))}
-            {row("What the letter says you owe", (c) => usd(c.letterSaysOweUsd))}
-            {row("Really costs you, year 1", (c) => usd(c.reallyCostsUsd), styles.really)}
-            {row("Over 4 years", (c) =>
-              c.offerId === comparison.lowestFourYearOfferId ? (
+        {/* biome-ignore lint/a11y/noNoninteractiveTabindex: Keyboard users must be able to scroll the table. */}
+        <section className={styles.tableScroll} tabIndex={0} aria-label="Scrollable offer comparison">
+          <table className={styles.table} aria-label="Offer comparison">
+            <thead>
+              <tr>
+                <th scope="col" />
+                {cols.map((c) => (
+                  <th key={c.offerId} scope="col">
+                    {c.collegeName}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {row("Cost to attend", (c) => usd(c.costOfAttendanceUsd))}
+              {row("Free money (grants + scholarships)", (c) => (
                 <>
-                  <Badge tone="good">Lowest</Badge> {usd(c.fourYearUsd)}
+                  {usd(c.freeMoneyUsd)}
+                  <Chip offer={byId.get(c.offerId)} categories={FREE_CATEGORIES} />
                 </>
-              ) : (
-                usd(c.fourYearUsd)
-              ),
-            )}
-            {row("Watch for", (c) => (c.warnings.length > 0 ? c.warnings.join(" · ") : "—"))}
-          </tbody>
-        </table>
+              ))}
+              {row("Work-study (you earn it)", (c) => (
+                <>
+                  {usd(c.workStudyUsd)}
+                  <Chip offer={byId.get(c.offerId)} categories={WORK} />
+                </>
+              ))}
+              {row("Loans (you repay them)", (c) => (
+                <>
+                  {usd(c.loansUsd)}
+                  <Chip offer={byId.get(c.offerId)} categories={LOANS} />
+                </>
+              ))}
+              {row("What the letter says you owe", (c) => usd(c.letterSaysOweUsd))}
+              {row("Really costs you, year 1", (c) => usd(c.reallyCostsUsd), styles.really)}
+              {row("Over 4 years", (c) =>
+                c.offerId === comparison.lowestFourYearOfferId ? (
+                  <>
+                    <Badge tone="good">Lowest</Badge> {usd(c.fourYearUsd)}
+                  </>
+                ) : (
+                  usd(c.fourYearUsd)
+                ),
+              )}
+              {row("Watch for", (c) => (c.warnings.length > 0 ? c.warnings.join(" · ") : "—"))}
+            </tbody>
+          </table>
+        </section>
         {comparison.assumptions.map((a) => (
           <p key={a} className={styles.line}>
             {a}

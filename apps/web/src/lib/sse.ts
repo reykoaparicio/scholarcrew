@@ -7,8 +7,6 @@ export const JOB_POLL_MS = 3000;
 /** Stop following after this long; crew jobs expire at 900 s. */
 export const JOB_FOLLOW_MAX_MS = 15 * 60 * 1000;
 const MAX_POLL_FAILURES = 3;
-/** EventSource.CLOSED; a literal so test doubles without the static constants still work. */
-const EVENT_SOURCE_CLOSED = 2;
 
 export const STREAM_LOST = "Lost the live connection. Refresh to check on your crew.";
 export const STILL_WORKING = "Still working. Refresh to check on your crew.";
@@ -40,7 +38,7 @@ function retryable(e: unknown): boolean {
 /**
  * CR-06: follows GET /api/v1/jobs/:id/events. "job" events carry the CrewJob, and a terminal job closes the
  * stream. When the server ends the stream before a terminal status, or the connection errors, the stream is
- * closed and GET /api/v1/jobs/:id is polled until the job is terminal (E-16-1). A CLOSED stream error is final. `error` is set only when
+ * closed and GET /api/v1/jobs/:id is polled until the job is terminal (E-16-1). `error` is set only when
  * polling can't continue or `maxMs` passes.
  */
 export function useJobStream(
@@ -126,9 +124,8 @@ export function useJobStream(
     });
     source.addEventListener("error", () => {
       if (stopped) return;
-      // CLOSED means the browser gave up (the stream answered 401/404/5xx), so polling would fail too.
-      if (source?.readyState === EVENT_SOURCE_CLOSED) fail(STREAM_LOST);
-      else startPolling();
+      // EventSource hides the HTTP status, including transient 5xx. GET distinguishes retryable failures.
+      startPolling();
     });
     return stop;
   }, [jobId, pollMs, maxMs]);

@@ -1,4 +1,4 @@
-import { eq, sponsorCodes, subscriptions } from "@scholarcrew/db";
+import { eq, sponsorCodes, subscriptions, users } from "@scholarcrew/db";
 import { factories } from "@scholarcrew/db/testing";
 import Stripe from "stripe";
 import { describe, expect, it } from "vitest";
@@ -144,6 +144,58 @@ describe("applyStripeEvent", () => {
     expect((await status())?.status).toBe("past_due");
     await applyStripeEvent(deps, SYSTEM, event("customer.subscription.deleted", { id: "sub_1" }));
     expect((await status())?.status).toBe("canceled");
+  });
+
+  it.each([
+    ["customer.subscription.deleted", { id: "sub_early" }, "canceled"],
+    ["customer.subscription.updated", { id: "sub_early", status: "past_due" }, "past_due"],
+    ["invoice.payment_failed", { subscription: "sub_early" }, "past_due"],
+  ])("retries an early %s event until checkout associates the subscription", async (type, object, status) => {
+    const deps = createTestDeps();
+    const parent = await factories.parent(deps.db);
+    const early = { ...event(type, object), created: 1791298900 };
+    await expect(applyStripeEvent(deps, SYSTEM, early)).rejects.toMatchObject({ code: "internal" });
+    await applyStripeEvent(
+      deps,
+      SYSTEM,
+      event("checkout.session.completed", {
+        client_reference_id: parent.id,
+        mode: "subscription",
+        customer: "cus_early",
+        subscription: "sub_early",
+      }),
+    );
+    await applyStripeEvent(deps, SYSTEM, early);
+    expect((await ownSubscription(deps.db, parent.id))?.status).toBe(status);
+    // The same delivery is now acknowledged idempotently.
+    await applyStripeEvent(deps, SYSTEM, early);
+    expect((await ownSubscription(deps.db, parent.id))?.status).toBe(status);
+  });
+
+  it("acknowledges lifecycle events for a checkout refused on an inactive account", async () => {
+    const deps = createTestDeps();
+    const parent = await factories.parent(deps.db);
+    await deps.db.update(users).set({ status: "deleted" }).where(eq(users.id, parent.id));
+    await applyStripeEvent(
+      deps,
+      SYSTEM,
+      event("checkout.session.completed", {
+        client_reference_id: parent.id,
+        mode: "subscription",
+        subscription: "sub_refused",
+      }),
+    );
+    await expect(
+      applyStripeEvent(
+        deps,
+        SYSTEM,
+        event("customer.subscription.deleted", {
+          id: "sub_refused",
+        }),
+      ),
+    ).resolves.toBeUndefined();
+    expect(await ownSubscription(deps.db, parent.id)).toBeUndefined();
+    expect((deps.stripe as FakeStripeGateway).canceled).toEqual(["sub_refused"]);
   });
 
   it("ignores unknown events and unknown users, and is system-only", async () => {
@@ -316,5 +368,15 @@ describe("round 4 Stripe ordering and payment", () => {
       event("checkout.session.completed", { client_reference_id: parent.id, mode: "payment" }),
     );
     expect((deps.stripe as FakeStripeGateway).canceled).toEqual(["sub_first", "sub_second"]);
+    for (const id of ["sub_first", "sub_second"]) {
+      await expect(
+        applyStripeEvent(deps, SYSTEM, event("customer.subscription.deleted", { id })),
+      ).resolves.toBeUndefined();
+    }
+    expect(await ownSubscription(deps.db, parent.id)).toMatchObject({
+      plan: "season_pass",
+      status: "active",
+      stripeSubscriptionId: null,
+    });
   });
 });

@@ -171,7 +171,11 @@ describe("ContextCrew", () => {
   it("shows a lost stream and lets the student send again", async () => {
     vi.stubGlobal(
       "fetch",
-      vi.fn(async () => json({ message: userMsg, job: job("queued") }, 202)),
+      vi.fn(async (url: string) =>
+        url.includes("/jobs/")
+          ? json({ error: { code: "not_found", message: "Job not found" } }, 404)
+          : json({ message: userMsg, job: job("queued") }, 202),
+      ),
     );
     render(<ContextCrew {...props} conversation={conversation} messages={[]} />);
     const box = screen.getByRole("textbox", { name: "Message your crew" });
@@ -179,7 +183,7 @@ describe("ContextCrew", () => {
     fireEvent.click(screen.getByRole("button", { name: "Send" }));
     await waitFor(() => expect(FakeEventSource.instances).toHaveLength(1));
     act(() => FakeEventSource.instances[0]?.fail());
-    expect(screen.getByText(/Refresh to check on your crew/)).toBeTruthy();
+    await waitFor(() => expect(screen.getByText(/Refresh to check on your crew/)).toBeTruthy());
     fireEvent.change(box, { target: { value: "Still there?" } });
     expect((screen.getByRole("button", { name: "Send" }) as HTMLButtonElement).disabled).toBe(false);
   });

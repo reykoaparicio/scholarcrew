@@ -260,6 +260,26 @@ describe("SMS (R2I-9)", () => {
     ]);
   });
 
+  it("leaves delivery unclaimed when phone decryption fails, allowing recovery", async () => {
+    const deps = createTestDeps();
+    const user = await textingStudent(deps);
+    const n = await notify(deps, SYSTEM, note(user.id));
+    if (!n) throw new Error("expected a notification");
+    const keyring = deps.config.keyring;
+    const key = keyring.byId.get(keyring.primary.id);
+    if (!key) throw new Error("expected encryption key");
+    keyring.byId.delete(keyring.primary.id);
+    const sms = fakeSms();
+    await expect(deliverSms(deps, SYSTEM, n.id, sms)).rejects.toMatchObject({ code: "internal" });
+    expect(sms.sent).toEqual([]);
+    const [row] = await deps.db.select().from(notifications).where(eq(notifications.id, n.id));
+    expect(row?.smsSentAt).toBeNull();
+    keyring.byId.set(keyring.primary.id, key);
+    await deliverSms(deps, SYSTEM, n.id, sms);
+    await deliverSms(deps, SYSTEM, n.id, sms);
+    expect(sms.sent).toHaveLength(1);
+  });
+
   it("releases the claim when the sender fails, so the job retries", async () => {
     const deps = createTestDeps();
     const user = await textingStudent(deps);

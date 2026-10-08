@@ -142,3 +142,64 @@ describe("profileValue", () => {
     expect(formatActivity({ ...first, role: "" })).toBe("Food bank: Run the Saturday sorting crew");
   });
 });
+
+describe("conservative form context", () => {
+  it("rejects another person's marker even after an ordinary email label", () => {
+    expect(matchField(only(`<label for="email">Email</label><input id="email" name="parent_email">`))).toBeNull();
+  });
+
+  it("respects nested fieldset legends for another person's fields", () => {
+    expect(
+      matchField(
+        only(
+          `<fieldset><legend>Parent information</legend><fieldset><legend>Contact</legend><input aria-label="Email"></fieldset></fieldset>`,
+        ),
+      ),
+    ).toBeNull();
+  });
+
+  it("skips disabled fieldset descendants but permits the first legend exception", () => {
+    document.body.innerHTML = `<fieldset disabled><legend><input aria-label="Email"></legend><input aria-label="City"></fieldset><div inert><input aria-label="State"></div>`;
+    expect(detectFields(document).map((field) => field.label)).toEqual(["Email"]);
+  });
+});
+
+describe("unweighted GPA scale compatibility", () => {
+  it.each([
+    "Weighted GPA",
+    "GPA on a 5.0 scale",
+    "GPA (100 point scale)",
+    "GPA out of 10",
+    "GPA (4.3 scale)",
+    "GPA percentage",
+  ])("skips %s without inventing a conversion", (label) => {
+    expect(matchField(only(`<input aria-label="${label}">`))).toBeNull();
+  });
+
+  it("checks weighted context from a lower-priority descriptor", () => {
+    expect(matchField(only(`<label for="gpa">GPA</label><input id="gpa" name="weighted_gpa">`))).toBeNull();
+  });
+
+  it("respects an incompatible numeric maximum", () => {
+    expect(matchField(only(`<input type="number" aria-label="GPA" max="5">`))).toBeNull();
+  });
+
+  it.each(["Unweighted GPA (4.0 scale)", "GPA out of 4", "Cumulative GPA"])("retains %s", (label) => {
+    expect(matchField(only(`<input type="number" aria-label="${label}" max="4.0">`))).toBe("gpa");
+  });
+});
+
+describe("supported text-like input types", () => {
+  it.each(["date", "datetime-local", "month", "week", "time", "range", "color"])(
+    "skips %s rather than sanitizing profile values into a different native value",
+    (type) => {
+      document.body.innerHTML = `<input type="${type}" aria-label="Graduation year">`;
+      expect(detectFields(document)).toEqual([]);
+    },
+  );
+
+  it.each(["text", "email", "search", "tel", "url", "number"])("retains %s controls", (type) => {
+    document.body.innerHTML = `<input type="${type}" aria-label="Email">`;
+    expect(detectFields(document)).toHaveLength(1);
+  });
+});

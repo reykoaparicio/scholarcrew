@@ -29,28 +29,31 @@ function cellValue<T>(row: T, key: string): ReactNode {
 export function Table<T extends object>({ columns, rows, rowKey, selectedKey, caption, className }: TableProps<T>) {
   const keyed = rows.map((row, position) => ({ row, rowId: rowKey ? rowKey(row) : `row-${position}` }));
   return (
-    <table className={cx(styles.table, className)}>
-      {caption ? <caption className={a11y.srOnly}>{caption}</caption> : null}
-      <thead>
-        <tr>
-          {columns.map((column) => (
-            <th key={column.key} scope="col" className={column.align === "right" ? styles.r : undefined}>
-              {column.header}
-            </th>
-          ))}
-        </tr>
-      </thead>
-      <tbody>
-        {keyed.map(({ row, rowId }) => (
-          <tr key={rowId} className={rowId === selectedKey ? styles.sel : undefined}>
+    // biome-ignore lint/a11y/noNoninteractiveTabindex: Keyboard users must be able to scroll the table.
+    <section className={styles.scroll} tabIndex={0} aria-label={caption ?? "Scrollable table"}>
+      <table className={cx(styles.table, className)}>
+        {caption ? <caption className={a11y.srOnly}>{caption}</caption> : null}
+        <thead>
+          <tr>
             {columns.map((column) => (
-              <td key={column.key} className={column.align === "right" ? styles.r : undefined}>
-                {column.render ? column.render(row) : cellValue(row, column.key)}
-              </td>
+              <th key={column.key} scope="col" className={column.align === "right" ? styles.r : undefined}>
+                {column.header}
+              </th>
             ))}
           </tr>
-        ))}
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          {keyed.map(({ row, rowId }) => (
+            <tr key={rowId} className={rowId === selectedKey ? styles.sel : undefined}>
+              {columns.map((column) => (
+                <td key={column.key} className={column.align === "right" ? styles.r : undefined}>
+                  {column.render ? column.render(row) : cellValue(row, column.key)}
+                </td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </section>
   );
 }

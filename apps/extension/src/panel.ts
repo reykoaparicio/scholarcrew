@@ -12,7 +12,7 @@ const PANEL_CSS = `
 :host { all: initial; }
 .panel {
   position: fixed; top: 16px; right: 16px; z-index: 2147483647;
-  box-sizing: border-box; width: 360px; max-height: calc(100vh - 32px); overflow: auto;
+  box-sizing: border-box; width: min(360px, calc(100vw - 32px)); max-height: calc(100vh - 32px); overflow: auto;
   padding: 16px; background: #ffffff; color: #1f2933;
   border: 1px solid #d0d7de; border-radius: 12px; box-shadow: 0 8px 24px rgba(15, 23, 42, 0.18);
   font: 14px/1.4 system-ui, -apple-system, "Segoe UI", sans-serif;

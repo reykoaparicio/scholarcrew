@@ -182,34 +182,39 @@ export function TaskReview({
           ) : null}
         </p>
         {draft ? (
-          <table className={styles.fields} aria-label="Extracted fields">
-            <thead>
-              <tr>
-                <th scope="col">Field</th>
-                {before ? <th scope="col">Before</th> : null}
-                <th scope="col">{before ? "Now" : "Extracted"}</th>
-                <th scope="col">Quoted from the page</th>
-                <th scope="col">Quote check</th>
-              </tr>
-            </thead>
-            <tbody>
-              {rows.map((r) => (
-                <tr
-                  key={r.field}
-                  className={r.check === "not_found" || r.problem ? styles.bad : r.changed ? styles.changed : undefined}
-                >
-                  <td>{r.label}</td>
-                  {before ? <td>{r.before}</td> : null}
-                  <td>
-                    {r.value}
-                    {r.problem ? <div className={styles.sub}>{r.problem}</div> : null}
-                  </td>
-                  <td className={styles.quote}>{r.quote ? `"${r.quote}"` : "Not stated on the page"}</td>
-                  <td>{CHECK_TEXT[r.check]}</td>
+          // biome-ignore lint/a11y/noNoninteractiveTabindex: Keyboard users must be able to scroll the table.
+          <section className={styles.tableScroll} tabIndex={0} aria-label="Scrollable data table">
+            <table className={styles.fields} aria-label="Extracted fields">
+              <thead>
+                <tr>
+                  <th scope="col">Field</th>
+                  {before ? <th scope="col">Before</th> : null}
+                  <th scope="col">{before ? "Now" : "Extracted"}</th>
+                  <th scope="col">Quoted from the page</th>
+                  <th scope="col">Quote check</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {rows.map((r) => (
+                  <tr
+                    key={r.field}
+                    className={
+                      r.check === "not_found" || r.problem ? styles.bad : r.changed ? styles.changed : undefined
+                    }
+                  >
+                    <td>{r.label}</td>
+                    {before ? <td>{r.before}</td> : null}
+                    <td>
+                      {r.value}
+                      {r.problem ? <div className={styles.sub}>{r.problem}</div> : null}
+                    </td>
+                    <td className={styles.quote}>{r.quote ? `"${r.quote}"` : "Not stated on the page"}</td>
+                    <td>{CHECK_TEXT[r.check]}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </section>
         ) : null}
         {task.payload.type === "research_candidate" && !draft ? (
           <EmptyState title="No draft yet" icon="clock">
@@ -243,7 +248,6 @@ export function TaskReview({
           </p>
         ) : null}
       </Card>
-
       {report ? (
         <section className={styles.ruleCard} aria-label="Checks run by code">
           <h3>Checks run by code</h3>
@@ -266,7 +270,6 @@ export function TaskReview({
           </ul>
         </section>
       ) : null}
-
       <Card title="Decision">
         {errors.length > 0 ? (
           <div role="alert" className={styles.alert}>

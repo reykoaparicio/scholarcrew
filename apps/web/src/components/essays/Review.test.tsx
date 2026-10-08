@@ -146,14 +146,18 @@ describe("CommentsPanel", () => {
   it("shows a lost stream and lets the student ask again", async () => {
     vi.stubGlobal(
       "fetch",
-      vi.fn(async () => json(job("queued"), 202)),
+      vi.fn(async (url: string) =>
+        url.includes("/jobs/")
+          ? json({ error: { code: "not_found", message: "Job not found" } }, 404)
+          : json(job("queued"), 202),
+      ),
     );
     render(<CommentsPanel essayId="e1" comments={[]} budget={null} readOnly={false} />);
     fireEvent.click(screen.getByRole("button", { name: "Ask Quill" }));
     await waitFor(() => expect(screen.getByText("Quill is reading your draft…")).toBeTruthy());
     expect((screen.getByRole("button", { name: "Ask Quill" }) as HTMLButtonElement).disabled).toBe(true);
     act(() => FakeEventSource.instances[0]?.fail());
-    expect(screen.getByRole("alert").textContent).toMatch(/Refresh to check on your crew/);
+    await waitFor(() => expect(screen.getByRole("alert").textContent).toMatch(/Refresh to check on your crew/));
     expect(screen.queryByText("Quill is reading your draft…")).toBeNull();
     expect((screen.getByRole("button", { name: "Ask Quill" }) as HTMLButtonElement).disabled).toBe(false);
   });

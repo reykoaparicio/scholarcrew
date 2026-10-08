@@ -3,6 +3,7 @@ import {
   type DetectedField,
   type FillableElement,
   type ProfileKey,
+  isFillable,
   isSelect,
   isTextArea,
   matchField,
@@ -28,7 +29,7 @@ export function findOption(select: HTMLSelectElement, value: string): HTMLOption
   const code = USState.safeParse(trimmed.toUpperCase());
   if (code.success) wanted.add(STATE_NAMES[code.data].toLowerCase());
   for (const option of select.options) {
-    if (option.disabled) continue;
+    if (option.disabled || option.parentElement?.matches("optgroup:disabled")) continue;
     if (wanted.has(option.value.trim().toLowerCase()) || wanted.has(option.text.trim().toLowerCase())) return option;
   }
   return null;
@@ -75,6 +76,7 @@ function setNativeValue(el: FillableElement, value: string): void {
 
 /** Writes one value. Never touches a non-empty field unless replace is true. Never submits. */
 export function fillField(el: FillableElement, value: string, options: { replace: boolean }): boolean {
+  if (!isFillable(el)) return false;
   if (el.value.trim() !== "" && !options.replace) return false;
   let next = value;
   if (isSelect(el)) {
@@ -92,6 +94,7 @@ export function applyProposals(proposals: Proposal[], selected: ReadonlySet<stri
   let count = 0;
   for (const proposal of proposals) {
     if (!selected.has(proposal.id)) continue;
+    if (proposal.field.element.value !== proposal.currentValue) continue;
     if (fillField(proposal.field.element, proposal.value, { replace: proposal.filled })) count += 1;
   }
   return count;

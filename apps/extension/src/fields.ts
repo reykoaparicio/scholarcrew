@@ -21,17 +21,7 @@ export interface DetectedField {
   texts: string[];
 }
 
-const SKIPPED_INPUT_TYPES = new Set([
-  "hidden",
-  "password",
-  "file",
-  "submit",
-  "button",
-  "reset",
-  "image",
-  "checkbox",
-  "radio",
-]);
+const SUPPORTED_INPUT_TYPES = new Set(["text", "email", "search", "tel", "url", "number"]);
 
 const OTHER_PERSON =
   /\b(parents?|guardian|mother|father|counselor|teacher|recommender|reference|emergency|siblings?)\b/;
@@ -84,9 +74,9 @@ function isVisible(el: Element): boolean {
   return true;
 }
 
-function isFillable(el: FillableElement): boolean {
-  if (el.disabled) return false;
-  if (isInput(el) && (SKIPPED_INPUT_TYPES.has(el.type) || el.readOnly)) return false;
+export function isFillable(el: FillableElement): boolean {
+  if (!el.isConnected || el.matches(":disabled") || el.closest("[inert]")) return false;
+  if (isInput(el) && (!SUPPORTED_INPUT_TYPES.has(el.type) || el.readOnly)) return false;
   if (isTextArea(el) && el.readOnly) return false;
   return isVisible(el);
 }
@@ -115,6 +105,12 @@ function descriptorSources(el: FillableElement, doc: Document): Array<{ text: st
   sources.push({ text: el.getAttribute("name") ?? "", readable: false });
   sources.push({ text: el.id, readable: false });
   sources.push({ text: el.getAttribute("placeholder") ?? "", readable: true });
+  for (let ancestor = el.parentElement; ancestor; ancestor = ancestor.parentElement) {
+    if (ancestor.tagName === "FIELDSET") {
+      const legend = Array.from(ancestor.children).find((child) => child.tagName === "LEGEND");
+      if (legend) sources.push({ text: legend.textContent ?? "", readable: false });
+    }
+  }
   return sources;
 }
 
@@ -139,10 +135,22 @@ export function detectFields(doc: Document): DetectedField[] {
 }
 
 export function matchField(field: DetectedField): ProfileKey | null {
+  if (field.texts.some((text) => OTHER_PERSON.test(text))) return null;
   for (const text of field.texts) {
-    if (OTHER_PERSON.test(text)) return null;
     for (const rule of RULES) {
-      if (rule.pattern.test(text)) return rule.key;
+      if (rule.pattern.test(text)) {
+        // The profile exposes only unweighted GPA on a 4.0 scale. Do not infer conversions.
+        if (rule.key === "gpa") {
+          if (field.texts.some((descriptor) => /\b(weighted|percentage|percent)\b/.test(descriptor))) return null;
+          for (const descriptor of field.texts) {
+            if (!/\b(gpa|scale|points?|out of)\b/.test(descriptor)) continue;
+            const numbers = descriptor.match(/\b\d+\b/g) ?? [];
+            if (numbers.some((number) => number !== "4" && number !== "0")) return null;
+          }
+          if (isInput(field.element) && field.element.max !== "" && Number(field.element.max) !== 4) return null;
+        }
+        return rule.key;
+      }
     }
   }
   return null;

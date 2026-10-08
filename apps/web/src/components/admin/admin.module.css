@@ -1,6 +1,6 @@
 .frame {
   display: grid;
-  grid-template-columns: 248px 1fr;
+  grid-template-columns: 248px minmax(0, 1fr);
   min-height: 100vh;
   background: var(--page);
 }
@@ -371,6 +371,20 @@
   .frame,
   .grid2,
   .formGrid {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
+}
+
+.tableScroll {
+  position: relative;
+  width: 100%;
+  min-width: 0;
+  overflow-x: auto;
+}
+
+.content input,
+.content textarea,
+.content select {
+  min-width: 0;
+  max-width: 100%;
 }

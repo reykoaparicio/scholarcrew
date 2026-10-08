@@ -311,11 +311,11 @@
   }
 
   .heroRow {
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
   }
 
   .heroRow > * {
-    flex: 1;
+    flex: 1 1 180px;
     justify-content: center;
   }
 

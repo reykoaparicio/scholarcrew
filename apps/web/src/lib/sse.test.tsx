@@ -152,15 +152,16 @@ describe("useJobStream", () => {
     expect(result.current.job?.status).toBe("working");
   });
 
-  it("reports a fatal error (stream CLOSED) at once without polling", () => {
+  it("recovers a CLOSED stream through polling after a transient server failure", async () => {
     const fetchMock = pollReturning(job({ status: "ready" }));
     const { result } = renderHook(() => useJobStream(job().id, { pollMs: 5 }));
     const source = FakeEventSource.instances[0];
     if (source) source.readyState = 2;
     act(() => source?.emit("error"));
-    expect(result.current.error).toBe(STREAM_LOST);
+    await waitFor(() => expect(result.current.job?.status).toBe("ready"));
+    expect(result.current.error).toBeNull();
     expect(source?.closed).toBe(true);
-    expect(fetchMock).not.toHaveBeenCalled();
+    expect(fetchMock).toHaveBeenCalledTimes(1);
   });
 
   it("closes the old stream when the id changes", () => {

@@ -275,55 +275,58 @@ export function AidRulesEditor({
         {rows.length === 0 ? (
           <p className={styles.sub}>{`No deadlines for ${awardYear} yet.`}</p>
         ) : (
-          <table className={styles.fields} aria-label="Aid deadlines">
-            <thead>
-              <tr>
-                <th scope="col">Applies to</th>
-                <th scope="col">Program</th>
-                <th scope="col">Deadline</th>
-                <th scope="col">Note</th>
-                <th scope="col">Source</th>
-                <th scope="col">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {rows.map((d) => {
-                const where = stateLabel(d.state);
-                const href = safeHref(d.sourceUrl);
-                return (
-                  <tr key={d.id}>
-                    <td>{where}</td>
-                    <td>{d.program}</td>
-                    <td>{d.deadline ? calendarLong(d.deadline) : "No fixed date"}</td>
-                    <td>{d.note || "None"}</td>
-                    <td>{href ? <a href={href}>Source</a> : d.sourceUrl}</td>
-                    <td>
-                      <div className={styles.row}>
-                        <Button
-                          variant="line"
-                          size="sm"
-                          disabled={busy}
-                          aria-label={`Edit ${d.program} (${where})`}
-                          onClick={() => edit(d)}
-                        >
-                          Edit
-                        </Button>
-                        <Button
-                          variant="line"
-                          size="sm"
-                          disabled={busy}
-                          aria-label={`Delete ${d.program} (${where})`}
-                          onClick={() => void remove(d)}
-                        >
-                          Delete
-                        </Button>
-                      </div>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
+          // biome-ignore lint/a11y/noNoninteractiveTabindex: Keyboard users must be able to scroll the table.
+          <section className={styles.tableScroll} tabIndex={0} aria-label="Scrollable data table">
+            <table className={styles.fields} aria-label="Aid deadlines">
+              <thead>
+                <tr>
+                  <th scope="col">Applies to</th>
+                  <th scope="col">Program</th>
+                  <th scope="col">Deadline</th>
+                  <th scope="col">Note</th>
+                  <th scope="col">Source</th>
+                  <th scope="col">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {rows.map((d) => {
+                  const where = stateLabel(d.state);
+                  const href = safeHref(d.sourceUrl);
+                  return (
+                    <tr key={d.id}>
+                      <td>{where}</td>
+                      <td>{d.program}</td>
+                      <td>{d.deadline ? calendarLong(d.deadline) : "No fixed date"}</td>
+                      <td>{d.note || "None"}</td>
+                      <td>{href ? <a href={href}>Source</a> : d.sourceUrl}</td>
+                      <td>
+                        <div className={styles.row}>
+                          <Button
+                            variant="line"
+                            size="sm"
+                            disabled={busy}
+                            aria-label={`Edit ${d.program} (${where})`}
+                            onClick={() => edit(d)}
+                          >
+                            Edit
+                          </Button>
+                          <Button
+                            variant="line"
+                            size="sm"
+                            disabled={busy}
+                            aria-label={`Delete ${d.program} (${where})`}
+                            onClick={() => void remove(d)}
+                          >
+                            Delete
+                          </Button>
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </section>
         )}
         <h3>{form.id ? "Edit deadline" : "Add a deadline"}</h3>
         <div className={styles.formGrid}>

@@ -1,6 +1,6 @@
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr));
   gap: 16px;
 }
 
@@ -140,4 +140,11 @@
   .lineRow {
     grid-template-columns: minmax(0, 1fr);
   }
+}
+
+.tableScroll {
+  position: relative;
+  width: 100%;
+  min-width: 0;
+  overflow-x: auto;
 }

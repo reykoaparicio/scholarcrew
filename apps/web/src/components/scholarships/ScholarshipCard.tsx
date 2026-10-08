@@ -103,7 +103,7 @@ export function ScholarshipCard({
 /**
  * SC-06: flagged listings stay visible with the reason, struck through and out of the plan.
  * R2P-4: 07 also moves open cards on retired or under-review listings here (`RETIRED_TEXT`, `UNDER_REVIEW_TEXT`).
- * Their detail page 404s, so only a scam reason (`SCAM_FLAG_TEXT`) gets the "Flagged" badge and the link.
+ * Their detail page 404s. Scam reasons get the "Flagged" badge; only published/stale listings get a detail link.
  */
 export function FlaggedCard({ scholarship, reason }: Board["flagged"][number]) {
   const scam = SCAM_REASONS.has(reason);
@@ -120,7 +120,9 @@ export function FlaggedCard({ scholarship, reason }: Board["flagged"][number]) {
       <p className={styles.reason}>{reason}</p>
       <div className={styles.foot}>
         <span className={styles.meta}>Hidden from your plan</span>
-        {scam ? <a href={`/scholarships/${scholarship.slug}`}>Why flagged?</a> : null}
+        {scam && (scholarship.status === "published" || scholarship.status === "stale") ? (
+          <a href={`/scholarships/${scholarship.slug}`}>Why flagged?</a>
+        ) : null}
       </div>
     </article>
   );

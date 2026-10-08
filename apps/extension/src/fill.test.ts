@@ -139,3 +139,34 @@ describe("applyProposals", () => {
     expect(control("city").value).toBe("Austin");
   });
 });
+
+describe("changing and disabled forms", () => {
+  it("does not choose options in disabled groups", () => {
+    document.body.innerHTML = `<select aria-label="State"><option value="">Choose</option><optgroup disabled><option value="TX">Texas</option></optgroup></select>`;
+    const select = document.querySelector("select");
+    if (!select) throw new Error("missing select");
+    expect(findOption(select, "TX")).toBeNull();
+    expect(buildProposals(detectFields(document), PROFILE)).toEqual([]);
+  });
+
+  it("preserves fields changed after their values were reviewed", () => {
+    mountForm();
+    const proposals = buildProposals(detectFields(document), PROFILE);
+    const city = proposals.find((proposal) => proposal.key === "city");
+    if (!city) throw new Error("missing city");
+    city.field.element.value = "Houston";
+    expect(applyProposals(proposals, new Set([city.id]))).toBe(0);
+    expect(city.field.element.value).toBe("Houston");
+  });
+
+  it.each(["disabled", "readonly", "hidden", "detached"])("rechecks a %s control at fill time", (state) => {
+    mountForm();
+    const input = control("full-name");
+    if (state === "disabled") input.disabled = true;
+    if (state === "readonly") input.readOnly = true;
+    if (state === "hidden") input.hidden = true;
+    if (state === "detached") input.remove();
+    expect(fillField(input, "Maya Torres", { replace: true })).toBe(false);
+    expect(input.value).toBe("");
+  });
+});

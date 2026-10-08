@@ -127,6 +127,10 @@ jobs:
       - name: Install the Playwright browser
         run: pnpm --filter @scholarcrew/e2e exec playwright install --with-deps chromium
       - run: pnpm e2e
+      - name: Generate an isolated production-audit encryption key
+        run: node -e "require('node:fs').appendFileSync(process.env.GITHUB_ENV, 'ENCRYPTION_KEY=' + require('node:crypto').randomBytes(32).toString('hex') + '\n')"
+      - name: Audit optimized server and extension
+        run: pnpm audit:production
       - name: Upload the Playwright report
         if: failure()
         uses: actions/upload-artifact@v4

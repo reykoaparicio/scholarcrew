@@ -275,12 +275,6 @@ export async function deliverSms(deps: CoreDeps, system: Actor, notificationId: 
     await deps.jobs.enqueue("notify.sms", { notificationId }, { startAfterSeconds: wait });
     return;
   }
-  const claimed = await deps.db
-    .update(notifications)
-    .set({ smsSentAt: now })
-    .where(and(eq(notifications.id, notificationId), isNull(notifications.smsSentAt)))
-    .returning({ id: notifications.id });
-  if (claimed.length === 0) return;
   const to = decrypt(deps.config.keyring, {
     ciphertext: prefs.phoneCiphertext,
     iv: prefs.phoneIv,
@@ -293,6 +287,12 @@ export async function deliverSms(deps: CoreDeps, system: Actor, notificationId: 
   const room = SMS_MAX - SMS_PREFIX.length - tail.length - 2;
   const title = row.n.title.length > room ? `${row.n.title.slice(0, Math.max(0, room - 1))}…` : row.n.title;
   const text = `${SMS_PREFIX} ${title} ${tail}`;
+  const claimed = await deps.db
+    .update(notifications)
+    .set({ smsSentAt: now })
+    .where(and(eq(notifications.id, notificationId), isNull(notifications.smsSentAt)))
+    .returning({ id: notifications.id });
+  if (claimed.length === 0) return;
   try {
     await sms.send({ to, text });
   } catch (e) {

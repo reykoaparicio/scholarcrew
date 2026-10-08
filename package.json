@@ -3,7 +3,9 @@
   "private": true,
   "type": "module",
   "packageManager": "pnpm@10.33.0",
-  "engines": { "node": ">=22.9" },
+  "engines": {
+    "node": ">=22.9"
+  },
   "scripts": {
     "build": "turbo run build",
     "typecheck": "turbo run typecheck",
@@ -18,7 +20,8 @@
     "db:migrate:test": "pnpm --filter @scholarcrew/db migrate:test",
     "db:seed": "pnpm --filter @scholarcrew/db seed",
     "e2e": "pnpm --filter @scholarcrew/e2e e2e",
-    "evals": "pnpm --filter @scholarcrew/evals evals"
+    "evals": "pnpm --filter @scholarcrew/evals evals",
+    "audit:production": "pnpm --filter @scholarcrew/web build && pnpm --filter @scholarcrew/extension build && E2E_PRODUCTION=1 pnpm --filter @scholarcrew/e2e exec playwright test tests/production-audit.spec.ts tests/extension-compatibility.spec.ts"
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",

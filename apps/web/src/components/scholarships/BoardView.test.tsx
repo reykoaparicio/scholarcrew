@@ -71,6 +71,30 @@ describe("BoardView", () => {
     expect(within(article).queryByRole("link")).toBeNull();
   });
 
+  it("keeps scam reasons inline when moderation blocks the detail page", () => {
+    render(
+      <BoardView
+        board={board({
+          flagged: [
+            {
+              scholarship: summary({
+                name: "Blocked scam",
+                slug: "blocked-scam",
+                status: "flagged",
+                scamFlags: ["application_fee"],
+              }),
+              reason: SCAM_FLAG_TEXT.application_fee,
+            },
+          ],
+        })}
+        readOnly={false}
+        timeZone="America/Chicago"
+      />,
+    );
+    expect(screen.getByText(SCAM_FLAG_TEXT.application_fee)).toBeTruthy();
+    expect(screen.queryByRole("link", { name: "Why flagged?" })).toBeNull();
+  });
+
   it("saves a match to Working on", async () => {
     const fetchMock = vi.fn(async (_url: string, _init?: RequestInit) => json(matched.application));
     vi.stubGlobal("fetch", fetchMock);

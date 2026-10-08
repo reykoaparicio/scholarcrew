@@ -1,5 +1,8 @@
 import { z } from "zod";
 
+// Shared schemas run under strict browser CSP: avoid Zod's dynamic-code capability probe.
+z.config({ jitless: true });
+
 export const HttpUrl = z.url({ protocol: /^https?$/ }).max(2000);
 export type HttpUrl = z.infer<typeof HttpUrl>;
 

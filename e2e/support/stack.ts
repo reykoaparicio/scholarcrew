@@ -142,7 +142,15 @@ async function main(): Promise<void> {
   const env = childEnv(url);
   const worker = start(["--filter", "@scholarcrew/worker", "start"], env, true);
   await waitForWorker(worker);
-  const web = start(["--filter", "@scholarcrew/web", "exec", "next", "dev", "-p", String(E2E_PORT)], env, false);
+  const production = process.env.E2E_PRODUCTION === "1";
+  const webEnv = production
+    ? { ...env, NODE_ENV: "production", RESEND_API_KEY: "re_local_audit_no_delivery", EMAIL_FROM: "audit@example.test" }
+    : env;
+  const web = start(
+    ["--filter", "@scholarcrew/web", "exec", "next", production ? "start" : "dev", "-p", String(E2E_PORT)],
+    webEnv,
+    false,
+  );
   log("e2e.web_starting", { url: BASE_URL });
   for (const child of [worker, web]) {
     child.on("exit", (code) => {

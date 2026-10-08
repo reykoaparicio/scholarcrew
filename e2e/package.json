@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "e2e": "playwright test",
+    "e2e": "pnpm --filter @scholarcrew/extension build && playwright test",
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
@@ -16,6 +16,7 @@
     "@types/node": "^22.15.0",
     "postgres": "^3.4.7",
     "tsx": "^4.20.0",
-    "typescript": "^5.8.3"
+    "typescript": "^5.8.3",
+    "esbuild": "^0.25.0"
   }
 }
