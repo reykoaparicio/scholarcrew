@@ -27,6 +27,15 @@
   flex-wrap: wrap;
   align-items: flex-end;
   gap: 10px;
+  margin-top: 12px;
+}
+
+.row > button {
+  height: 36px;
+}
+
+.planField {
+  margin-top: 12px;
 }
 
 .sessions li {
@@ -54,4 +63,8 @@
   .grid {
     grid-template-columns: minmax(0, 1fr);
   }
+}
+
+.nowrap {
+  white-space: nowrap;
 }

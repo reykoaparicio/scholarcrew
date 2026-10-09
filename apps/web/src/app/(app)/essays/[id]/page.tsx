@@ -63,7 +63,7 @@ export default async function EssayStudioPage({ params }: { params: Promise<{ id
             <p className={styles.meta}>{limitText}</p>
             {listing?.deadline ? <p className={styles.meta}>{`Due ${dateShort(listing.deadline)}`}</p> : null}
             {listing?.verifiedAt ? (
-              <p className={styles.meta}>
+              <p className={`${styles.meta} ${styles.verified}`}>
                 <Icon name="check" /> {`Verified ${instantShort(listing.verifiedAt, v.timeZone)} from the listing`}
               </p>
             ) : null}

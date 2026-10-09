@@ -229,6 +229,7 @@
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 12px;
+  margin: 12px 0 16px;
 }
 
 .wide {
@@ -387,4 +388,79 @@
 .content select {
   min-width: 0;
   max-width: 100%;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* Listings toolbar: search on the left, status chips beside it, space before the table. */
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px 16px;
+  margin-bottom: 14px;
+}
+
+.search {
+  display: flex;
+  flex: 0 1 380px;
+  min-width: 0;
+  align-items: center;
+  gap: 8px;
+}
+
+.search input {
+  flex: 1 1 auto;
+  width: 280px;
+  min-width: 0;
+  height: 34px;
+  padding: 0 12px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: var(--card);
+  font: inherit;
+  font-size: 13px;
+  color: var(--ink);
+}
+
+.search input:focus-visible {
+  outline: 2px solid var(--navy);
+  outline-offset: 1px;
+}
+
+.cardIntro {
+  margin-bottom: 14px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+/* The row already names the listing; the long label stays for screen readers only. */
+.noteField label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.subhead {
+  margin-top: 22px;
+  padding-top: 18px;
+  border-top: 1px solid var(--line-2);
+  font-size: 15px;
+  font-weight: 650;
+}
+
+.pager {
+  margin-top: 12px;
 }

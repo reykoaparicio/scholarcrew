@@ -175,6 +175,9 @@ async function seedMemory(db: DbOrTx, people: SeedPeople): Promise<StoryIds> {
   const guessExpires = at("2026-11-03T18:00:00.000Z");
   await db.insert(memoryFacts).values([
     { ownerId, key: "class_year", value: 2027, source: "user_stated", createdAt: oct1, confirmedAt: oct1 },
+    // Mockups 11 and 12 show Prep and Impact switched on (the AddTeammate chips write these facts).
+    { ownerId, key: "crew_prep_enabled", value: true, source: "user_stated", createdAt: oct1, confirmedAt: oct1 },
+    { ownerId, key: "crew_impact_enabled", value: true, source: "user_stated", createdAt: oct1, confirmedAt: oct1 },
     {
       ownerId,
       key: "high_school",
@@ -531,6 +534,27 @@ async function seedHelpers(db: DbOrTx, people: SeedPeople, entryIds: Record<Coll
       .returning(),
     "recommenders",
   );
+  const [patelLink] = await db
+    .insert(helperLinks)
+    .values([
+      {
+        studentId: ownerId,
+        label: "Ms. Patel",
+        helperRole: "recommender",
+        scope: ["activities", "stories"],
+        tokenHash: sha256Hex(SEED_TOKENS.patelHelperLink),
+        expiresAt: daysFromNow(30),
+      },
+      {
+        studentId: ownerId,
+        label: "Mr. Okafor",
+        helperRole: "counselor",
+        scope: ["deadlines", "colleges"],
+        tokenHash: sha256Hex(SEED_TOKENS.okaforHelperLink),
+        expiresAt: daysFromNow(30),
+      },
+    ])
+    .returning();
   await db.insert(recRequests).values([
     {
       ownerId,
@@ -539,24 +563,16 @@ async function seedHelpers(db: DbOrTx, people: SeedPeople, entryIds: Record<Coll
       status: "confirmed",
       requestedAt: at("2026-09-28T15:00:00.000Z"),
     },
-    { ownerId, recommenderId: patel.id, collegeListId: entryIds.stateU, status: "draft" },
-  ]);
-  await db.insert(helperLinks).values([
+    // Mockup 17: the request Ms. Patel's helper link was made for, with Jordan's note.
     {
-      studentId: ownerId,
-      label: "Ms. Patel",
-      helperRole: "recommender",
-      scope: ["activities", "stories"],
-      tokenHash: sha256Hex(SEED_TOKENS.patelHelperLink),
-      expiresAt: daysFromNow(30),
-    },
-    {
-      studentId: ownerId,
-      label: "Mr. Okafor",
-      helperRole: "counselor",
-      scope: ["deadlines", "colleges"],
-      tokenHash: sha256Hex(SEED_TOKENS.okaforHelperLink),
-      expiresAt: daysFromNow(30),
+      ownerId,
+      recommenderId: patel.id,
+      collegeListId: entryIds.stateU,
+      helperLinkId: one(patelLink ? [patelLink] : [], "Ms. Patel's helper link").id,
+      message:
+        "You taught me AP Physics last year and saw our robotics team's whole build season. I'd love it if you could talk about how I handle problems that don't work the first time.",
+      status: "requested",
+      requestedAt: at("2026-10-06T15:00:00.000Z"),
     },
   ]);
   return patel.id;
@@ -565,7 +581,7 @@ async function seedHelpers(db: DbOrTx, people: SeedPeople, entryIds: Record<Coll
 async function seedApplications(db: DbOrTx, people: SeedPeople, catalog: SeedCatalog): Promise<void> {
   const ownerId = people.jordanId;
   const s = catalog.scholarshipIds;
-  const maple = { code: "county", text: "You live in Maple County", sensitive: false };
+  const maple = { code: "local_county", text: "You live in Maple County", sensitive: false };
   await db.insert(scholarshipApplications).values([
     { ownerId, scholarshipId: s.loneStar, stage: "matched", fitScore: 82, estMinutes: 45, matchReasons: [maple] },
     {
@@ -582,7 +598,7 @@ async function seedApplications(db: DbOrTx, people: SeedPeople, catalog: SeedCat
       stage: "matched",
       fitScore: 74,
       estMinutes: 40,
-      matchReasons: [{ code: "interest", text: "Robotics and programming", sensitive: false }],
+      matchReasons: [{ code: "interest_any", text: "Robotics and programming", sensitive: false }],
     },
     {
       ownerId,
@@ -590,9 +606,16 @@ async function seedApplications(db: DbOrTx, people: SeedPeople, catalog: SeedCat
       stage: "drafting",
       fitScore: 90,
       estMinutes: 30,
-      matchReasons: [{ code: "interest", text: "Robotics and engineering", sensitive: false }],
+      matchReasons: [{ code: "interest_any", text: "Robotics and engineering", sensitive: false }],
     },
-    { ownerId, scholarshipId: s.rotary, stage: "planned", fitScore: 88, estMinutes: 45, matchReasons: [maple] },
+    {
+      ownerId,
+      scholarshipId: s.rotary,
+      stage: "planned",
+      fitScore: 88,
+      estMinutes: 45,
+      matchReasons: [maple, { code: "class_year_in", text: "Class of 2027", sensitive: false }],
+    },
     {
       ownerId,
       scholarshipId: s.eastsidePta,
@@ -638,15 +661,35 @@ async function seedApplications(db: DbOrTx, people: SeedPeople, catalog: SeedCat
 
 async function seedActivity(db: DbOrTx, people: SeedPeople): Promise<void> {
   const ownerId = people.jordanId;
-  await db.insert(testScores).values({
-    ownerId,
-    test: "ACT",
-    takenOn: "2026-09-12",
-    official: true,
-    composite: 27,
-    sections: { english: 27, math: 28, reading: 26, science: 27 },
-    createdAt: at("2026-09-30T15:00:00.000Z"),
-  });
+  await db.insert(testScores).values([
+    {
+      ownerId,
+      test: "ACT",
+      takenOn: "2026-09-12",
+      official: true,
+      composite: 27,
+      sections: { english: 27, math: 28, reading: 26, science: 27 },
+      createdAt: at("2026-09-30T15:00:00.000Z"),
+    },
+    {
+      ownerId,
+      test: "ACT",
+      takenOn: "2026-06-13",
+      official: true,
+      composite: 26,
+      sections: { english: 29, math: 24, reading: 26, science: 25 },
+      createdAt: at("2026-07-01T15:00:00.000Z"),
+    },
+    {
+      ownerId,
+      test: "ACT",
+      takenOn: "2026-09-26",
+      official: false,
+      composite: 28,
+      sections: { english: 28, math: 29, reading: 27, science: 28 },
+      createdAt: at("2026-09-26T22:00:00.000Z"),
+    },
+  ]);
   await db.insert(activities).values([
     {
       ownerId,
@@ -998,14 +1041,14 @@ async function seedCrew(
       { kind: "fact", label: "Profile: GPA 3.72, Maple County", refId: null, sourceUrl: null, verifiedAt: null },
       {
         kind: "catalog",
-        label: "Hill Country listing, verified Oct 2",
+        label: "Hill Country listing",
         refId: s.hillCountry,
         sourceUrl: "https://example.org/scholarships/hill-country-stem-award",
         verifiedAt: "2026-10-02T15:00:00.000Z",
       },
       {
         kind: "catalog",
-        label: "State U requirements, verified Sep 30",
+        label: "State U requirements",
         refId: catalog.collegeIds.stateU,
         sourceUrl: "https://example.org/state-u/admissions",
         verifiedAt: "2026-09-30T15:00:00.000Z",

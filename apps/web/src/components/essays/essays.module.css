@@ -47,7 +47,6 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  justify-content: space-between;
   gap: 8px;
   padding: 10px 16px;
   border-bottom: 1px solid var(--line-2);
@@ -56,6 +55,7 @@
 }
 
 .count {
+  margin-left: auto;
   font-weight: 650;
   color: var(--ink);
   font-variant-numeric: tabular-nums;
@@ -63,7 +63,44 @@
 
 .tabs {
   display: flex;
+  flex-wrap: wrap;
+  align-items: center;
   gap: 6px;
+}
+
+.status {
+  margin-left: auto;
+}
+
+.status .statusField {
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+}
+
+.status .statusField label {
+  margin: 0;
+  font-size: 12.5px;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.status .statusField select {
+  height: 30px;
+  width: auto;
+}
+
+.verified {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--good-text);
+  font-weight: 600;
+}
+
+.verified svg {
+  width: 14px;
+  height: 14px;
 }
 
 .editor,
@@ -148,13 +185,27 @@
   margin-top: 6px;
 }
 
-.stories li {
-  padding: 10px 0;
+.stories > article {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 16px 0;
   border-top: 1px solid var(--line-2);
+  font-size: 14px;
+  line-height: 1.5;
 }
 
-.stories li:first-child {
+.stories > article:first-child {
+  padding-top: 4px;
   border-top: 0;
+}
+
+.stories > article .meta {
+  margin-top: 0;
+}
+
+.stories > article > :last-child {
+  margin-top: 4px;
 }
 
 .storyTitle {
@@ -201,6 +252,23 @@
 @media (max-width: 1200px) {
   .studio,
   .bank {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* New essay form: title and target side by side, the prompt across, a short word-limit field. */
+form.newForm {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 12px 16px;
+}
+
+.newWide {
+  grid-column: 1 / -1;
+}
+
+@media (max-width: 720px) {
+  form.newForm {
     grid-template-columns: minmax(0, 1fr);
   }
 }

@@ -30,7 +30,7 @@ import {
   isSensitiveFactKey,
   notFound,
 } from "@scholarcrew/domain";
-import { assertOwner, assertSystem, assertUser } from "../access";
+import { assertOwner, assertSystem, assertUser, familyIdsFor } from "../access";
 import { recordAudit } from "../audit";
 import {
   type CoreDeps,
@@ -252,6 +252,34 @@ export async function listFacts(deps: CoreDeps, actor: Actor, ownerId: string): 
     )
     .orderBy(desc(memoryFacts.createdAt));
   return rows.map(toFact);
+}
+
+/** The confirmed facts that switch on Prep and Impact (D29, D43); the AddTeammate chips write them. */
+export const OPTIONAL_CREW_KEYS = ["crew_prep_enabled", "crew_impact_enabled"] as const;
+export type OptionalCrewKey = (typeof OPTIONAL_CREW_KEYS)[number];
+
+/**
+ * Which optional teammates a student switched on. The student and members of their family may ask: a parent's
+ * sidebar shows the same crew, and the answer is only these two switches, never other facts.
+ */
+export async function optionalCrewSwitches(deps: CoreDeps, actor: Actor, ownerId: string): Promise<OptionalCrewKey[]> {
+  assertUser(actor);
+  if (actor.userId !== ownerId) {
+    const [mine, theirs] = await Promise.all([familyIdsFor(deps, actor.userId), familyIdsFor(deps, ownerId)]);
+    if (!mine.some((id) => theirs.includes(id))) throw notFound();
+  }
+  const rows = await deps.db
+    .select({ key: memoryFacts.key, value: memoryFacts.value })
+    .from(memoryFacts)
+    .where(
+      and(
+        eq(memoryFacts.ownerId, ownerId),
+        inArray(memoryFacts.key, [...OPTIONAL_CREW_KEYS]),
+        eq(memoryFacts.status, "confirmed"),
+        isNull(memoryFacts.supersededById),
+      ),
+    );
+  return OPTIONAL_CREW_KEYS.filter((key) => rows.some((r) => r.key === key && r.value === true));
 }
 
 export async function createFact(deps: CoreDeps, actor: Actor, i: FactInput): Promise<MemoryFact> {

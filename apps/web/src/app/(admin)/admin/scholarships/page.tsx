@@ -7,7 +7,7 @@ import { getDeps } from "@/server/deps";
 import { requirePageActor } from "@/server/session";
 import { listScholarships } from "@scholarcrew/core/admin";
 import { CatalogStatus, type Scholarship } from "@scholarcrew/domain";
-import { Button, EmptyState, Table, type TableColumn } from "@scholarcrew/ui";
+import { Button, Card, EmptyState, Table, type TableColumn } from "@scholarcrew/ui";
 
 export const dynamic = "force-dynamic";
 
@@ -53,11 +53,13 @@ export default async function AdminScholarshipsPage({ searchParams }: { searchPa
           New listing
         </Button>
       </div>
-      <div className={styles.row}>
-        <form method="get" action="/admin/scholarships" className={styles.row}>
+      <div className={styles.toolbar}>
+        <form method="get" action="/admin/scholarships" className={styles.search}>
           {status ? <input type="hidden" name="status" value={status} /> : null}
-          <label htmlFor="admin-q">Search</label>
-          <input id="admin-q" name="q" type="search" defaultValue={q} />
+          <label htmlFor="admin-q" className={styles.srOnly}>
+            Search listings
+          </label>
+          <input id="admin-q" name="q" type="search" defaultValue={q} placeholder="Search by name or provider" />
           <Button type="submit" variant="soft" size="sm">
             Search
           </Button>
@@ -75,7 +77,9 @@ export default async function AdminScholarshipsPage({ searchParams }: { searchPa
           Try another status or search.
         </EmptyState>
       ) : (
-        <Table columns={COLUMNS} rows={page.items} rowKey={(s) => s.id} caption="Listings" />
+        <Card>
+          <Table columns={COLUMNS} rows={page.items} rowKey={(s) => s.id} caption="Listings" />
+        </Card>
       )}
       {pages > 1 ? (
         <nav className={styles.row} aria-label="Pages">

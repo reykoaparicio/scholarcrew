@@ -141,6 +141,38 @@ describe("plan items", () => {
     expect(rows.find((r) => r.title === "Gen B")?.generated).toBe(true);
   });
 
+  it("lists each scholarship or essay once a week, whether a card or the weekly plan adds it first", async () => {
+    const { deps } = makeDeps();
+    const { user, actor } = await makeStudent(deps);
+    const hill = { refType: "scholarship", refId: "hill-country" };
+    // The weekly plan lists it, then the student applies a crew card for the same scholarship.
+    await replaceGeneratedPlan(deps, SYSTEM, {
+      ownerId: user.id,
+      weekStart: WEEK,
+      items: [item({ title: "Work on Hill Country", ...hill })],
+    });
+    const fromCard = await addPlanItem(deps, actor, item({ title: "Hill Country answers", ...hill }));
+    expect(fromCard.title).toBe("Work on Hill Country");
+    const [keptRow] = await deps.db.select().from(planItems).where(eq(planItems.id, fromCard.id));
+    expect(keptRow?.generated).toBe(false);
+    // A card item that stays isn't planned again when the week regenerates.
+    const rotary = { refType: "scholarship", refId: "rotary" };
+    await addPlanItem(deps, actor, item({ title: "Rotary from Scout", ...rotary }));
+    const week = await replaceGeneratedPlan(deps, SYSTEM, {
+      ownerId: user.id,
+      weekStart: WEEK,
+      items: [item({ title: "Work on Rotary", ...rotary })],
+    });
+    expect(week.items.map((i) => i.title).sort()).toEqual(["Rotary from Scout", "Work on Hill Country"]);
+    // Next week is a different week.
+    const next = await addPlanItem(
+      deps,
+      actor,
+      item({ title: "Rotary next week", ...rotary, weekStart: "2026-10-12" }),
+    );
+    expect(next.title).toBe("Rotary next week");
+  });
+
   it("starts a system weekly plan for onboarded students, at most once in 12 hours (R2C-5)", async () => {
     const { deps, clock } = makeDeps();
     const { user, actor } = await makeStudent(deps);

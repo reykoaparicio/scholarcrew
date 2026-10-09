@@ -76,6 +76,7 @@ export function OfferComparisonView({ comparison, offers }: { comparison: OfferC
           rows={cols.map((c) => {
             const end = endParts(c);
             return {
+              id: c.offerId,
               label: c.collegeName,
               sub: `${usd(c.costOfAttendanceUsd)} to attend`,
               freeUsd: c.freeMoneyUsd,

@@ -58,7 +58,7 @@ export function StartFresh() {
           Delete account
         </Button>
       </div>
-      <p className={styles.muted}>
+      <p className={`${styles.muted} ${styles.freshNote}`}>
         Temporary chats load no memory, save nothing, and are deleted after 24 hours. New season archives senior-year
         admissions and keeps your stories and records.
       </p>

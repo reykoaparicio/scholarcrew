@@ -211,6 +211,11 @@
 .prompt {
   font-size: 15px;
   font-weight: 650;
+  line-height: 1.4;
+}
+
+.prompt + p {
+  margin: 4px 0 12px;
 }
 
 .source {
@@ -236,5 +241,83 @@
 
   .stats {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* SC-04: the listing's rules beside the student's matching facts (mockup 10). */
+.rules {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13.5px;
+}
+
+.rules th {
+  padding: 0 10px 8px 0;
+  font-size: 11px;
+  font-weight: 650;
+  letter-spacing: 0.08em;
+  text-align: left;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.rules td {
+  padding: 10px 10px 10px 0;
+  border-top: 1px solid var(--line-2);
+  vertical-align: top;
+  color: var(--ink);
+}
+
+.rules td:first-child,
+.rules th:first-child {
+  width: 28px;
+}
+
+.rules td:last-child {
+  color: var(--ink-2);
+}
+
+.rules svg {
+  width: 15px;
+  height: 15px;
+}
+
+.ruleMet {
+  color: var(--good) !important;
+}
+
+.ruleOpen {
+  color: var(--muted) !important;
+}
+
+.legend {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px 20px;
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line-2);
+  font-size: 13px;
+}
+
+.legend > div {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.legend dt {
+  flex: none;
+  width: 104px;
+}
+
+.legend dd {
+  margin: 0;
+  color: var(--muted);
+}
+
+@media (max-width: 720px) {
+  .legend {
+    grid-template-columns: minmax(0, 1fr);
   }
 }

@@ -43,8 +43,9 @@ function EssayStatusSelect({ essayId, status }: { essayId: string; status: Essay
   }
 
   return (
-    <div>
+    <div className={styles.status}>
       <Select
+        className={styles.statusField}
         label="Essay status"
         options={STATUS_OPTIONS}
         value={value}

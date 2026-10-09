@@ -120,7 +120,9 @@ const VERIFY_DOCS = [
 function HelpCard({ title, children }: { title: string; children: ReactNode }) {
   return (
     <section aria-label={title}>
-      <Card title={title}>{children}</Card>
+      <Card title={title}>
+        <div className={styles.help}>{children}</div>
+      </Card>
     </section>
   );
 }

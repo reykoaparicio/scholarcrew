@@ -20,14 +20,14 @@ export default async function CollegesAdminPage() {
       </div>
       <div className={styles.stack}>
         <Card title="Import from College Scorecard">
-          <p className={styles.sub}>
+          <p className={styles.cardIntro}>
             Columns: UNITID, INSTNM, CITY, STABBR, CONTROL, ADM_RATE, COSTT4_A, NPT4_PUB, NPT4_PRIV. Existing colleges
             are updated by UNITID. Up to 5 MB per import.
           </p>
           <CollegeImport />
         </Card>
         <Card title="Start research">
-          <p className={styles.sub}>
+          <p className={styles.cardIntro}>
             Research searches the web for scholarships in a state or county. Code checks every draft, and nothing is
             published until an admin reviews it.
           </p>

@@ -289,9 +289,11 @@ const LISTINGS: Record<ScholarshipKey, NewScholarship> = {
     deadline: "2026-11-20",
     localArea: MAPLE,
     eligibility: [{ type: "county_in", state: "TX", counties: ["Maple"] }],
-    requirements: requirements([
-      { prompt: "How has your community shaped your plans after high school?", wordLimit: 300 },
-    ]),
+    // Mockup 12: Lone Star asks for 40 confirmed service hours.
+    requirements: {
+      ...requirements([{ prompt: "How has your community shaped your plans after high school?", wordLimit: 300 }]),
+      serviceHours: 40,
+    },
     estMinutes: 45,
     verifiedAt: at("2026-10-02T15:00:00.000Z"),
   }),

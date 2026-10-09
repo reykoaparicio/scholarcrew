@@ -35,7 +35,7 @@ export function CollegeTable({ entries, selectedId }: { entries: CollegeListEntr
           header: "Deadline",
           render: (e) => (
             <>
-              <div>{e.deadline ? dateShort(e.deadline) : "Rolling"}</div>
+              <div className={styles.strong}>{e.deadline ? dateShort(e.deadline) : "Rolling"}</div>
               <div className={styles.sub}>{PLAN_LABEL[e.plan]}</div>
             </>
           ),
@@ -58,7 +58,7 @@ export function CollegeTable({ entries, selectedId }: { entries: CollegeListEntr
           key: "gap",
           header: "Gap / yr",
           align: "right",
-          render: (e) => (e.gapUsd === null ? "Not estimated" : usd(e.gapUsd)),
+          render: (e) => (e.gapUsd === null ? "Not estimated" : <span className={styles.strong}>{usd(e.gapUsd)}</span>),
         },
         {
           key: "outside",

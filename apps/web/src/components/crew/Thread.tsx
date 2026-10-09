@@ -40,6 +40,8 @@ export interface ThreadProps {
   readOnlyCards?: boolean;
   /** userId → name, shown above bubbles in the family room. */
   authors?: Record<string, string>;
+  /** The signed-in user; with `authors`, other people's messages sit on the left with their initial. */
+  viewerId?: string;
   placeholder?: string;
   emptyText?: string;
   timeZone?: string;
@@ -57,6 +59,7 @@ export function Thread({
   compact = false,
   readOnlyCards = false,
   authors,
+  viewerId,
   placeholder = "Message your crew… mention @Scout, @Quill, @Aid, or @Ledger",
   emptyText = "Ask anything about scholarships, essays, colleges, or paying for school.",
   timeZone = "America/Chicago",
@@ -159,12 +162,24 @@ export function Thread({
       {shown.length === 0 && !jobId ? <p className={styles.muted}>{emptyText}</p> : null}
       {shown.map((m) =>
         m.authorKind === "user" ? (
-          <div key={m.id} className={styles.bubble}>
-            {authors && m.authorUserId && authors[m.authorUserId] ? (
-              <span className={styles.author}>{authors[m.authorUserId]}</span>
-            ) : null}
-            {m.body}
-          </div>
+          viewerId && authors && m.authorUserId && m.authorUserId !== viewerId ? (
+            <div key={m.id} className={styles.otherRow}>
+              <span className={styles.avatar} aria-hidden="true">
+                {(authors[m.authorUserId] ?? "?").charAt(0).toUpperCase()}
+              </span>
+              <div className={styles.otherBubble}>
+                <span className={styles.author}>{authors[m.authorUserId] ?? "Family member"}</span>
+                {m.body}
+              </div>
+            </div>
+          ) : (
+            <div key={m.id} className={styles.bubble}>
+              {authors && m.authorUserId && authors[m.authorUserId] ? (
+                <span className={styles.author}>{authors[m.authorUserId]}</span>
+              ) : null}
+              {m.body}
+            </div>
+          )
         ) : (
           <ReplyCard
             key={m.id}

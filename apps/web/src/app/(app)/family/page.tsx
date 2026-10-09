@@ -120,6 +120,7 @@ export default async function FamilyPage() {
                   compact
                   readOnlyCards={!isStudent}
                   authors={authors}
+                  viewerId={actor.userId}
                   placeholder="Ask the crew about your shared plans…"
                   emptyText="Ask a question here and the crew answers with only what you've both shared."
                   timeZone={tz}

@@ -11,8 +11,46 @@ button:not(:disabled) {
   cursor: pointer;
 }
 
+/* Native checkboxes and radios take the brand color. */
+input[type="checkbox"],
+input[type="radio"] {
+  accent-color: var(--navy);
+}
+
+/* Native file pickers, styled like the kit's line button. */
+input[type="file"] {
+  max-width: 100%;
+  font: inherit;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+input[type="file"]::file-selector-button {
+  height: 34px;
+  margin-right: 12px;
+  padding: 0 14px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: var(--card);
+  color: var(--ink);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 650;
+  cursor: pointer;
+}
+
+input[type="file"]::file-selector-button:hover {
+  border-color: var(--navy-line);
+}
+
 /* The phone layout (mockup 19) lives in AppShell: ShellFrame passes its tab bar as `mobileNav`, and
    AppShell hides the sidebar under 640px. Nothing here selects AppShell's inner DOM (E-15-4). */
+
+@media (max-width: 640px) {
+  .sc-hide-phone {
+    display: none !important;
+  }
+}
 
 .sc-notfound {
   display: grid;

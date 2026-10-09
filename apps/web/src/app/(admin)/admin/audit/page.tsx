@@ -1,11 +1,12 @@
 import styles from "@/components/admin/admin.module.css";
 import { ADMIN_TZ } from "@/components/admin/labels";
 import { type SearchParams, firstParam } from "@/components/public/params";
+import { cx } from "@/lib/cx";
 import { getDeps } from "@/server/deps";
 import { requirePageActor } from "@/server/session";
 import { searchAudit } from "@scholarcrew/core/admin";
 import { type AuditEvent, AuditQueryParams, type Page } from "@scholarcrew/domain";
-import { Button, EmptyState, Table, type TableColumn, TextInput } from "@scholarcrew/ui";
+import { Button, Card, EmptyState, Table, type TableColumn, TextInput } from "@scholarcrew/ui";
 
 export const dynamic = "force-dynamic";
 
@@ -77,8 +78,10 @@ export default async function AuditPage({ searchParams }: { searchParams: Promis
         </EmptyState>
       ) : page ? (
         <>
-          <Table columns={COLUMNS} rows={page.items} rowKey={(e) => e.id} caption={`${page.total} events`} />
-          <nav className={styles.row} aria-label="Pages">
+          <Card>
+            <Table columns={COLUMNS} rows={page.items} rowKey={(e) => e.id} caption={`${page.total} events`} />
+          </Card>
+          <nav className={cx(styles.row, styles.pager)} aria-label="Pages">
             <span className={styles.sub}>{`Page ${page.page} of ${pages}`}</span>
             {page.page > 1 ? (
               <Button variant="line" size="sm" href={link(page.page - 1)}>

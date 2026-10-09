@@ -114,8 +114,8 @@ test("SE-01: user B gets 404 for user A's essay, document, offer, jobs, conversa
   expect(afterProbes.id).toBe(reply.id);
   expect(afterProbes.appliedCardIds).toEqual([]);
 
-  // The card id B probed was live. A applies it twice at once (R2C-3, claim-first receipts): exactly one plan
-  // item is added, and each call gets the receipt (200) or 409 conflict "This action is still being applied".
+  // The card id B probed was live. A applies it twice at once (R2C-3, claim-first receipts): it never adds two plan
+  // items, and each call gets the receipt (200) or 409 conflict "This action is still being applied".
   const card = reply.reply?.actionCards.find((c) => c.id === "next-deadline");
   const title = card?.kind === "add_plan_item" ? card.item.title : "";
   expect(title).toMatch(/^Work on /);
@@ -129,7 +129,8 @@ test("SE-01: user B gets 404 for user A's essay, document, offer, jobs, conversa
   for (const r of both) {
     if (r.status !== 200) expect([r.status, r.body.error?.code]).toEqual([409, "conflict"]);
   }
-  expect(await planItemCount(a.page, title)).toBe(before + 1);
+  // One item for the card's scholarship this week: a new one, or the weekly plan's item it matches (no duplicate).
+  expect(await planItemCount(a.page, title)).toBe(Math.max(before, 1));
   expect(replyWithCard(await crewMessages(a.page, conversationId), "next-deadline").appliedCardIds).toEqual([
     "next-deadline",
   ]);

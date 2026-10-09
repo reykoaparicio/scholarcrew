@@ -10,12 +10,22 @@ export interface ToggleProps {
   label: string;
   /** Muted text before the switch, e.g. "$60k–75k · shared by Dana". */
   detail?: string;
+  /** Puts `detail` under the label instead of beside the switch, for longer notes (mockup 13). */
+  stacked?: boolean;
   disabled?: boolean;
   className?: string;
 }
 
 /** A settings row: label, optional detail, and a role="switch" button. */
-export function Toggle({ checked, onChange, label, detail, disabled = false, className }: ToggleProps) {
+export function Toggle({
+  checked,
+  onChange,
+  label,
+  detail,
+  stacked = false,
+  disabled = false,
+  className,
+}: ToggleProps) {
   const id = useId();
   const labelId = `${id}-label`;
   const detailId = `${id}-detail`;
@@ -34,14 +44,29 @@ export function Toggle({ checked, onChange, label, detail, disabled = false, cla
   };
   return (
     <div className={cx(styles.row, className)}>
-      <label id={labelId} htmlFor={id} className={styles.label}>
-        {label}
-      </label>
-      {detail ? (
-        <span id={detailId} className={styles.detail}>
-          {detail}
-        </span>
-      ) : null}
+      {stacked ? (
+        <div className={styles.label}>
+          <label id={labelId} htmlFor={id}>
+            {label}
+          </label>
+          {detail ? (
+            <span id={detailId} className={styles.under}>
+              {detail}
+            </span>
+          ) : null}
+        </div>
+      ) : (
+        <>
+          <label id={labelId} htmlFor={id} className={styles.label}>
+            {label}
+          </label>
+          {detail ? (
+            <span id={detailId} className={styles.detail}>
+              {detail}
+            </span>
+          ) : null}
+        </>
+      )}
       <button
         id={id}
         type="button"

@@ -75,7 +75,9 @@ export function ReportsTable({ reports }: { reports: CatalogReport[] }) {
                 {r.status === "open" ? (
                   <div className={styles.stack}>
                     <TextInput
+                      className={styles.noteField}
                       label={`Note for report on ${r.scholarshipName}`}
+                      placeholder="Note for the record"
                       maxLength={1000}
                       value={notes[r.id] ?? ""}
                       onChange={(e) => setNotes((n) => ({ ...n, [r.id]: e.target.value }))}

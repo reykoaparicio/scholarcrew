@@ -1,3 +1,4 @@
+import { CollegeSummary } from "@/components/colleges/CollegeSummary";
 import { AddCollegeButton, CollegeTable } from "@/components/colleges/CollegeTable";
 import { listBalance, withGaps } from "@/components/colleges/colleges";
 import styles from "@/components/colleges/colleges.module.css";
@@ -5,11 +6,21 @@ import { NotShared } from "@/components/scholarships/NotShared";
 import shared from "@/components/scholarships/shared.module.css";
 import { loadViewer, readShared } from "@/components/scholarships/viewer";
 import { plural } from "@/lib/format";
-import { getCollegeList } from "@scholarcrew/core/colleges";
+import { getCollege, getCollegeList, listApplicationItems } from "@scholarcrew/core/colleges";
 import { getCosts } from "@scholarcrew/core/money";
+import type { CollegeListEntry } from "@scholarcrew/domain";
+import { daysUntil } from "@scholarcrew/engines";
 import { Button, Card, EmptyState, Eyebrow, Who } from "@scholarcrew/ui";
 
 export const dynamic = "force-dynamic";
+
+/** The panel's school: the next upcoming deadline, else the first school on the list. */
+function nextUp(entries: CollegeListEntry[], today: string): CollegeListEntry | undefined {
+  const upcoming = entries
+    .filter((e) => e.deadline !== null && e.deadline >= today)
+    .sort((a, b) => (a.deadline ?? "").localeCompare(b.deadline ?? ""));
+  return upcoming[0] ?? entries[0];
+}
 
 export default async function CollegesPage() {
   const v = await loadViewer();
@@ -21,6 +32,14 @@ export default async function CollegesPage() {
   const entries = withGaps(list, costs);
   const early = entries.filter((e) => e.plan === "EA" || e.plan === "ED" || e.plan === "REA").length;
   const balance = listBalance(entries);
+  const now = v.deps.clock.now();
+  const focus = nextUp(entries, now.toISOString().slice(0, 10));
+  const [focusCollege, focusItems] = focus
+    ? await Promise.all([
+        getCollege(v.deps, v.actor, focus.collegeId),
+        readShared(() => listApplicationItems(v.deps, v.actor, focus.id)),
+      ])
+    : [null, null];
   return (
     <>
       <div className={shared.head}>
@@ -39,37 +58,49 @@ export default async function CollegesPage() {
           </div>
         )}
       </div>
-      <div className={shared.form}>
-        <Card>
-          {entries.length === 0 ? (
-            <EmptyState title="No schools yet" icon="columns">
-              Add the colleges you're thinking about. Atlas checks deadlines and requirements for each one.
-            </EmptyState>
-          ) : (
-            <CollegeTable entries={entries} />
-          )}
-        </Card>
-        {balance.length > 0 ? (
+      <div className={`${styles.layout} ${styles.indexLayout}`}>
+        <div className={shared.form}>
           <Card>
-            <Eyebrow>
-              <Who role="atlas" size="sm" /> <span>· About your list</span>
-            </Eyebrow>
-            <div className={styles.balance}>
-              {balance.map((line) => (
-                <p key={line}>{line}</p>
-              ))}
-            </div>
-            <div className={shared.actions}>
-              <Button variant="line" href="/money">
-                Compare all costs
-              </Button>
-            </div>
+            {entries.length === 0 ? (
+              <EmptyState title="No schools yet" icon="columns">
+                Add the colleges you're thinking about. Atlas checks deadlines and requirements for each one.
+              </EmptyState>
+            ) : (
+              <CollegeTable entries={entries} selectedId={focus?.id} />
+            )}
           </Card>
+          {balance.length > 0 ? (
+            <Card>
+              <Eyebrow>
+                <Who role="atlas" size="sm" /> <span>· About your list</span>
+              </Eyebrow>
+              <div className={styles.balance}>
+                {balance.map((line) => (
+                  <p key={line}>{line}</p>
+                ))}
+              </div>
+              <div className={styles.balanceActions}>
+                <Button variant="line" href="/money">
+                  Compare all costs
+                </Button>
+              </div>
+            </Card>
+          ) : null}
+          <p className={shared.muted}>
+            Gaps are estimates from College Scorecard net price for your income range until you run each school's own
+            calculator.
+          </p>
+        </div>
+        {focus && focusCollege ? (
+          <CollegeSummary
+            entry={focus}
+            college={focusCollege}
+            items={focusItems}
+            days={focus.deadline ? daysUntil(focus.deadline, now, v.timeZone) : null}
+            timeZone={v.timeZone}
+            readOnly={v.isParent}
+          />
         ) : null}
-        <p className={shared.muted}>
-          Gaps are estimates from College Scorecard net price for your income range until you run each school's own
-          calculator.
-        </p>
       </div>
     </>
   );

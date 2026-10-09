@@ -108,7 +108,7 @@ export function HelperSheet({ view, nowIso }: { view: HelperView; nowIso: string
               <Section title="Activities" aside={`As ${name} wrote them`} empty={view.activities.length === 0}>
                 <ul className={styles.list}>
                   {view.activities.map((a) => (
-                    <li key={a.id} className={styles.item}>
+                    <li key={a.id} className={`${styles.item} ${styles.activity}`}>
                       <div>
                         <b>{a.name}</b>
                         <div className={styles.muted}>

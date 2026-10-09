@@ -55,6 +55,31 @@ export async function addPlanItem(deps: CoreDeps, actor: Actor, i: PlanItemInput
   const v = parsed.data;
   const now = deps.clock.now();
   const weekStart = v.weekStart ? mondayOf(v.weekStart) : weekStartFor(now, await userTimeZone(deps.db, actor.userId));
+  // One item per thing per week: a crew card for work already planned (by "Plan my week" or an earlier card)
+  // returns that item instead of listing it twice.
+  if (v.refType !== null && v.refId !== null) {
+    const [existing] = await deps.db
+      .select()
+      .from(planItems)
+      .where(
+        and(
+          eq(planItems.ownerId, actor.userId),
+          eq(planItems.weekStart, weekStart),
+          eq(planItems.refType, v.refType),
+          eq(planItems.refId, v.refId),
+        ),
+      )
+      .limit(1);
+    if (existing) {
+      if (!existing.generated) return toPlanItem(existing);
+      // The student chose it, so regenerating the week no longer replaces it (R2C-4).
+      const kept = one(
+        await deps.db.update(planItems).set({ generated: false }).where(eq(planItems.id, existing.id)).returning(),
+        "plan_items keep",
+      );
+      return toPlanItem(kept);
+    }
+  }
   const row = one(
     await deps.db
       .insert(planItems)
@@ -180,9 +205,16 @@ export async function replaceGeneratedPlan(
           eq(planItems.generated, true),
         ),
       );
-    if (items.length === 0) return;
+    // Items that stayed (student-added, applied from a card, done, or skipped) aren't planned a second time.
+    const kept = await tx
+      .select({ refType: planItems.refType, refId: planItems.refId })
+      .from(planItems)
+      .where(and(eq(planItems.ownerId, i.ownerId), eq(planItems.weekStart, week)));
+    const keptRefs = new Set(kept.flatMap((k) => (k.refType && k.refId ? [`${k.refType}:${k.refId}`] : [])));
+    const fresh = items.filter((v) => !(v.refType && v.refId && keptRefs.has(`${v.refType}:${v.refId}`)));
+    if (fresh.length === 0) return;
     await tx.insert(planItems).values(
-      items.map((v, idx) => ({
+      fresh.map((v, idx) => ({
         ownerId: i.ownerId,
         weekStart: week,
         title: v.title,
@@ -193,7 +225,7 @@ export async function replaceGeneratedPlan(
         valueUsd: v.valueUsd,
         dueOn: v.dueOn,
         contributors: v.contributors.length > 0 ? v.contributors : ["compass" as const],
-        priority: items.length - idx,
+        priority: fresh.length - idx,
         generated: true,
         createdAt: now,
       })),

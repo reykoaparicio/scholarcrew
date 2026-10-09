@@ -328,7 +328,7 @@ export function AidRulesEditor({
             </table>
           </section>
         )}
-        <h3>{form.id ? "Edit deadline" : "Add a deadline"}</h3>
+        <h3 className={styles.subhead}>{form.id ? "Edit deadline" : "Add a deadline"}</h3>
         <div className={styles.formGrid}>
           <Select
             label="State"

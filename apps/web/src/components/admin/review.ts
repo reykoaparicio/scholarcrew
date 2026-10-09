@@ -61,7 +61,8 @@ export function sourceUrlOf(t: CatalogTask): string | null {
   return p.type === "research_candidate" || p.type === "recheck_changed" || p.type === "user_submission" ? p.url : null;
 }
 
-export function taskTitle(t: CatalogTask): string {
+/** `listingName` names the scholarship a report is about, when the caller has loaded it. */
+export function taskTitle(t: CatalogTask, listingName?: string | null): string {
   const p = t.payload;
   switch (p.type) {
     case "research_candidate":
@@ -69,7 +70,7 @@ export function taskTitle(t: CatalogTask): string {
     case "user_submission":
       return p.name;
     case "report":
-      return `Report: ${REASON_LABELS[p.reason]}`;
+      return listingName ? `${listingName} · ${REASON_LABELS[p.reason]}` : `Report: ${REASON_LABELS[p.reason]}`;
     case "recheck_changed":
       return p.after?.name ?? p.before?.name ?? p.url;
     case "import":

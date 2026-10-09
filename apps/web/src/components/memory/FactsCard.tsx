@@ -10,6 +10,7 @@ import {
   VISIBILITY_LABELS,
   factLabel,
   factSource,
+  inlineLabel,
   textToValue,
   valueToText,
   visibilityOptionsFor,
@@ -178,7 +179,7 @@ export function CandidatesCard({ candidates: initial }: { candidates: MemoryFact
           {items.map((f) => (
             <li key={f.id} className={styles.cand}>
               <Icon name="spark" />
-              <span className={styles.candText}>{`Remember ${factLabel(f.key).toLowerCase()}: ${f.valueText}?`}</span>
+              <span className={styles.candText}>{`Remember ${inlineLabel(f.key)}: ${f.valueText}?`}</span>
               <Button
                 variant="soft"
                 size="sm"

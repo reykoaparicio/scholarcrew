@@ -20,7 +20,7 @@ const EMPTY = {
   reflection: "",
 };
 
-function LogForm() {
+function LogForm({ onClose }: { onClose?: () => void }) {
   const router = useRouter();
   const [f, setF] = useState(EMPTY);
   const [error, setError] = useState<string | null>(null);
@@ -49,6 +49,7 @@ function LogForm() {
       });
       setF(EMPTY);
       router.refresh();
+      onClose?.();
     } catch (e) {
       setError(errorMessage(e));
     } finally {
@@ -59,23 +60,25 @@ function LogForm() {
   return (
     <Card title="Log hours">
       <form aria-label="Log hours" className={shared.form} onSubmit={save} noValidate>
-        <TextInput label="Organization" maxLength={200} value={f.organization} onChange={set("organization")} />
-        <TextInput label="What you did" maxLength={200} value={f.activity} onChange={set("activity")} />
-        <TextInput label="Date" type="date" value={f.servedOn} onChange={set("servedOn")} />
-        <TextInput label="Hours" inputMode="decimal" value={f.hours} onChange={set("hours")} />
-        <TextInput
-          label="Supervisor name (optional)"
-          maxLength={120}
-          value={f.supervisorName}
-          onChange={set("supervisorName")}
-        />
-        <TextInput
-          label="Supervisor email (optional)"
-          type="email"
-          maxLength={254}
-          value={f.supervisorEmail}
-          onChange={set("supervisorEmail")}
-        />
+        <div className={styles.logFields}>
+          <TextInput label="Organization" maxLength={200} value={f.organization} onChange={set("organization")} />
+          <TextInput label="What you did" maxLength={200} value={f.activity} onChange={set("activity")} />
+          <TextInput label="Date" type="date" value={f.servedOn} onChange={set("servedOn")} />
+          <TextInput label="Hours" inputMode="decimal" value={f.hours} onChange={set("hours")} />
+          <TextInput
+            label="Supervisor name (optional)"
+            maxLength={120}
+            value={f.supervisorName}
+            onChange={set("supervisorName")}
+          />
+          <TextInput
+            label="Supervisor email (optional)"
+            type="email"
+            maxLength={254}
+            value={f.supervisorEmail}
+            onChange={set("supervisorEmail")}
+          />
+        </div>
         <TextArea
           label="Reflection (optional)"
           hint="A sentence or two about one moment. It can become a Story Bank entry later."
@@ -89,9 +92,16 @@ function LogForm() {
             {error}
           </p>
         ) : null}
-        <Button variant="primary" type="submit" disabled={busy}>
-          Save hours
-        </Button>
+        <div className={shared.actions}>
+          <Button variant="primary" type="submit" disabled={busy}>
+            Save hours
+          </Button>
+          {onClose ? (
+            <Button variant="line" onClick={onClose}>
+              Cancel
+            </Button>
+          ) : null}
+        </div>
       </form>
     </Card>
   );
@@ -119,6 +129,7 @@ export function ServiceLogs({
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
   const sorted = [...logs].sort((a, b) => b.servedOn.localeCompare(a.servedOn));
+  const [logging, setLogging] = useState(logs.length === 0);
   const nowMs = Date.parse(now);
 
   async function call(path: string, method: "POST" | "DELETE") {
@@ -147,7 +158,7 @@ export function ServiceLogs({
             rows={sorted}
             rowKey={(l) => l.id}
             columns={[
-              { key: "date", header: "Date", render: (l) => dateShort(l.servedOn) },
+              { key: "date", header: "Date", render: (l) => <b className={styles.nowrap}>{dateShort(l.servedOn)}</b> },
               {
                 key: "what",
                 header: "Where and what",
@@ -168,15 +179,15 @@ export function ServiceLogs({
                   const canAsk =
                     !readOnly && (l.verification === "self_reported" || l.verification === "declined" || expired);
                   return (
-                    <>
+                    <div className={styles.statusCell}>
                       <Badge tone={view.tone} icon={view.icon}>
                         {view.label}
                       </Badge>
                       {l.verification === "verified" && l.verifiedAt ? (
-                        <span className={styles.sub}>{` · ${instantShort(l.verifiedAt, timeZone)}`}</span>
+                        <span className={styles.sub}>{instantShort(l.verifiedAt, timeZone)}</span>
                       ) : null}
                       {l.verification === "requested" && !expired ? (
-                        <span className={styles.sub}> · link sent</span>
+                        <span className={styles.sub}>link sent</span>
                       ) : null}
                       {l.verification === "declined" && l.verifierNote ? (
                         <span className={styles.sub}>{`“${l.verifierNote}”`}</span>
@@ -193,7 +204,7 @@ export function ServiceLogs({
                       {canAsk && !l.supervisorEmail ? (
                         <span className={styles.sub}> · add a supervisor email to ask</span>
                       ) : null}
-                    </>
+                    </div>
                   );
                 },
               },
@@ -201,7 +212,7 @@ export function ServiceLogs({
                 key: "actions",
                 header: "",
                 render: (l) => (
-                  <>
+                  <div className={styles.actionsCell}>
                     {l.reflection && !readOnly ? (
                       <a href={`/essays/stories?fromLog=${l.id}`}>Start a story from this</a>
                     ) : null}
@@ -215,7 +226,7 @@ export function ServiceLogs({
                         Delete
                       </Button>
                     )}
-                  </>
+                  </div>
                 ),
               },
             ]}
@@ -226,8 +237,15 @@ export function ServiceLogs({
             {error}
           </p>
         ) : null}
+        {readOnly || logging ? null : (
+          <div className={shared.actions}>
+            <Button variant="soft" icon="plus" onClick={() => setLogging(true)}>
+              Log hours
+            </Button>
+          </div>
+        )}
       </Card>
-      {readOnly ? null : <LogForm />}
+      {readOnly || !logging ? null : <LogForm onClose={sorted.length > 0 ? () => setLogging(false) : undefined} />}
     </div>
   );
 }

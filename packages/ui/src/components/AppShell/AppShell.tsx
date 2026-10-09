@@ -50,7 +50,8 @@ function RosterEnd({ member }: { member: CrewRosterItem }) {
       </a>
     );
   }
-  return <span className={styles.role}>add</span>;
+  // Someone who can't add teammates (a parent) sees that this one is off, not a dead "add".
+  return <span className={styles.role}>off</span>;
 }
 
 export function AppShell({ nav, activeKey, crew, user, topbar, children, className, mobileNav }: AppShellProps) {

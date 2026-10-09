@@ -10,7 +10,10 @@ import { KIND_LABELS, taskChip, taskTitle } from "./review";
 export function TaskList({
   items,
   selectedId,
-}: { items: Array<{ task: CatalogTask; href: string }>; selectedId: string | null }) {
+}: {
+  items: Array<{ task: CatalogTask; href: string; listingName?: string | null }>;
+  selectedId: string | null;
+}) {
   if (items.length === 0) {
     return (
       <EmptyState title="Nothing to review" icon="check">
@@ -20,7 +23,7 @@ export function TaskList({
   }
   return (
     <nav className={styles.queue} aria-label="Review queue">
-      {items.map(({ task, href }) => {
+      {items.map(({ task, href, listingName }) => {
         const chip = taskChip(task);
         const on = task.id === selectedId;
         return (
@@ -36,7 +39,7 @@ export function TaskList({
                 <Icon name={chip.icon} /> {chip.text}
               </span>
             </div>
-            <div className={styles.qn}>{taskTitle(task)}</div>
+            <div className={styles.qn}>{taskTitle(task, listingName)}</div>
             <div className={styles.qm}>{`Opened ${instantLong(task.createdAt, ADMIN_TZ)}`}</div>
           </a>
         );

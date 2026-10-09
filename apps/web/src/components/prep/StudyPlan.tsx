@@ -38,7 +38,13 @@ export function StudyPlan({ today }: { today: string }) {
       <Eyebrow>
         <Who role="prep" size="sm" /> <span>· Study plan proposal</span>
       </Eyebrow>
-      <TextInput label="Next test date" type="date" value={testDate} onChange={(e) => setTestDate(e.target.value)} />
+      <TextInput
+        className={styles.planField}
+        label="Next test date"
+        type="date"
+        value={testDate}
+        onChange={(e) => setTestDate(e.target.value)}
+      />
       {sessions.length > 0 ? (
         <>
           <h3>{planSummary(sessions, testDate)}</h3>

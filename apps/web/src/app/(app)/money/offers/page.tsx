@@ -93,7 +93,7 @@ export default async function OffersPage() {
             <p className={styles.line}>
               Aid gives you the points, documents, and who to contact. You write the letter.
             </p>
-            <div className={styles.stack}>
+            <div className={styles.appeals}>
               {confirmed.map((o) => (
                 <AppealButton key={o.id} offerId={o.id} collegeName={o.collegeName} timeZone={v.timeZone} />
               ))}

@@ -7,6 +7,8 @@ import { pct, usd, usdCompact } from "../../shared/format";
 import styles from "./OfferBars.module.css";
 
 export interface OfferBarRow {
+  /** Stable identity when two rows share a label (two letters from one school). Defaults to the label. */
+  id?: string;
   label: string;
   sub: string;
   freeUsd: number;
@@ -70,16 +72,16 @@ export function OfferBars({
           ))}
         </div>
         {bars.map(({ row, free, cost, freePct, costPct }, index) => (
-          <Fragment key={row.label}>
+          <Fragment key={row.id ?? row.label}>
             <div className={styles.lab} style={{ gridRow: index + 1 }}>
               {row.label}
               <span>{row.sub}</span>
             </div>
             <div
               data-row={row.label}
-              className={cx(styles.track, hovered === row.label && styles.active)}
+              className={cx(styles.track, hovered === (row.id ?? row.label) && styles.active)}
               style={{ gridRow: index + 1 }}
-              onPointerEnter={() => setHovered(row.label)}
+              onPointerEnter={() => setHovered(row.id ?? row.label)}
               onPointerLeave={() => setHovered(null)}
             >
               {free > 0 ? (
@@ -97,7 +99,7 @@ export function OfferBars({
                 />
               ) : null}
               <span className={styles.endLabel}>{row.endLabel}</span>
-              {hovered === row.label ? (
+              {hovered === (row.id ?? row.label) ? (
                 <span className={styles.tip}>
                   <span>
                     <span className={cx(styles.key, styles.free)} />
@@ -131,7 +133,7 @@ export function OfferBars({
         </thead>
         <tbody>
           {bars.map(({ row, free, cost }) => (
-            <tr key={row.label}>
+            <tr key={row.id ?? row.label}>
               <th scope="row">{row.label}</th>
               <td>{usd(free)}</td>
               <td>{usd(cost)}</td>

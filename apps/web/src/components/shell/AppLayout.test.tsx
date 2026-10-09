@@ -9,6 +9,7 @@ const m = vi.hoisted(() => ({
   requirePageActor: vi.fn(),
   loadMe: vi.fn(),
   listFacts: vi.fn(),
+  optionalCrewSwitches: vi.fn(),
   getFamily: vi.fn(),
   getShareSettings: vi.fn(),
   router: { push: vi.fn(), refresh: vi.fn(), replace: vi.fn() },
@@ -16,7 +17,10 @@ const m = vi.hoisted(() => ({
 vi.mock("@/server/session", () => ({ requirePageActor: m.requirePageActor }));
 vi.mock("@/server/deps", () => ({ getDeps: () => ({}) }));
 vi.mock("@/lib/pageActor", () => ({ loadMe: m.loadMe }));
-vi.mock("@scholarcrew/core/memory", () => ({ listFacts: m.listFacts }));
+vi.mock("@scholarcrew/core/memory", () => ({
+  listFacts: m.listFacts,
+  optionalCrewSwitches: m.optionalCrewSwitches,
+}));
 vi.mock("@scholarcrew/core/family", () => ({ getFamily: m.getFamily, getShareSettings: m.getShareSettings }));
 vi.mock("next/headers", () => ({
   headers: async () => new Headers(m.pathname === null ? {} : { "x-pathname": m.pathname }),
@@ -94,6 +98,7 @@ function as(role: "student" | "parent", onboardingComplete = true) {
   m.requirePageActor.mockResolvedValue(actor);
   m.loadMe.mockResolvedValue(me(role, onboardingComplete));
   m.listFacts.mockResolvedValue([]);
+  m.optionalCrewSwitches.mockResolvedValue([]);
   m.getFamily.mockResolvedValue(family);
   m.getShareSettings.mockResolvedValue(settings);
   return actor;
@@ -144,5 +149,15 @@ describe("(app) layout", () => {
     expect(screen.queryByRole("link", { name: "add Prep" })).toBeNull();
     expect(screen.getByRole("link", { name: "Ask your crew" }).getAttribute("href")).toBe("/crew");
     expect(m.listFacts).not.toHaveBeenCalled();
+  });
+
+  it("shows parents the optional teammates their student switched on, and the rest as off", async () => {
+    const actor = as("parent");
+    m.optionalCrewSwitches.mockResolvedValue(["crew_impact_enabled"]);
+    render(await AppLayout({ children: <p>week page</p> }));
+    expect(m.optionalCrewSwitches).toHaveBeenCalledWith({}, actor, STUDENT);
+    const roster = screen.getByText("Impact").closest("li");
+    expect(roster?.textContent).toContain("service");
+    expect(screen.getByText("Prep").closest("li")?.textContent).toContain("off");
   });
 });

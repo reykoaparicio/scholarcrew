@@ -93,12 +93,14 @@ export function AccountCard({
         <span>Account</span>
         <b>{roleLine}</b>
       </div>
-      <Button variant="line" size="sm" onClick={() => void signOut()}>
-        Sign out
-      </Button>
-      <Button variant="line" size="sm" onClick={() => void signOut(true)}>
-        Sign out everywhere
-      </Button>
+      <div className={styles.row}>
+        <Button variant="line" size="sm" onClick={() => void signOut()}>
+          Sign out
+        </Button>
+        <Button variant="line" size="sm" onClick={() => void signOut(true)}>
+          Sign out everywhere
+        </Button>
+      </div>
       {signOutError ? (
         <p className={styles.error} role="alert">
           {signOutError}

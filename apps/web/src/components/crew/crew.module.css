@@ -69,6 +69,35 @@
   white-space: pre-line;
 }
 
+.otherRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  max-width: 80%;
+}
+
+.avatar {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--c-prep);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 650;
+}
+
+.otherBubble {
+  padding: 10px 15px;
+  border: 1px solid var(--line);
+  border-radius: 14px 14px 14px 4px;
+  background: var(--card);
+  font-size: 14px;
+  white-space: pre-line;
+}
+
 .author {
   display: block;
   margin-bottom: 2px;
@@ -214,11 +243,40 @@
   color: var(--navy);
 }
 
+.actionBlock {
+  margin-top: 14px;
+}
+
+.actionSummary {
+  margin-bottom: 8px;
+  font-size: 13.5px;
+  color: var(--ink-2);
+}
+
 .actions {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   gap: 10px;
-  margin-top: 14px;
+}
+
+.linkButton {
+  display: inline-flex;
+  align-items: center;
+  height: 34px;
+  padding: 0 14px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: var(--card);
+  color: var(--ink);
+  font-size: 13px;
+  font-weight: 650;
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+.linkButton:hover {
+  border-color: var(--navy-line);
 }
 
 /* crisis (CR-09) */

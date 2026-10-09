@@ -24,10 +24,16 @@ export function CostCards({ costs }: { costs: CostSummary[] }) {
           <Card key={c.collegeId} title={c.collegeName}>
             <div className={styles.big}>{`${usd(c.gapUsd)} a year`}</div>
             <p className={styles.line}>gap after free money</p>
-            <GapBar freeUsd={c.freeMoneyUsd} gapUsd={c.gapUsd} totalLabel="to attend" />
-            <p className={styles.line}>{sourceLine(c)}</p>
-            {pending ? <p className={styles.line}>{pending}</p> : null}
-            {budget ? <p className={styles.line}>{budget}</p> : null}
+            <div className={styles.costBar}>
+              <GapBar freeUsd={c.freeMoneyUsd} gapUsd={c.gapUsd} totalLabel="to attend" />
+            </div>
+            {pending || budget ? (
+              <div className={styles.costNote}>
+                {pending ? <p>{pending}</p> : null}
+                {budget ? <p>{budget}</p> : null}
+              </div>
+            ) : null}
+            <p className={`${styles.line} ${styles.costSource}`}>{sourceLine(c)}</p>
           </Card>
         );
       })}

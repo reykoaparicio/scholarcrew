@@ -290,3 +290,7 @@
     border-top: 0;
   }
 }
+
+.planCta {
+  justify-content: center;
+}

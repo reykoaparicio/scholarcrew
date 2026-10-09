@@ -104,7 +104,7 @@ export function TaskReview({
     if (!id) return;
     void run(async () => {
       await resolveTask("resolved", id);
-      return `Published ${taskTitle(task)}.`;
+      return `Published ${taskTitle(task, existing?.name)}.`;
     });
   }
 
@@ -169,7 +169,7 @@ export function TaskReview({
             <span className={styles.sub}>Not published · students can't see it</span>
           ) : null}
         </div>
-        <h2>{taskTitle(task)}</h2>
+        <h2>{taskTitle(task, existing?.name)}</h2>
         <p className={styles.sub}>
           {`Opened ${instantLong(task.createdAt, ADMIN_TZ)}`}
           {source ? (

@@ -74,41 +74,58 @@ export function ActionButtons({
     }
   }
 
+  // Apply buttons first (the first one primary), then links; plan items already show in the reply's step list.
+  const ordered = [...cards.filter((c) => c.kind !== "open_link"), ...cards.filter((c) => c.kind === "open_link")];
+  const summaries = ordered.flatMap((card) => {
+    if (card.kind === "add_plan_item" || applied.includes(card.id) || done.includes(card.id)) return [];
+    const summary = cardSummary(card);
+    return summary ? [{ id: card.id, summary }] : [];
+  });
+
   return (
-    <div className={styles.actions}>
-      {cards.map((card, position) => {
-        const variant = position === 0 ? "primary" : "line";
-        if (card.kind === "open_link") {
-          const href = internalHref(
-            card.href,
-            typeof window === "undefined" ? "https://scholarcrew.test" : window.location.origin,
-          );
-          return href ? (
-            <Link key={card.id} href={href}>
-              {card.label}
-            </Link>
-          ) : (
-            <span key={card.id}>{card.label}</span>
-          );
-        }
-        if (applied.includes(card.id) || done.includes(card.id)) {
+    <div className={styles.actionBlock}>
+      {summaries.map((s) => (
+        <p key={s.id} className={styles.actionSummary}>
+          {s.summary}
+        </p>
+      ))}
+      <div className={styles.actions}>
+        {ordered.map((card, position) => {
+          const variant = position === 0 ? "primary" : "line";
+          if (card.kind === "open_link") {
+            const href = internalHref(
+              card.href,
+              typeof window === "undefined" ? "https://scholarcrew.test" : window.location.origin,
+            );
+            return href ? (
+              <Link key={card.id} href={href} className={styles.linkButton}>
+                {card.label}
+              </Link>
+            ) : (
+              <span key={card.id}>{card.label}</span>
+            );
+          }
+          if (applied.includes(card.id) || done.includes(card.id)) {
+            return (
+              <Button key={card.id} variant="soft" icon="check" disabled>
+                {APPLIED_LABEL[card.kind]}
+              </Button>
+            );
+          }
+          if (applying.includes(card.id)) {
+            return (
+              <Button key={card.id} variant={variant} disabled>
+                {card.label}
+              </Button>
+            );
+          }
           return (
-            <Button key={card.id} variant="soft" icon="check" disabled>
-              {APPLIED_LABEL[card.kind]}
-            </Button>
-          );
-        }
-        if (applying.includes(card.id)) {
-          return (
-            <Button key={card.id} variant={variant} disabled>
-              {card.label}
-            </Button>
-          );
-        }
-        return (
-          <div key={card.id}>
-            {cardSummary(card) ? <p>{cardSummary(card)}</p> : null}
-            <Button variant={variant} disabled={readOnly || pending !== null} onClick={() => void apply(card)}>
+            <Button
+              key={card.id}
+              variant={variant}
+              disabled={readOnly || pending !== null}
+              onClick={() => void apply(card)}
+            >
               {pending === card.id
                 ? "Saving…"
                 : card.kind === "confirm_fact"
@@ -117,9 +134,9 @@ export function ActionButtons({
                     ? "Log this decision"
                     : card.label}
             </Button>
-          </div>
-        );
-      })}
+          );
+        })}
+      </div>
       {applying.length > 0 ? <output className={styles.muted}>{ALREADY_APPLYING}</output> : null}
       {error ? (
         <p className={styles.error} role="alert">

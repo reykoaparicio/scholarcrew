@@ -83,6 +83,7 @@ export function NotificationsCard({ prefs, timeZone }: { prefs: NotificationPref
         checked={current.emailEnabled}
         label="Email me (digest, deadline reminders, new matches)"
         detail="The digest is skipped when there's nothing new"
+        stacked
         onChange={(emailEnabled) => void save({ emailEnabled })}
       />
       <div className={styles.trow}>
@@ -118,6 +119,7 @@ export function NotificationsCard({ prefs, timeZone }: { prefs: NotificationPref
         checked={current.smsEnabled}
         label="Text me 1-day reminders"
         detail={current.phoneSet ? "Only the day before a deadline, never in quiet hours" : "Add a phone number first"}
+        stacked
         disabled={!current.phoneSet}
         onChange={(smsEnabled) => void save({ smsEnabled })}
       />

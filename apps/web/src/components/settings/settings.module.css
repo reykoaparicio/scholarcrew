@@ -52,6 +52,10 @@
   flex: 1;
 }
 
+.inline > button {
+  height: 36px;
+}
+
 .muted {
   margin-top: 6px;
   font-size: 12.5px;
@@ -144,6 +148,11 @@
   color: var(--muted);
 }
 
+.times > span {
+  margin: 0;
+  line-height: 36px;
+}
+
 .planName {
   font-size: 20px;
 }
@@ -190,7 +199,7 @@
   border-top: 0;
 }
 
-.cur {
+.plans li.cur {
   margin: 0 -10px;
   padding: 8px 10px;
   border-radius: 9px;

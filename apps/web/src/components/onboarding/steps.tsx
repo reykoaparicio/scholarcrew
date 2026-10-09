@@ -138,6 +138,7 @@ export function OptInsStep({ draft, errors, update }: StepProps) {
               checked={state.enabled}
               label={option.label}
               detail={option.detail}
+              stacked
               onChange={(enabled) => set(kind, { enabled, value: enabled ? state.value : "" })}
             />
             {state.enabled && option.value === "income" ? (

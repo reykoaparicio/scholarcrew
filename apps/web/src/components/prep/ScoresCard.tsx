@@ -54,7 +54,11 @@ export function ScoresCard({
             rows={sorted}
             rowKey={(s) => s.id}
             columns={[
-              { key: "test", header: "Test", render: (s) => `${s.test} · ${dateShort(s.takenOn)}` },
+              {
+                key: "test",
+                header: "Test",
+                render: (s) => <span className={styles.nowrap}>{`${s.test} · ${dateShort(s.takenOn)}`}</span>,
+              },
               {
                 key: "type",
                 header: "Type",

@@ -164,7 +164,7 @@ export function Landing() {
                     </li>
                   ))}
                 </ul>
-                <Button variant={p.featured ? "primary" : "line"} href="/sign-in">
+                <Button variant={p.featured ? "primary" : "line"} href="/sign-in" className={styles.planCta}>
                   {p.cta}
                 </Button>
               </div>

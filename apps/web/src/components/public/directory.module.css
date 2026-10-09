@@ -46,15 +46,17 @@
 
 .search {
   display: flex;
+  flex-wrap: wrap;
   gap: 8px;
   align-items: center;
   margin-bottom: 8px;
 }
 
+/* The filters column is narrow: the field takes the full row and the button wraps under it. */
 .search input {
-  flex: 1;
+  flex: 1 1 100%;
   min-width: 0;
-  height: 32px;
+  height: 34px;
   padding: 0 10px;
   border: 1px solid var(--line);
   border-radius: 9px;
@@ -213,9 +215,15 @@
   color: #fff;
 }
 
+/* The kit's eyebrow is muted gray, too dim on navy. */
+.signup > :first-child {
+  color: rgba(255, 255, 255, 0.72);
+}
+
 .signup h3 {
   margin: 6px 0 8px;
-  font-size: 16px;
+  font-size: 19px;
+  line-height: 1.3;
 }
 
 .signup p {

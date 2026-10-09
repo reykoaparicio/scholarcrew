@@ -6,6 +6,7 @@ import { getDeps } from "@/server/deps";
 import { requirePageActor } from "@/server/session";
 import { listReports } from "@scholarcrew/core/admin";
 import { ReportStatus } from "@scholarcrew/domain";
+import { Card } from "@scholarcrew/ui";
 
 export const dynamic = "force-dynamic";
 
@@ -44,7 +45,9 @@ export default async function ReportsPage({ searchParams }: { searchParams: Prom
           ))}
         </div>
       </div>
-      <ReportsTable key={current} reports={reports} />
+      <Card>
+        <ReportsTable key={current} reports={reports} />
+      </Card>
     </>
   );
 }

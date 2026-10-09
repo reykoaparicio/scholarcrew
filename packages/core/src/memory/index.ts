@@ -5,6 +5,9 @@ export {
   crewVisibleFacts,
   forgetFact,
   listFacts,
+  OPTIONAL_CREW_KEYS,
+  type OptionalCrewKey,
+  optionalCrewSwitches,
   rejectCandidate,
   updateFact,
 } from "./facts";

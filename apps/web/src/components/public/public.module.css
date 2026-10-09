@@ -104,7 +104,16 @@
   height: 14px;
 }
 
+/* The header's 28px gap is for nav links; the two buttons sit 10px apart. */
+.startFree {
+  margin-left: -18px;
+}
+
 @media (max-width: 720px) {
+  .startFree {
+    margin-left: -4px;
+  }
+
   .head,
   .foot {
     gap: 14px;

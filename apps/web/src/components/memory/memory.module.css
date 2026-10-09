@@ -79,6 +79,10 @@
   flex: 1;
 }
 
+.inline > button {
+  height: 36px;
+}
+
 .value {
   margin-left: 6px;
 }
@@ -152,12 +156,15 @@
   color: var(--ink-2);
 }
 
+/* The kit's Toggle row draws its own divider and padding; extra controls sit under it. */
 .trow {
   display: flex;
   flex-direction: column;
   gap: 6px;
-  padding: 7px 0;
-  border-top: 1px solid var(--line-2);
+}
+
+.trow > :not(:first-child) {
+  margin-bottom: 8px;
 }
 
 .srow {
@@ -182,4 +189,9 @@
   .grid {
     grid-template-columns: minmax(0, 1fr);
   }
+}
+
+.freshNote {
+  margin-top: 12px;
+  line-height: 1.5;
 }

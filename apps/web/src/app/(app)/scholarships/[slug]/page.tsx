@@ -30,6 +30,16 @@ import { notFound } from "next/navigation";
 
 export const dynamic = "force-dynamic";
 
+const LOCATION_RULES = new Set(["state_in", "county_in", "city_in"]);
+
+/** Mockup 10's label legend: every status pairs an icon with its label. */
+const SOURCE_LEGEND = [
+  { label: "Verified", tone: "good", icon: "check", text: "Matches its source as of the date shown" },
+  { label: "Stale", tone: "warn", icon: "clock", text: "Changed or 30+ days old · re-checking" },
+  { label: "Unverified", tone: "neutral", icon: "info", text: "Not reviewed yet, or details not posted" },
+  { label: "Flagged", tone: "crit", icon: "alert", text: "Fee or scam signs; hidden" },
+] as const;
+
 function allCards(b: Board) {
   return [...b.matched, ...b.working, ...b.submitted, ...b.won, ...b.lostOrSkipped];
 }
@@ -84,6 +94,28 @@ export default async function ScholarshipDetailPage({ params }: { params: Promis
     ...(req.serviceHours ? [{ key: "hours", label: `${req.serviceHours} service hours`, note: "" }] : []),
     ...req.other.map((o, i) => ({ key: `other-${i}`, label: o, note: "" })),
   ];
+
+  // SC-04: pair each listing rule with the matcher's reason for it (reason codes are the rule types).
+  // The matcher drops a rule's reason when its text repeats the area reason ("You live in Maple County"), so
+  // location rules also accept the local_* codes.
+  const reasonFor = (type: string): MatchReason | undefined =>
+    reasons.find((r) => r.code === type) ??
+    (LOCATION_RULES.has(type) ? reasons.find((r) => r.code.startsWith("local_")) : undefined);
+  const ruleRows = detail.eligibility.map((rule, i) => {
+    const reason = reasonFor(rule.type);
+    const you = reason
+      ? reason.text
+      : rule.type === "custom"
+        ? "Only you know this · you confirm it on the form"
+        : application
+          ? "Not confirmed yet"
+          : "—";
+    return { key: `${rule.type}-${i}`, rule: ruleText(rule), you, met: reason !== undefined, reason };
+  });
+  const checkable = ruleRows.filter((r, i) => detail.eligibility[i]?.type !== "custom");
+  const metCount = checkable.filter((r) => r.met).length;
+  const used = new Set(ruleRows.flatMap((r) => (r.reason ? [r.reason.code] : [])));
+  const extraReasons = reasons.filter((r) => !used.has(r.code));
 
   return (
     <>
@@ -154,21 +186,43 @@ export default async function ScholarshipDetailPage({ params }: { params: Promis
               )}
             </Card>
           ))}
-          <Card title="Who can apply · why you match">
-            <h3 className={shared.muted}>The listing says</h3>
-            <ul className={styles.list}>
-              {detail.eligibility.map((rule) => (
-                <li key={ruleText(rule)}>{ruleText(rule)}</li>
-              ))}
-            </ul>
-            <h3 className={shared.muted}>Why you match</h3>
-            {reasons.length === 0 ? (
-              <p className={shared.muted}>
-                {application ? "You don't match any listed rule yet." : "Save it to see how you match."}
-              </p>
+          <Card
+            title="Who can apply · why you match"
+            aside={
+              checkable.length > 0 && metCount === checkable.length ? (
+                <Badge tone="good" icon="check">
+                  {`You meet all ${plural(checkable.length, "rule")} we can check`}
+                </Badge>
+              ) : undefined
+            }
+          >
+            {detail.eligibility.length === 0 ? (
+              <p className={shared.muted}>The listing doesn't post any rules beyond its area.</p>
             ) : (
+              <table className={styles.rules}>
+                <thead>
+                  <tr>
+                    <th scope="col" aria-label="Status" />
+                    <th scope="col">The listing says</th>
+                    <th scope="col">You</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {ruleRows.map((row) => (
+                    <tr key={row.key}>
+                      <td className={row.met ? styles.ruleMet : styles.ruleOpen}>
+                        <Icon name={row.met ? "check" : "info"} />
+                      </td>
+                      <td>{row.rule}</td>
+                      <td>{row.you}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
+            {extraReasons.length > 0 ? (
               <ul className={styles.list}>
-                {reasons.map((r) => (
+                {extraReasons.map((r) => (
                   <li key={r.code}>
                     <span>
                       <Icon name="check" /> {r.text}
@@ -176,7 +230,11 @@ export default async function ScholarshipDetailPage({ params }: { params: Promis
                   </li>
                 ))}
               </ul>
-            )}
+            ) : null}
+            {application && reasons.length === 0 ? (
+              <p className={shared.muted}>You don't match any listed rule yet.</p>
+            ) : null}
+            {!application && !v.isParent ? <p className={shared.muted}>Save it to see how you match.</p> : null}
           </Card>
           <Card title="Source">
             <div className={styles.source}>
@@ -196,10 +254,18 @@ export default async function ScholarshipDetailPage({ params }: { params: Promis
                 {SCAM_FLAG_TEXT[f]}
               </p>
             ))}
-            <p className={shared.muted}>
-              Verified: matches its source as of the date shown. Stale: changed or 30+ days old, being re-checked.
-              Unverified: not reviewed yet. Flagged: fee or scam signs, hidden from your plan.
-            </p>
+            <dl className={styles.legend}>
+              {SOURCE_LEGEND.map((item) => (
+                <div key={item.label}>
+                  <dt>
+                    <Badge tone={item.tone} icon={item.icon}>
+                      {item.label}
+                    </Badge>
+                  </dt>
+                  <dd>{item.text}</dd>
+                </div>
+              ))}
+            </dl>
           </Card>
         </div>
         {room ? (

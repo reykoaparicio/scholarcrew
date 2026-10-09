@@ -44,10 +44,32 @@ export function visibilityOptionsFor(
   return VISIBILITY_OPTIONS.filter((o) => o.value !== "scout_only" || matcherKey || current === "scout_only");
 }
 
-/** "intended_majors" → "Intended majors". */
+/** Labels that read better than the key spelled out (mockup 07: "GPA 3.72 unweighted", "ACT 27"). */
+const FACT_LABELS: Record<string, string> = {
+  act_composite: "ACT",
+  sat_total: "SAT",
+  gpa_unweighted: "GPA (unweighted)",
+  gpa_weighted: "GPA (weighted)",
+  class_year: "Class of",
+  home_county: "Lives in",
+  county: "County",
+  intended_major: "Intended major",
+  parent_employer: "Parent works for",
+};
+
+/** Acronyms that stay uppercase when a key is spelled out. */
+const ACRONYMS = new Set(["act", "sat", "psat", "gpa", "fafsa", "css", "ap", "ib", "ged", "stem", "us"]);
+
+/** "intended_majors" → "Intended majors"; "ap_courses" → "AP courses". */
 export function factLabel(key: string): string {
-  const words = key.replace(/_/g, " ").trim();
-  return words.charAt(0).toUpperCase() + words.slice(1);
+  const known = FACT_LABELS[key];
+  if (known) return known;
+  const words = key
+    .split("_")
+    .filter(Boolean)
+    .map((w) => (ACRONYMS.has(w) ? w.toUpperCase() : w));
+  const text = words.join(" ");
+  return text.charAt(0).toUpperCase() + text.slice(1);
 }
 
 export function factSource(f: Pick<MemoryFact, "source" | "createdAt">, timeZone: string): string {
@@ -69,4 +91,10 @@ export function textToValue(original: FactValue, text: string): FactValue {
   }
   if (typeof original === "boolean") return /^(yes|true|y)$/i.test(text.trim());
   return text.trim().slice(0, 500);
+}
+
+/** factLabel mid-sentence: "possible major", but "ACT" stays uppercase. */
+export function inlineLabel(key: string): string {
+  const label = factLabel(key);
+  return /^[A-Z]{2,}/.test(label) ? label : label.charAt(0).toLowerCase() + label.slice(1);
 }

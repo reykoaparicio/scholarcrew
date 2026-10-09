@@ -48,6 +48,17 @@ export default async function TasksPage({ searchParams }: { searchParams: Promis
   const selected = wanted
     ? (tasks.find((t) => t.id === wanted) ?? (await orNull(() => getCatalogTask(deps, actor, wanted))))
     : null;
+  // Reports name their listing in the queue; one lookup per distinct reported listing.
+  const reportedIds = [
+    ...new Set(tasks.flatMap((t) => (t.payload.type === "report" && t.scholarshipId ? [t.scholarshipId] : []))),
+  ];
+  const reportedNames = new Map(
+    await Promise.all(
+      reportedIds.map(
+        async (id) => [id, (await orNull(() => getScholarshipForAdmin(deps, actor, id)))?.name ?? null] as const,
+      ),
+    ),
+  );
   const listingId = selected?.scholarshipId;
   const existing = listingId ? await orNull(() => getScholarshipForAdmin(deps, actor, listingId)) : null;
 
@@ -86,7 +97,11 @@ export default async function TasksPage({ searchParams }: { searchParams: Promis
       </div>
       <div className={styles.grid2}>
         <TaskList
-          items={tasks.map((t) => ({ task: t, href: href({ status: statusKey, kind, task: t.id }) }))}
+          items={tasks.map((t) => ({
+            task: t,
+            href: href({ status: statusKey, kind, task: t.id }),
+            listingName: t.scholarshipId ? reportedNames.get(t.scholarshipId) : null,
+          }))}
           selectedId={selected?.id ?? null}
         />
         {selected ? (

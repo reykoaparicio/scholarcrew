@@ -34,6 +34,9 @@ export function PublicHeader() {
       <Button variant="line" href="/sign-in">
         Sign in
       </Button>
+      <Button variant="primary" href="/sign-in" className={styles.startFree}>
+        Start free
+      </Button>
     </header>
   );
 }

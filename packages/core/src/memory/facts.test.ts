@@ -11,6 +11,7 @@ import {
   crewVisibleFacts,
   forgetFact,
   listFacts,
+  optionalCrewSwitches,
   rejectCandidate,
   updateFact,
   valueText,
@@ -22,6 +23,26 @@ const fact = (key: string, value: FactValue, visibility: FactVisibility = "crew"
   visibility,
   source: "user_stated",
   sourceRef: null,
+});
+
+describe("optionalCrewSwitches", () => {
+  it("tells the student and their family which optional teammates are on, and no one else", async () => {
+    const deps = createTestDeps();
+    const { user } = await factories.student(deps.db);
+    const student = actorOf(user);
+    expect(await optionalCrewSwitches(deps, student, user.id)).toEqual([]);
+    await createFact(deps, student, fact("crew_impact_enabled", true));
+    await createFact(deps, student, fact("crew_prep_enabled", false));
+    expect(await optionalCrewSwitches(deps, student, user.id)).toEqual(["crew_impact_enabled"]);
+
+    const parent = await factories.parent(deps.db);
+    await factories.family(deps.db, { studentIds: [user.id], parentIds: [parent.id] });
+    expect(await optionalCrewSwitches(deps, actorOf(parent), user.id)).toEqual(["crew_impact_enabled"]);
+
+    const outsider = await factories.parent(deps.db);
+    await expect(optionalCrewSwitches(deps, actorOf(outsider), user.id)).rejects.toMatchObject({ code: "not_found" });
+    await expect(optionalCrewSwitches(deps, SYSTEM, user.id)).rejects.toThrow();
+  });
 });
 
 describe("facts", () => {

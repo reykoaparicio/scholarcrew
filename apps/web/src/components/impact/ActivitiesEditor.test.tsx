@@ -28,6 +28,8 @@ describe("ActivitiesEditor", () => {
   it("counts the description against 150 characters and blocks saving over the limit", () => {
     render(<ActivitiesEditor activities={[robotics]} readOnly={false} />);
     expect(screen.getByText("1 of 10 · 150 characters each, counted exactly")).toBeTruthy();
+    expect(screen.getByText("32 / 150")).toBeTruthy();
+    fireEvent.click(screen.getByRole("button", { name: "Edit Robotics team" }));
     const slot = screen.getByRole("form", { name: "Activity 1" });
     const description = within(slot).getByRole("textbox", { name: "Description" });
     expect(within(slot).getByText("32 / 150")).toBeTruthy();
@@ -47,6 +49,8 @@ describe("ActivitiesEditor", () => {
     const fetchMock = vi.fn(async (_url: string, _init?: RequestInit) => new Response("{}", { status: 200 }));
     vi.stubGlobal("fetch", fetchMock);
     render(<ActivitiesEditor activities={[robotics]} readOnly={false} />);
+    expect(screen.queryByRole("form", { name: "Activity 2" })).toBeNull();
+    fireEvent.click(screen.getByRole("button", { name: "Add an activity" }));
     const slot = screen.getByRole("form", { name: "Activity 2" });
     fireEvent.change(within(slot).getByRole("textbox", { name: "Activity name" }), {
       target: { value: "Library STEM nights" },
@@ -76,10 +80,12 @@ describe("ActivitiesEditor", () => {
   it("stops offering slots at 10 and is read-only for parents", () => {
     const ten = Array.from({ length: 10 }, (_, i) => ({ ...robotics, id: `a${i + 1}`, position: i + 1 }));
     render(<ActivitiesEditor activities={ten} readOnly={false} />);
+    expect(screen.queryByRole("button", { name: "Add an activity" })).toBeNull();
     expect(screen.queryByRole("form", { name: "Activity 11" })).toBeNull();
     cleanup();
     render(<ActivitiesEditor activities={[robotics]} readOnly />);
     expect(screen.queryByRole("form")).toBeNull();
+    expect(screen.queryByRole("button", { name: "Edit Robotics team" })).toBeNull();
     expect(screen.getByText("Build lead for a 14-person team.")).toBeTruthy();
   });
 });

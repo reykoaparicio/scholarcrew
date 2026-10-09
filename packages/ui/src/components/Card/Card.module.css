@@ -13,11 +13,13 @@
   padding: 22px 26px;
 }
 
+/* The aside wraps under the title when both don't fit (phones). */
 .head {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
+  gap: 6px 12px;
   margin-bottom: 12px;
 }
 

@@ -70,6 +70,7 @@ describe("task labels", () => {
       payload: { type: "report", reportId: TASK.id, reason: "dead_link", details: "" },
     };
     expect(taskTitle(report)).toBe("Report: Dead link");
+    expect(taskTitle(report, "Coding for Good Award")).toBe("Coding for Good Award · Dead link");
     expect(taskChip(report)).toEqual({ tone: "warn", icon: "alert", text: "Dead link" });
     const submission: CatalogTask = {
       ...TASK,

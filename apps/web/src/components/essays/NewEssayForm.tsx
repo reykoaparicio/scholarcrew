@@ -1,11 +1,14 @@
 "use client";
 
+import { cx } from "@/lib/cx";
+
 import { api, errorMessage } from "@/lib/api";
 import type { Essay, EssayTarget } from "@scholarcrew/domain";
 import { Button, Card, Select, TextArea, TextInput } from "@scholarcrew/ui";
 import { useRouter } from "next/navigation";
 import { type FormEvent, useState } from "react";
 import shared from "../scholarships/shared.module.css";
+import styles from "./essays.module.css";
 
 type Option = { id: string; name: string };
 
@@ -67,9 +70,17 @@ export function NewEssayForm({ colleges, scholarships }: { colleges: Option[]; s
   ];
   return (
     <Card title="Start a new essay">
-      <form id="new-essay" aria-label="New essay" className={shared.form} onSubmit={create} noValidate>
+      <form
+        id="new-essay"
+        aria-label="New essay"
+        className={cx(shared.form, styles.newForm)}
+        onSubmit={create}
+        noValidate
+      >
         <TextInput label="Title" maxLength={200} value={title} onChange={(e) => setTitle(e.target.value)} />
+        <Select label="For" options={options} value={target} onChange={(e) => setTarget(e.target.value)} />
         <TextArea
+          className={styles.newWide}
           label="Prompt"
           hint="Paste it exactly as the school or scholarship wrote it."
           rows={4}
@@ -84,15 +95,16 @@ export function NewEssayForm({ colleges, scholarships }: { colleges: Option[]; s
           value={limit}
           onChange={(e) => setLimit(e.target.value)}
         />
-        <Select label="For" options={options} value={target} onChange={(e) => setTarget(e.target.value)} />
         {error ? (
-          <p className={shared.error} role="alert">
+          <p className={cx(shared.error, styles.newWide)} role="alert">
             {error}
           </p>
         ) : null}
-        <Button variant="primary" type="submit" icon="pen" disabled={busy}>
-          Create essay
-        </Button>
+        <div className={styles.newWide}>
+          <Button variant="primary" type="submit" icon="pen" disabled={busy}>
+            Create essay
+          </Button>
+        </div>
       </form>
     </Card>
   );

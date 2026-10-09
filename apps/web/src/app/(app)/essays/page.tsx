@@ -3,6 +3,7 @@ import { type EssayStats, limitBadge } from "@/components/essays/text";
 import { NotShared } from "@/components/scholarships/NotShared";
 import shared from "@/components/scholarships/shared.module.css";
 import { loadViewer, readShared } from "@/components/scholarships/viewer";
+import { plural } from "@/lib/format";
 import { getCollegeList } from "@scholarcrew/core/colleges";
 import { listEssays } from "@scholarcrew/core/essays";
 import { getBoard } from "@scholarcrew/core/scholarships";
@@ -69,7 +70,17 @@ export default async function EssaysPage() {
       <div className={shared.head}>
         <div>
           <h1>Essays</h1>
-          <p className={shared.sub}>{`${essays.length} drafts · Quill coaches, you write`}</p>
+          <p className={shared.sub}>
+            {[
+              plural(essays.filter((e) => e.status !== "submitted").length, "draft"),
+              essays.some((e) => e.status === "submitted")
+                ? `${essays.filter((e) => e.status === "submitted").length} submitted`
+                : null,
+              "Quill coaches, you write",
+            ]
+              .filter(Boolean)
+              .join(" · ")}
+          </p>
         </div>
         <div className={shared.actions}>
           <Button variant="line" icon="bookmark" href="/essays/stories">
