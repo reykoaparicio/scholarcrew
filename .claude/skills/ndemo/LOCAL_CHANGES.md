@@ -14,8 +14,9 @@ Changes from upstream:
   than `say`. Run `kokoro/setup.sh` once: it creates `kokoro/.venv` and downloads about 340 MB of model files into
   `kokoro/models/` (both ignored by git) and checks their SHA-256 hashes. `voice` is a Kokoro voice such as
   `am_michael`, `am_fenrir`, or `am_puck` (male, US), `bm_george` (male, UK), or `af_heart` (female, US).
-- **Loudness**: `say` and `kokoro` narration is normalized to -16 LUFS (ffmpeg `loudnorm`) so it plays at a normal
-  volume; Kokoro's raw output is about 7 dB quieter.
+- **Loudness and pacing**: `say` and `kokoro` narration is normalized to -16 LUFS (ffmpeg `loudnorm`) so it plays at
+  a normal volume (Kokoro's raw output is about 7 dB quieter), and each clip ends with a 0.6 s pause so lines don't run
+  together or end on the video's last frame.
 - **`doctor`** (`src/cli.ts`): reports `say` and `kokoro` as narration options when `OPENAI_API_KEY` isn't set.
 - **`SKILL.md`**: documents the `say` provider.
 

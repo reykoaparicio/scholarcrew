@@ -127,8 +127,12 @@ async function probeDuration(audioPath: string): Promise<number> {
   return Math.round(seconds * 1000);
 }
 
-/** Local voices are normalized to -16 LUFS, the usual loudness for web video. */
-const LOUDNORM = "loudnorm=I=-16:TP=-1.5:LRA=11";
+/**
+ * Local voices are normalized to -16 LUFS, the usual loudness for web video, and end with a short pause.
+ * Kokoro stops about 0.1 s after the last word, so without the pause segments run together and the final line is
+ * cut off at the end of the video.
+ */
+const LOUDNORM = "loudnorm=I=-16:TP=-1.5:LRA=11,apad=pad_dur=0.6";
 
 /** The skill's kokoro/ directory: speak.py, its .venv, and the model files (see kokoro/setup.sh). */
 const KOKORO_DIR = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..", "kokoro");

@@ -39,8 +39,8 @@ segments:
       - type: "wait"
         duration: 3500
     timing: "parallel"
-    audioDuration: 12992
-    videoDuration: 12994
+    audioDuration: 13592
+    videoDuration: 13593
   - id: "gap"
     narration: "Ledger, the money specialist, shows what Jordan's top school will really cost: the gap between the price and free money. It's calculated by code, not guessed."
     intent: "Point at the year-one gap card."
@@ -56,8 +56,8 @@ segments:
       - type: "wait"
         duration: 3000
     timing: "parallel"
-    audioDuration: 10219
-    videoDuration: 10220
+    audioDuration: 10819
+    videoDuration: 10820
   - id: "crew-ask"
     narration: "In Crew, Jordan asks a question and Compass coordinates the specialists it needs. Every answer shows what the team used, with verified dates."
     intent: "Open Crew on the seeded Weekend plan reply and point at its receipt."
@@ -75,8 +75,8 @@ segments:
       - type: "wait"
         duration: 4000
     timing: "parallel"
-    audioDuration: 9920
-    videoDuration: 9922
+    audioDuration: 10520
+    videoDuration: 10523
   - id: "crew-reply"
     narration: "Asking takes seconds. The answer is a short plan with one-click actions, and nothing changes until Jordan clicks."
     intent: "Start a new chat, ask a question, wait for the reply, and point at its action card."
@@ -112,8 +112,8 @@ segments:
       - type: "wait"
         duration: 3000
     timing: "parallel"
-    audioDuration: 7851
-    videoDuration: 11378
+    audioDuration: 8451
+    videoDuration: 11465
   - id: "scholarships"
     narration: "Scout matches scholarships rule by rule, ranks them by dollars per hour of effort, and hides scams with the reason."
     intent: "Open Scholarships and point at the matched card and the flagged scam."
@@ -137,8 +137,8 @@ segments:
       - type: "wait"
         duration: 3000
     timing: "parallel"
-    audioDuration: 7573
-    videoDuration: 9150
+    audioDuration: 8173
+    videoDuration: 9119
   - id: "detail"
     narration: "Every listing shows each rule next to Jordan's matching fact, with the source and the date it was verified."
     intent: "Open the Rotary Club of Eastside scholarship and scroll to the rules table."
@@ -160,8 +160,8 @@ segments:
       - type: "wait"
         duration: 3500
     timing: "parallel"
-    audioDuration: 6869
-    videoDuration: 7716
+    audioDuration: 7469
+    videoDuration: 7484
   - id: "essay"
     narration: "In Essay Studio, Quill coaches but never writes. Each comment quotes Jordan's own sentence and asks a question."
     intent: "Open Essays, open the Rotary essay, and point at Quill's first comment."
@@ -189,8 +189,8 @@ segments:
       - type: "wait"
         duration: 3500
     timing: "parallel"
-    audioDuration: 7552
-    videoDuration: 8800
+    audioDuration: 8152
+    videoDuration: 8853
   - id: "colleges"
     narration: "Atlas keeps the college list balanced, with each school's deadline, checklist, and yearly gap side by side."
     intent: "Open Colleges and point at the side panel."
@@ -214,8 +214,8 @@ segments:
       - type: "wait"
         duration: 2500
     timing: "parallel"
-    audioDuration: 7232
-    videoDuration: 8766
+    audioDuration: 7832
+    videoDuration: 8732
   - id: "offers"
     narration: "When award letters arrive, Aid reads every line, and Ledger compares what each school really costs, for year one and over four years."
     intent: "Open Money, then Compare offers, and point at the four-year row."
@@ -240,8 +240,8 @@ segments:
       - type: "wait"
         duration: 3500
     timing: "parallel"
-    audioDuration: 9003
-    videoDuration: 9004
+    audioDuration: 9603
+    videoDuration: 9603
   - id: "family"
     narration: "Parents can help, but students decide what's shared, one category at a time."
     intent: "Open Family and point at the sharing toggles."
@@ -266,8 +266,8 @@ segments:
       - type: "wait"
         duration: 2000
     timing: "parallel"
-    audioDuration: 4608
-    videoDuration: 8111
+    audioDuration: 5208
+    videoDuration: 8280
   - id: "memory"
     narration: "And everything the crew remembers is visible, with its source, and can be edited or forgotten."
     intent: "Open Memory and point at the profile facts."
@@ -292,8 +292,8 @@ segments:
       - type: "wait"
         duration: 2500
     timing: "parallel"
-    audioDuration: 6059
-    videoDuration: 8117
+    audioDuration: 6659
+    videoDuration: 8233
   - id: "outro"
     narration: "ScholarCrew. One plan to get in and pay for it, with a crew that never writes your essay or sells your data."
     intent: "Return to This Week and hold."
@@ -306,7 +306,7 @@ segments:
       - type: "wait"
         duration: 1500
       - type: "wait"
-        duration: 4000
+        duration: 9000
     timing: "parallel"
-    audioDuration: 6848
-    videoDuration: 6849
+    audioDuration: 7448
+    videoDuration: 11237
