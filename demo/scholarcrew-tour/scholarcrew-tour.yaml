@@ -40,7 +40,7 @@ segments:
         duration: 3500
     timing: "parallel"
     audioDuration: 13592
-    videoDuration: 13593
+    videoDuration: 13594
   - id: "gap"
     narration: "Ledger, the money specialist, shows what Jordan's top school will really cost: the gap between the price and free money. It's calculated by code, not guessed."
     intent: "Point at the year-one gap card."
@@ -57,7 +57,7 @@ segments:
         duration: 3000
     timing: "parallel"
     audioDuration: 10819
-    videoDuration: 10820
+    videoDuration: 10821
   - id: "crew-ask"
     narration: "In Crew, Jordan asks a question and Compass coordinates the specialists it needs. Every answer shows what the team used, with verified dates."
     intent: "Open Crew on the seeded Weekend plan reply and point at its receipt."
@@ -113,7 +113,7 @@ segments:
         duration: 3000
     timing: "parallel"
     audioDuration: 8451
-    videoDuration: 11465
+    videoDuration: 11399
   - id: "scholarships"
     narration: "Scout matches scholarships rule by rule, ranks them by dollars per hour of effort, and hides scams with the reason."
     intent: "Open Scholarships and point at the matched card and the flagged scam."
@@ -138,7 +138,7 @@ segments:
         duration: 3000
     timing: "parallel"
     audioDuration: 8173
-    videoDuration: 9119
+    videoDuration: 9369
   - id: "detail"
     narration: "Every listing shows each rule next to Jordan's matching fact, with the source and the date it was verified."
     intent: "Open the Rotary Club of Eastside scholarship and scroll to the rules table."
@@ -161,7 +161,7 @@ segments:
         duration: 3500
     timing: "parallel"
     audioDuration: 7469
-    videoDuration: 7484
+    videoDuration: 7470
   - id: "essay"
     narration: "In Essay Studio, Quill coaches but never writes. Each comment quotes Jordan's own sentence and asks a question."
     intent: "Open Essays, open the Rotary essay, and point at Quill's first comment."
@@ -190,7 +190,40 @@ segments:
         duration: 3500
     timing: "parallel"
     audioDuration: 8152
-    videoDuration: 8853
+    videoDuration: 9162
+  - id: "stories"
+    narration: "The Story Bank keeps each of Jordan's moments in their own words. Quill matches stories to new prompts, so one good story can answer many essays."
+    intent: "Open Essays, then the Story Bank, and point at the stories and where they were used."
+    actions:
+      - type: "click"
+        target:
+          selector: "nav[aria-label=\"Main\"] a[href=\"/essays\"]"
+        done:
+          url: "**/essays"
+      - type: "wait"
+        duration: 1500
+      - type: "click"
+        target:
+          role: "link"
+          name: "Story Bank"
+        done:
+          url: "**/essays/stories"
+      - type: "wait"
+        duration: 1500
+      - type: "hover"
+        target:
+          role: "heading"
+          name: "Your stories"
+      - type: "wait"
+        duration: 2500
+      - type: "hover"
+        target:
+          text: "Used in State U supplement"
+      - type: "wait"
+        duration: 2500
+    timing: "parallel"
+    audioDuration: 10285
+    videoDuration: 10599
   - id: "colleges"
     narration: "Atlas keeps the college list balanced, with each school's deadline, checklist, and yearly gap side by side."
     intent: "Open Colleges and point at the side panel."
@@ -215,7 +248,7 @@ segments:
         duration: 2500
     timing: "parallel"
     audioDuration: 7832
-    videoDuration: 8732
+    videoDuration: 8699
   - id: "offers"
     narration: "When award letters arrive, Aid reads every line, and Ledger compares what each school really costs, for year one and over four years."
     intent: "Open Money, then Compare offers, and point at the four-year row."
@@ -241,7 +274,59 @@ segments:
         duration: 3500
     timing: "parallel"
     audioDuration: 9603
-    videoDuration: 9603
+    videoDuration: 9604
+  - id: "prep"
+    narration: "Prep turns test scores into dollars. It computes the superscore and shows whether a retake would unlock more merit aid at Jordan's schools."
+    intent: "Open Test prep and point at the superscore and the retake calculator."
+    actions:
+      - type: "click"
+        target:
+          selector: "nav[aria-label=\"Main\"] a[href=\"/prep\"]"
+        done:
+          url: "**/prep"
+      - type: "wait"
+        duration: 1500
+      - type: "hover"
+        target:
+          role: "heading"
+          name: "ACT superscore"
+      - type: "wait"
+        duration: 2500
+      - type: "hover"
+        target:
+          role: "heading"
+          name: "Is a retake worth it?"
+      - type: "wait"
+        duration: 2500
+    timing: "parallel"
+    audioDuration: 9880
+    videoDuration: 9881
+  - id: "service"
+    narration: "Impact tracks service hours that supervisors confirm with a single email link, and shows how close Jordan is to each scholarship's requirement."
+    intent: "Open Service and point at the hours log and the requirement progress."
+    actions:
+      - type: "click"
+        target:
+          selector: "nav[aria-label=\"Main\"] a[href=\"/impact\"]"
+        done:
+          url: "**/impact"
+      - type: "wait"
+        duration: 1500
+      - type: "hover"
+        target:
+          role: "heading"
+          name: "Service hours"
+      - type: "wait"
+        duration: 2500
+      - type: "hover"
+        target:
+          role: "heading"
+          name: "Hours a scholarship asks for"
+      - type: "wait"
+        duration: 2500
+    timing: "parallel"
+    audioDuration: 10200
+    videoDuration: 10203
   - id: "family"
     narration: "Parents can help, but students decide what's shared, one category at a time."
     intent: "Open Family and point at the sharing toggles."
@@ -267,7 +352,24 @@ segments:
         duration: 2000
     timing: "parallel"
     audioDuration: 5208
-    videoDuration: 8280
+    videoDuration: 8528
+  - id: "helpers"
+    narration: "For recommendation letters, Jordan sends teachers a read-only helper link: a brag sheet that expires and can be revoked at any time."
+    intent: "Scroll to Helper links on the Family page and point at it."
+    actions:
+      - type: "scroll"
+        target:
+          role: "heading"
+          name: "Helper links"
+      - type: "hover"
+        target:
+          role: "heading"
+          name: "Helper links"
+      - type: "wait"
+        duration: 3000
+    timing: "parallel"
+    audioDuration: 9645
+    videoDuration: 9648
   - id: "memory"
     narration: "And everything the crew remembers is visible, with its source, and can be edited or forgotten."
     intent: "Open Memory and point at the profile facts."
@@ -293,7 +395,33 @@ segments:
         duration: 2500
     timing: "parallel"
     audioDuration: 6659
-    videoDuration: 8233
+    videoDuration: 8152
+  - id: "pricing"
+    narration: "ScholarCrew is free to start. The Family plan covers a student and up to two parents for twelve dollars a month, or there's a season pass for seventy-nine dollars. Prices are still being tested, and paying never unlocks anyone's private data."
+    intent: "Open Settings and point at Plan and usage."
+    actions:
+      - type: "click"
+        target:
+          role: "link"
+          name: "Settings"
+        done:
+          url: "**/settings"
+      - type: "wait"
+        duration: 1500
+      - type: "hover"
+        target:
+          role: "heading"
+          name: "Plan and usage"
+      - type: "wait"
+        duration: 3000
+      - type: "hover"
+        target:
+          text: "Test prices, not final."
+      - type: "wait"
+        duration: 3000
+    timing: "parallel"
+    audioDuration: 17304
+    videoDuration: 17308
   - id: "outro"
     narration: "ScholarCrew. One plan to get in and pay for it, with a crew that never writes your essay or sells your data."
     intent: "Return to This Week and hold."
@@ -309,4 +437,4 @@ segments:
         duration: 9000
     timing: "parallel"
     audioDuration: 7448
-    videoDuration: 11237
+    videoDuration: 11522

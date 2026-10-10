@@ -51,3 +51,11 @@ join (values
 delete from conversations
 where owner_id = (select id from users where email = 'jordan@example.com')
   and title not in ('Weekend plan', 'Family room');
+
+-- 4. Award-letter uploads from earlier runs, so Settings lists no stray documents.
+with gone as (
+  delete from documents
+  where owner_id = (select id from users where email = 'jordan@example.com') and filename = 'letter.pdf'
+  returning blob_id
+)
+delete from blobs where id in (select blob_id from gone);

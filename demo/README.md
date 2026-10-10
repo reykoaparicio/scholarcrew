@@ -4,7 +4,7 @@ Narrated screen recordings of ScholarCrew, made with the vendored [ndemo](../.cl
 
 ## scholarcrew-tour
 
-A two-minute tour (1:55) as the seeded student Jordan: This Week and the gap, asking the crew a live question, scholarships, a scholarship's rules and sources, Essay Studio with Quill's comments, colleges, compare offers, family sharing, and memory. The finished video is `scholarcrew-tour/scholarcrew-tour.mp4`, with subtitles in `scholarcrew-tour.srt`.
+A three-minute tour as the seeded student Jordan: This Week and the gap, asking the crew a live question, scholarships, a scholarship's rules and sources, Essay Studio with Quill's comments, the Story Bank, colleges, compare offers, test prep, service hours, family sharing, helper links, memory, and pricing. The finished video is `scholarcrew-tour/scholarcrew-tour.mp4`, with subtitles in `scholarcrew-tour.srt`.
 
 ### Render it again
 
