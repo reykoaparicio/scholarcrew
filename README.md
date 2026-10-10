@@ -67,7 +67,7 @@ To start over with empty databases, run `docker compose down -v`, then `pnpm db:
 - `packages/`: shared code (domain schemas, database, calculators, jobs, services, agents, catalog, UI kit).
 - `apps/`: the web app, the worker, and the Chrome extension.
 - `e2e/` and `evals/`: Playwright flows and model evals.
-- `presentation/`: a 39-slide product walkthrough built from live screenshots, as a web deck (`ScholarCrew.html`) and PowerPoint (`ScholarCrew.pptx`).
+- `presentation/`: a 44-slide deck, our story and a product walkthrough built from live screenshots, as a web deck (`ScholarCrew.html`) and PowerPoint (`ScholarCrew.pptx`).
 - `scripts/`: the env check, the database wait script, and the test database SQL.
 
 CI (`.github/workflows/ci.yml`) runs lint, typecheck, tests, the web build, and the Playwright flows on every push and pull request.

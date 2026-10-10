@@ -1,6 +1,6 @@
 # ScholarCrew walkthrough deck
 
-A 39-slide product walkthrough: the problem, how the AI crew works, every workflow with a live screenshot, the safety and privacy guardrails, pricing, and how the product was verified. Every slide has speaker notes.
+A 44-slide deck that opens with our story: coming to the United States from Mexico, and a mom who doesn't know how college works here yet. It then walks through the product: how the AI crew works, every workflow with a live screenshot, the safety and privacy guardrails, and our promise that first-generation and low-income students use it free. It closes where it started. Every slide has speaker notes.
 
 | File | What it is |
 |---|---|
