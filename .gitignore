@@ -12,3 +12,7 @@ evals/reports
 *.log
 *.tsbuildinfo
 .DS_Store
+
+# Personal Claude Code settings and machine-synced skills
+.claude/settings.local.json
+.claude/skills/
