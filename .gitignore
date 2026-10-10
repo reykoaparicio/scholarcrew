@@ -13,6 +13,14 @@ evals/reports
 *.tsbuildinfo
 .DS_Store
 
-# Personal Claude Code settings and machine-synced skills
+# Personal Claude Code settings and machine-synced skills. ndemo is vendored for demo videos.
 .claude/settings.local.json
-.claude/skills/
+.claude/skills/*
+!.claude/skills/ndemo/
+
+# ndemo: browser daemon state and intermediate render files
+.ndemo/
+demo/*/audio/
+demo/*/video-raw/
+demo/*/.frames/
+demo/*/error-*.png

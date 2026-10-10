@@ -15,7 +15,9 @@
       "docs/**",
       "evals/reports/**",
       "**/playwright-report/**",
-      "**/test-results/**"
+      "**/test-results/**",
+      "**/.claude/**",
+      "demo/**"
     ]
   },
   "formatter": {

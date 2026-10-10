@@ -1,0 +1,127 @@
+1
+00:00:03,655 --> 00:00:04,975
+This is ScholarCrew
+
+2
+00:00:04,975 --> 00:00:10,394
+a crew of AI specialists that helps a high school student get into college and
+
+3
+00:00:10,394 --> 00:00:11,158
+pay for it.
+
+4
+00:00:11,158 --> 00:00:14,702
+Every week starts here: the next step, a short plan
+
+5
+00:00:14,702 --> 00:00:16,647
+and the deadlines coming up.
+
+6
+00:00:16,649 --> 00:00:18,507
+Ledger, the money specialist
+
+7
+00:00:18,507 --> 00:00:23,683
+shows what Jordan's top school will really cost: the gap between the price and
+
+8
+00:00:23,683 --> 00:00:24,413
+free money.
+
+9
+00:00:24,413 --> 00:00:26,868
+It's calculated by code, not guessed.
+
+10
+00:00:26,869 --> 00:00:27,372
+In Crew
+
+11
+00:00:27,372 --> 00:00:32,548
+Jordan asks a question and Compass coordinates the specialists it needs.
+
+12
+00:00:32,548 --> 00:00:36,789
+Every answer shows what the team used, with verified dates.
+
+13
+00:00:36,791 --> 00:00:38,290
+Asking takes seconds.
+
+14
+00:00:38,290 --> 00:00:41,787
+The answer is a short plan with one-click actions
+
+15
+00:00:41,787 --> 00:00:44,642
+and nothing changes until Jordan clicks.
+
+16
+00:00:48,169 --> 00:00:50,783
+Scout matches scholarships rule by rule
+
+17
+00:00:50,783 --> 00:00:55,742
+ranks them by dollars per hour of effort, and hides scams with the reason.
+
+18
+00:00:57,319 --> 00:01:01,244
+Every listing shows each rule next to Jordan's matching fact
+
+19
+00:01:01,244 --> 00:01:04,188
+with the source and the date it was verified.
+
+20
+00:01:05,035 --> 00:01:08,330
+In Essay Studio, Quill coaches but never writes.
+
+21
+00:01:08,330 --> 00:01:12,587
+Each comment quotes Jordan's own sentence and asks a question.
+
+22
+00:01:13,835 --> 00:01:19,138
+Atlas keeps the college list balanced, with each school's deadline, checklist
+
+23
+00:01:19,138 --> 00:01:21,067
+and yearly gap side by side.
+
+24
+00:01:22,601 --> 00:01:25,881
+When award letters arrive, Aid reads every line
+
+25
+00:01:25,881 --> 00:01:29,301
+and Ledger compares what each school really costs
+
+26
+00:01:29,301 --> 00:01:31,604
+for year one and over four years.
+
+27
+00:01:31,605 --> 00:01:36,213
+Parents can help, but students decide what's shared, one category at a time.
+
+28
+00:01:39,716 --> 00:01:43,733
+And everything the crew remembers is visible, with its source
+
+29
+00:01:43,733 --> 00:01:45,775
+and can be edited or forgotten.
+
+30
+00:01:47,833 --> 00:01:48,616
+ScholarCrew.
+
+31
+00:01:48,616 --> 00:01:50,768
+One plan to get in and pay for it
+
+32
+00:01:50,768 --> 00:01:54,681
+with a crew that never writes your essay or sells your data.

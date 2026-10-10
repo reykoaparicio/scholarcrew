@@ -1,0 +1,312 @@
+titleCard:
+  title: "ScholarCrew"
+  subtitle: "Your college team. One plan to get in and pay for it."
+  duration: 3500
+app:
+  url: "http://localhost:3100/api/v1/auth/verify?token=scholarcrew-demo-tour-jordan"
+  viewport:
+    width: 1600
+    height: 900
+  scale: 1.2
+  zoom: 1
+  colorScheme: "light"
+  setup:
+    - run: "demo/scholarcrew-tour/prepare.sh"
+tts:
+  provider: "kokoro"
+  voice: "am_michael"
+  speed: 1
+recording:
+  outputDir: "."
+  fps: 30
+segments:
+  - id: "week"
+    narration: "This is ScholarCrew, a crew of AI specialists that helps a high school student get into college and pay for it. Every week starts here: the next step, a short plan, and the deadlines coming up."
+    intent: "Show the This Week page, point at the next-step card, then the weekly plan."
+    actions:
+      - type: "wait"
+        duration: 1500
+      - type: "hover"
+        target:
+          role: "region"
+          name: "Your next step"
+      - type: "wait"
+        duration: 3500
+      - type: "hover"
+        target:
+          role: "heading"
+          name: "This week"
+      - type: "wait"
+        duration: 3500
+    timing: "parallel"
+    audioDuration: 12992
+    videoDuration: 12994
+  - id: "gap"
+    narration: "Ledger, the money specialist, shows what Jordan's top school will really cost: the gap between the price and free money. It's calculated by code, not guessed."
+    intent: "Point at the year-one gap card."
+    actions:
+      - type: "hover"
+        target:
+          text: "left to pay, earn, or borrow"
+      - type: "wait"
+        duration: 3500
+      - type: "hover"
+        target:
+          text: "Your open applications are worth"
+      - type: "wait"
+        duration: 3000
+    timing: "parallel"
+    audioDuration: 10219
+    videoDuration: 10220
+  - id: "crew-ask"
+    narration: "In Crew, Jordan asks a question and Compass coordinates the specialists it needs. Every answer shows what the team used, with verified dates."
+    intent: "Open Crew on the seeded Weekend plan reply and point at its receipt."
+    actions:
+      - type: "click"
+        target:
+          selector: "nav[aria-label=\"Main\"] a[href=\"/crew\"]"
+        done:
+          url: "**/crew/**"
+      - type: "wait"
+        duration: 1500
+      - type: "hover"
+        target:
+          text: "What the team used"
+      - type: "wait"
+        duration: 4000
+    timing: "parallel"
+    audioDuration: 9920
+    videoDuration: 9922
+  - id: "crew-reply"
+    narration: "Asking takes seconds. The answer is a short plan with one-click actions, and nothing changes until Jordan clicks."
+    intent: "Start a new chat, ask a question, wait for the reply, and point at its action card."
+    actions:
+      - type: "click"
+        target:
+          role: "button"
+          name: "New chat"
+        done:
+          text:
+            selector: "main h1"
+            has: "My Crew"
+      - type: "wait"
+        duration: 1000
+      - type: "type"
+        target:
+          role: "textbox"
+          name: "Message your crew"
+        text: "I have 2 hours this weekend. What should I work on first?"
+        delay: 45
+      - type: "click"
+        target:
+          role: "button"
+          name: "Send"
+        done:
+          visible: "button:has-text(\"Add to this week\")"
+          timeout: 30000
+      - type: "wait"
+        duration: 1200
+      - type: "hover"
+        target:
+          selector: "button:has-text(\"Add to this week\")"
+      - type: "wait"
+        duration: 3000
+    timing: "parallel"
+    audioDuration: 7851
+    videoDuration: 11378
+  - id: "scholarships"
+    narration: "Scout matches scholarships rule by rule, ranks them by dollars per hour of effort, and hides scams with the reason."
+    intent: "Open Scholarships and point at the matched card and the flagged scam."
+    actions:
+      - type: "click"
+        target:
+          selector: "nav[aria-label=\"Main\"] a[href=\"/scholarships\"]"
+        done:
+          url: "**/scholarships"
+      - type: "wait"
+        duration: 1500
+      - type: "hover"
+        target:
+          role: "link"
+          name: "Lone Star Credit Union Award"
+      - type: "wait"
+        duration: 3000
+      - type: "hover"
+        target:
+          text: "Hidden from your plan"
+      - type: "wait"
+        duration: 3000
+    timing: "parallel"
+    audioDuration: 7573
+    videoDuration: 9150
+  - id: "detail"
+    narration: "Every listing shows each rule next to Jordan's matching fact, with the source and the date it was verified."
+    intent: "Open the Rotary Club of Eastside scholarship and scroll to the rules table."
+    actions:
+      - type: "click"
+        target:
+          role: "link"
+          name: "Rotary Club of Eastside Scholarship"
+        done:
+          url: "**/scholarships/rotary-club-of-eastside"
+      - type: "wait"
+        duration: 2000
+      - type: "scroll"
+        target:
+          text: "You meet all 2 rules we can check"
+      - type: "hover"
+        target:
+          text: "You meet all 2 rules we can check"
+      - type: "wait"
+        duration: 3500
+    timing: "parallel"
+    audioDuration: 6869
+    videoDuration: 7716
+  - id: "essay"
+    narration: "In Essay Studio, Quill coaches but never writes. Each comment quotes Jordan's own sentence and asks a question."
+    intent: "Open Essays, open the Rotary essay, and point at Quill's first comment."
+    actions:
+      - type: "click"
+        target:
+          selector: "nav[aria-label=\"Main\"] a[href=\"/essays\"]"
+        done:
+          url: "**/essays"
+      - type: "wait"
+        duration: 1500
+      - type: "click"
+        target:
+          role: "link"
+          name: "Rotary Club of Eastside essay"
+        done:
+          text:
+            selector: "main h1"
+            has: "Rotary Club of Eastside essay"
+      - type: "wait"
+        duration: 1500
+      - type: "hover"
+        target:
+          text: "This tells the reader"
+      - type: "wait"
+        duration: 3500
+    timing: "parallel"
+    audioDuration: 7552
+    videoDuration: 8800
+  - id: "colleges"
+    narration: "Atlas keeps the college list balanced, with each school's deadline, checklist, and yearly gap side by side."
+    intent: "Open Colleges and point at the side panel."
+    actions:
+      - type: "click"
+        target:
+          selector: "nav[aria-label=\"Main\"] a[href=\"/colleges\"]"
+        done:
+          url: "**/colleges"
+      - type: "wait"
+        duration: 1500
+      - type: "hover"
+        target:
+          role: "heading"
+          name: "Early Action · Nov 1"
+      - type: "wait"
+        duration: 3000
+      - type: "hover"
+        target:
+          text: "Checklist · 3 of 5"
+      - type: "wait"
+        duration: 2500
+    timing: "parallel"
+    audioDuration: 7232
+    videoDuration: 8766
+  - id: "offers"
+    narration: "When award letters arrive, Aid reads every line, and Ledger compares what each school really costs, for year one and over four years."
+    intent: "Open Money, then Compare offers, and point at the four-year row."
+    actions:
+      - type: "click"
+        target:
+          selector: "nav[aria-label=\"Main\"] a[href=\"/money\"]"
+        done:
+          url: "**/money"
+      - type: "wait"
+        duration: 1500
+      - type: "click"
+        target:
+          selector: "a[href=\"/money/offers\"]"
+        done:
+          url: "**/money/offers"
+      - type: "wait"
+        duration: 2000
+      - type: "hover"
+        target:
+          text: "Over 4 years"
+      - type: "wait"
+        duration: 3500
+    timing: "parallel"
+    audioDuration: 9003
+    videoDuration: 9004
+  - id: "family"
+    narration: "Parents can help, but students decide what's shared, one category at a time."
+    intent: "Open Family and point at the sharing toggles."
+    actions:
+      - type: "click"
+        target:
+          selector: "nav[aria-label=\"Main\"] a[href=\"/family\"]"
+        done:
+          url: "**/family"
+      - type: "wait"
+        duration: 1500
+      - type: "hover"
+        target:
+          role: "heading"
+          name: "What I share with Dana"
+      - type: "wait"
+        duration: 3000
+      - type: "hover"
+        target:
+          role: "heading"
+          name: "Family room"
+      - type: "wait"
+        duration: 2000
+    timing: "parallel"
+    audioDuration: 4608
+    videoDuration: 8111
+  - id: "memory"
+    narration: "And everything the crew remembers is visible, with its source, and can be edited or forgotten."
+    intent: "Open Memory and point at the profile facts."
+    actions:
+      - type: "click"
+        target:
+          selector: "nav[aria-label=\"Main\"] a[href=\"/memory\"]"
+        done:
+          url: "**/memory"
+      - type: "wait"
+        duration: 1500
+      - type: "hover"
+        target:
+          role: "heading"
+          name: "Profile facts"
+      - type: "wait"
+        duration: 2500
+      - type: "hover"
+        target:
+          role: "heading"
+          name: "Only used to find scholarships"
+      - type: "wait"
+        duration: 2500
+    timing: "parallel"
+    audioDuration: 6059
+    videoDuration: 8117
+  - id: "outro"
+    narration: "ScholarCrew. One plan to get in and pay for it, with a crew that never writes your essay or sells your data."
+    intent: "Return to This Week and hold."
+    actions:
+      - type: "click"
+        target:
+          selector: "nav[aria-label=\"Main\"] a[href=\"/week\"]"
+        done:
+          url: "**/week"
+      - type: "wait"
+        duration: 1500
+      - type: "wait"
+        duration: 4000
+    timing: "parallel"
+    audioDuration: 6848
+    videoDuration: 6849
